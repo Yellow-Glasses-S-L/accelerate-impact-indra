@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="es" x-data="{
+  lang: localStorage.getItem('lang') || 'es',
+  page: 'agenda',
+  activeDay: 1,
+  init() {
+    this.$watch('lang', v => localStorage.setItem('lang', v));
+  },
+  t(key) {
+    return i18n[key] ? (i18n[key][this.lang] || i18n[key]['es']) : key;
+  }
+}">
+<head>
+  <style id="page-cloak">html{background:#E3E2DA}html:not(.loaded) body{opacity:0!important}html:not(.loaded) #site-navbar,html:not(.loaded) #site-footer{opacity:0!important}html:not(.loaded) .reveal{animation:none!important;opacity:0!important;transform:none!important}body{transition:opacity .25s ease}</style>
+  <meta name="view-transition" content="same-origin" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agenda — Accelerate Impact</title>
+  <meta name="description" content="Tres días en Universitas, Madrid. La agenda completa del programa." />
+  <link rel="icon" type="image/svg+xml" href="images/brand/favicon_indra.svg" />
+  <link rel="apple-touch-icon" href="images/brand/favicon_indra.svg" />
+  <link rel="canonical" href="https://accelerateimpact.es/agenda" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Accelerate Impact" />
+  <meta property="og:url" content="https://accelerateimpact.es/agenda" />
+  <meta property="og:title" content="Agenda — Accelerate Impact" />
+  <meta property="og:description" content="Tres días en Universitas, Madrid. La agenda completa del programa." />
+  <meta property="og:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <meta property="og:image:width" content="8000" />
+  <meta property="og:image:height" content="4500" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Agenda — Accelerate Impact" />
+  <meta name="twitter:description" content="Tres días en Universitas, Madrid. La agenda completa del programa." />
+  <meta name="twitter:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            tef: { blue: '#00B0BD', dark: '#002532', light: '#C2D2D6' },
+            ink: { DEFAULT: '#002532', soft: '#2B3447', mute: '#58617A' },
+            paper: { DEFAULT: '#E3E2DA', warm: '#D8D7CE', deep: '#002532' }
+          },
+          fontFamily: {
+            sans: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            display: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            mono: ['"Indra Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+    *, *::before, *::after { font-family: "Indra Sans", sans-serif !important; }
+    body, p, span, a, li, td, th, label, input, button, textarea, select { font-family: "Indra Sans", sans-serif !important; }
+    html, body, * { font-feature-settings: normal !important; }
+    [x-cloak] { display: none !important; }
+
+    .grain { position: relative; }
+    .grain::after { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.5'/></svg>"); opacity: 0.06; mix-blend-mode: overlay; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { animation: fadeUp 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .reveal-1 { animation-delay: 0.05s; }
+    .reveal-2 { animation-delay: 0.15s; }
+    .reveal-3 { animation-delay: 0.25s; }
+
+    /* Facilitator avatar */
+    .fac-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 0;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #E3E2DA;
+      border: 1px solid rgba(3,26,52,0.1);
+      box-shadow: none;
+    }
+    .fac-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Alpine transition — enhanced with smooth scale */
+    [x-show] { transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+    /* Hero title clip-reveal animation */
+    @keyframes clipReveal {
+      from {
+        clip-path: inset(0 100% 0 0);
+        opacity: 0;
+      }
+      to {
+        clip-path: inset(0 0 0 0);
+        opacity: 1;
+      }
+    }
+
+    .hero-word-inner {
+      display: block;
+      animation: clipReveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+
+    /* Facilitator photo hover */
+    .fac-photo {
+      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: none;
+    }
+
+    /* CTA button hover glow */
+    .cta-button {
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .cta-button:hover {
+      box-shadow: 0 0 20px rgba(0, 102, 255, 0.25);
+      transform: translateY(-1px);
+    }
+
+    /* Day badge pulse animation */
+    @keyframes badgePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .badge-enter {
+      animation: badgePulse 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    /* Respeto a prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .hero-word-inner,
+      .fac-photo,
+      .badge-enter {
+        animation: none !important;
+      }
+    }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script>
+    const i18n = {
+      nav_journey: { es: 'Journey', en: 'Journey' },
+      nav_info: { es: 'Contacto', en: 'Contact' },
+
+      hero_title_1: { es: 'Tres días.', en: 'Three days.' },
+      hero_title_2: { es: 'Un líder.', en: 'One leader.' },
+      hero_subtitle: {
+        es: 'Madrid. Universitas. Y tú, en el centro.',
+        en: 'Madrid. Universitas. And you at the centre.'
+      },
+      venue: { es: 'Campus Universitas, Madrid', en: 'Campus Universitas, Madrid' },
+
+      day: { es: 'Día', en: 'Day' },
+      facilitator: { es: 'Facilitador', en: 'Facilitator' },
+      back_journey: { es: '← Volver al Journey', en: '← Back to Journey' },
+
+      d1_title: { es: 'Awake', en: 'Awake' },
+      d1_subtitle: { es: 'De la alineación pasiva a impulsar una ejecución valiente', en: 'From passive alignment to driving courageous execution' },
+      d1_hours: { es: '9:00 — 22:00', en: '9:00 — 22:00' },
+      d1_date: { es: 'Martes 23 JUN', en: 'Tuesday, Jun 23' },
+
+      d2_title: { es: 'Expand', en: 'Expand' },
+      d2_subtitle: { es: 'De esperar la certeza a liderar en un contexto de negocio impulsado por la IA', en: 'From waiting for certainty to leading in an AI-driven business context' },
+      d2_hours: { es: '9:00 — 18:15', en: '9:00 — 18:15' },
+      d2_date: { es: 'Miércoles 24 JUN', en: 'Wednesday, Jun 24' },
+
+      d3_title: { es: 'Transcend', en: 'Transcend' },
+      d3_subtitle: { es: 'Del rendimiento individual al impacto sostenible y al legado', en: 'From individual performance to sustainable impact and legacy' },
+      d3_hours: { es: '9:00 — 22:00', en: '9:00 — 22:00' },
+      d3_date: { es: 'Jueves 25 JUN', en: 'Thursday, Jun 25' },
+
+      d1_intro: {
+        es: 'Conecta la estrategia y prioridades de Indra con el liderazgo necesario para hacer que el plan sea una realidad.\n\nA través de un debate constructivo, entenderemos el cambio de mentalidad de liderazgo necesario para asumir la ejecución de la estrategia, construyendo un liderazgo basado en la confianza, abordando el conflicto con valentía y tomando mejores decisiones colectivas.',
+        en: 'It connects Indra\'s strategy and priorities with the leadership that is necessary to make the plan a reality.\n\nThrough constructive discussion, we will understand the leadership mindset shift required to own strategy execution, building trust-based leadership, addressing conflict with courage, and making better collective decisions.'
+      },
+      d1_hl1: { es: 'TEF Transform&Grow ownership (Role modeling)', en: 'TEF Transform&Grow ownership (Role modeling)' },
+      d1_hl2: { es: 'Clarity & Courage en acción', en: 'Clarity & Courage in action' },
+
+      d2_intro: {
+        es: 'Sumérgete en la evolución del liderazgo en la era de la IA, donde la incertidumbre y la tecnología imponen la transformación de capacidades.\nGenera el cambio de reaccionar al cambio externo a liderar con claridad y propósito interior, abrazando la IA y la experimentación.\n\nReflexión guiada en la que los líderes exploran sus propias experiencias, valores, propósito y aquellos patrones que dan forma a un liderazgo más humano y arraigado: más intencional, más auténtico y más sostenible.',
+        en: 'Dive into the evolution of leadership in the age of AI, where uncertainty and technology impose the transformation of capabilities.\nGenerate a shift from reacting to external change to leading with inner clarity and purpose, embracing AI and experimentation.\n\nGuided reflection, in which leaders explore their own experiences, values, purpose and those patterns that shape leadership for a more human and grounded response: more intentional, more authentic and more sustainable.'
+      },
+      d2_hl1: { es: 'Liderar en la era de la IA', en: 'Leading in the AI Era' },
+      d2_hl2: { es: 'Reflexión guiada sobre el propósito', en: 'Guided reflection on purpose' },
+      d2_hl3: { es: 'Digital Innovation aplicada', en: 'Applied Digital Innovation' },
+
+      d3_intro: {
+        es: 'Elevamos el debate con una pregunta incómoda: ¿qué significa realmente liderar un equipo de alto rendimiento? Exploramos el cambio de mentalidad y de comportamientos que distingue a los líderes que generan resultados de aquellos que multiplican el impacto a través de sus equipos y trascienden a su propia organización.\n\nTambién creamos un espacio para destacar otras disciplinas que permiten a los líderes rendir al máximo nivel de manera sostenible. Cerramos con un compromiso personal que se extiende más allá de estos tres días.',
+        en: 'We elevate the debate with an uncomfortable question: what does it really mean to lead a high-performing team? We explore the shift in mindset and behaviors that distinguish leaders who drive results from those who multiply impact across their teams and transcend their own organization.\n\nWe also created a space to highlight other disciplines that allow leaders to perform at the highest level in a sustainable way. We close with a personal commitment that extends beyond these three days.'
+      },
+      d3_hl1: { es: 'Del rendimiento individual al impacto colectivo', en: 'From individual performance to collective impact' },
+      d3_hl2: { es: 'Disciplinas físicas y mentales para sostener la resiliencia', en: 'Physical and mental disciplines to sustain resilience' },
+      d3_hl3: { es: 'Compromiso personal + ritmo de accountability', en: 'Personal commitment + pace of accountability' }
+    };
+
+    /* Facilitator registry — swap src when real photos arrive */
+    const facilitators = {
+      universitas: { name: 'Equipo Universitas', role: { es: 'Universitas', en: 'Universitas' }, linkedin: 'https://www.linkedin.com/', avatar: 'https://api.dicebear.com/9.x/initials/svg?seed=Equipo+Universitas&backgroundColor=E8F0FF&textColor=0066FF&fontSize=36' },
+      lm: { name: 'Laura Martín',       role: { es: 'Facilitadora', en: 'Facilitator' },  linkedin: 'https://www.linkedin.com/', avatar: 'https://api.dicebear.com/9.x/initials/svg?seed=Laura+Martin&backgroundColor=E8F0FF&textColor=0066FF&fontSize=36' },
+      cr: { name: 'Carlos Ruiz',         role: { es: 'Facilitador', en: 'Facilitator' },   linkedin: 'https://www.linkedin.com/', avatar: 'https://api.dicebear.com/9.x/initials/svg?seed=Carlos+Ruiz&backgroundColor=E8F0FF&textColor=0066FF&fontSize=36' },
+      dg: { name: 'Diego Guerrero',      role: { es: 'Facilitador', en: 'Facilitator' },   linkedin: 'https://www.linkedin.com/', avatar: 'https://api.dicebear.com/9.x/initials/svg?seed=Diego+Guerrero&backgroundColor=E8F0FF&textColor=0066FF&fontSize=36' },
+      at: { name: 'Ana Torres',          role: { es: 'Facilitadora', en: 'Facilitator' },  linkedin: 'https://www.linkedin.com/', avatar: 'https://api.dicebear.com/9.x/initials/svg?seed=Ana+Torres&backgroundColor=E8F0FF&textColor=0066FF&fontSize=36' },
+      mv: { name: 'Marcos Vidal',        role: { es: 'Facilitador', en: 'Facilitator' },   linkedin: 'https://www.linkedin.com/', avatar: 'https://api.dicebear.com/9.x/initials/svg?seed=Marcos+Vidal&backgroundColor=E8F0FF&textColor=0066FF&fontSize=36' },
+      en: { name: 'Elena Navarro',       role: { es: 'Facilitadora', en: 'Facilitator' },  linkedin: 'https://www.linkedin.com/', avatar: 'https://api.dicebear.com/9.x/initials/svg?seed=Elena+Navarro&backgroundColor=E8F0FF&textColor=0066FF&fontSize=36' },
+      rv: { name: 'Rafael Vázquez',      role: { es: 'Facilitador', en: 'Facilitator' },   linkedin: 'https://www.linkedin.com/', avatar: 'https://api.dicebear.com/9.x/initials/svg?seed=Rafael+Vazquez&backgroundColor=E8F0FF&textColor=0066FF&fontSize=36' },
+      ac: { name: 'Amanda Carmo',        role: { es: 'Facilitadora', en: 'Facilitator' },  linkedin: 'https://www.linkedin.com/', avatar: 'https://api.dicebear.com/9.x/initials/svg?seed=Amanda+Carmo&backgroundColor=E8F0FF&textColor=0066FF&fontSize=36' },
+      ja: { name: 'Javier Alvares',      role: { es: 'Facilitador', en: 'Facilitator' },   linkedin: 'https://www.linkedin.com/', avatar: 'https://api.dicebear.com/9.x/initials/svg?seed=Javier+Alvares&backgroundColor=E8F0FF&textColor=0066FF&fontSize=36' }
+    };
+  </script>
+</head>
+<body class="flex flex-col min-h-screen bg-paper text-ink font-sans antialiased">
+
+  <!-- HEADER -->
+  <header id="site-navbar" class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b border-ink/10"></header>
+
+  <!-- MAIN -->
+  <main class="flex-1">
+
+    <!-- HERO -->
+    <section class="bg-paper-deep text-paper grain relative overflow-hidden" data-nav-dark style="margin-top:-79px;">
+      <div class="relative max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 pt-32 pb-20 md:pt-40 md:pb-28">
+        <div class="reveal reveal-1">
+          <h1 class="font-normal leading-[0.95] tracking-[-0.02em] text-5xl sm:text-6xl md:text-8xl lg:text-[7rem] mb-8 reveal reveal-2">
+            <span x-text="t('hero_title_1')"></span>
+            <em class="italic font-normal text-tef-blue" x-text="t('hero_title_2')"></em>
+          </h1>
+          <p class="text-sm md:text-base text-paper/70 max-w-2xl leading-relaxed reveal reveal-3" x-text="t('hero_subtitle')"></p>
+        </div>
+      </div>
+      <div class="relative border-t border-paper/10">
+        <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 py-4 flex flex-wrap items-center justify-between gap-4 font-mono text-[11px] tracking-[0.18em] uppercase text-paper/50">
+          <span x-text="t('venue')"></span>
+          <span class="hidden md:inline" x-text="lang==='es' ? '3 días · Action Learning Week' : '3 days · Action Learning Week'"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- DAY SELECTOR — top-[79px] para no solapar con navbar -->
+    <section class="border-b border-ink/10 bg-paper-warm">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+        <div class="grid grid-cols-3">
+
+          <button @click="activeDay=1" class="relative py-6 md:py-10 pl-4 md:pl-6 pr-4 md:pr-6 text-left transition-all" :class="activeDay===1 ? 'text-ink bg-tef-dark/5' : 'text-ink-mute hover:text-ink hover:bg-paper-warm'">
+            <p class="font-mono text-[10px] md:text-[11px] tracking-[0.2em] uppercase mb-1" :class="activeDay===1 ? 'text-tef-blue' : ''" x-text="t('day') + ' 01 · ' + t('d1_date')"></p>
+            <p class="font-normal text-xs md:text-2xl tracking-tight leading-tight" x-text="t('d1_title')"></p>
+            <p class="font-mono text-[10px] md:text-[11px] tracking-[0.18em] uppercase mt-2 hidden md:block leading-snug" :class="activeDay===1 ? 'text-tef-blue' : 'text-ink-mute'" x-text="t('d1_subtitle')"></p>
+            <p class="font-mono text-[10px] md:text-[11px] tracking-[0.2em] uppercase mt-1.5 hidden md:block" :class="activeDay===1 ? 'text-ink-soft' : 'text-ink-mute'" x-text="t('d1_hours')"></p>
+            <span class="absolute left-0 right-0 -bottom-px transition-all" :class="activeDay===1 ? 'h-1 bg-tef-blue' : 'h-0.5 bg-transparent'"></span>
+          </button>
+
+          <button @click="activeDay=2" class="relative py-6 md:py-10 pl-4 md:pl-6 pr-4 md:pr-6 text-left transition-all border-l border-ink/10" :class="activeDay===2 ? 'text-ink bg-tef-dark/5' : 'text-ink-mute hover:text-ink hover:bg-paper-warm'">
+            <p class="font-mono text-[10px] md:text-[11px] tracking-[0.2em] uppercase mb-1" :class="activeDay===2 ? 'text-tef-blue' : ''" x-text="t('day') + ' 02 · ' + t('d2_date')"></p>
+            <p class="font-normal text-xs md:text-2xl tracking-tight leading-tight" x-text="t('d2_title')"></p>
+            <p class="font-mono text-[10px] md:text-[11px] tracking-[0.18em] uppercase mt-2 hidden md:block leading-snug" :class="activeDay===2 ? 'text-tef-blue' : 'text-ink-mute'" x-text="t('d2_subtitle')"></p>
+            <p class="font-mono text-[10px] md:text-[11px] tracking-[0.2em] uppercase mt-1.5 hidden md:block" :class="activeDay===2 ? 'text-ink-soft' : 'text-ink-mute'" x-text="t('d2_hours')"></p>
+            <span class="absolute left-0 right-0 -bottom-px transition-all" :class="activeDay===2 ? 'h-1 bg-tef-blue' : 'h-0.5 bg-transparent'"></span>
+          </button>
+
+          <button @click="activeDay=3" class="relative py-6 md:py-10 pl-4 md:pl-6 pr-4 md:pr-6 text-left transition-all border-l border-ink/10" :class="activeDay===3 ? 'text-ink bg-tef-dark/5' : 'text-ink-mute hover:text-ink hover:bg-paper-warm'">
+            <p class="font-mono text-[10px] md:text-[11px] tracking-[0.2em] uppercase mb-1" :class="activeDay===3 ? 'text-tef-blue' : ''" x-text="t('day') + ' 03 · ' + t('d3_date')"></p>
+            <p class="font-normal text-xs md:text-2xl tracking-tight leading-tight" x-text="t('d3_title')"></p>
+            <p class="font-mono text-[10px] md:text-[11px] tracking-[0.18em] uppercase mt-2 hidden md:block leading-snug" :class="activeDay===3 ? 'text-tef-blue' : 'text-ink-mute'" x-text="t('d3_subtitle')"></p>
+            <p class="font-mono text-[10px] md:text-[11px] tracking-[0.2em] uppercase mt-1.5 hidden md:block" :class="activeDay===3 ? 'text-ink-soft' : 'text-ink-mute'" x-text="t('d3_hours')"></p>
+            <span class="absolute left-0 right-0 -bottom-px transition-all" :class="activeDay===3 ? 'h-1 bg-tef-blue' : 'h-0.5 bg-transparent'"></span>
+          </button>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section class="bg-paper-warm">
+    <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 py-14 md:py-16">
+
+      <!-- DAY 1 -->
+      <div x-show="activeDay===1" x-transition.opacity.duration.200ms>
+
+        <div class="relative bg-paper border border-ink/10 px-8 md:px-12 py-10 mb-12" style="box-shadow:0 2px 20px rgba(3,26,52,0.06);">
+          <span class="absolute top-3 left-3 w-4 h-4 border-t border-l border-ink/25"></span>
+          <span class="absolute top-3 right-3 w-4 h-4 border-t border-r border-ink/25"></span>
+          <span class="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-ink/25"></span>
+          <span class="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-ink/25"></span>
+          <span class="absolute right-6 top-4 font-normal leading-none tracking-[-0.03em] text-tef-blue text-[6rem] md:text-[8rem] select-none pointer-events-none">01</span>
+          <div class="relative">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="flex gap-1.5">
+                <div class="w-2 h-2 rounded-full bg-tef-blue"></div>
+                <div class="w-2 h-2 rounded-full bg-ink/15"></div>
+                <div class="w-2 h-2 rounded-full bg-ink/15"></div>
+              </div>
+              <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="lang==='es' ? 'Día 1 de 3' : 'Day 1 of 3'"></p>
+            </div>
+            <h2 class="font-normal text-4xl md:text-5xl leading-tight tracking-tight mb-5" x-text="t('d1_title')"></h2>
+            <div class="flex flex-col gap-6">
+              <div>
+                <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute mb-3" x-text="lang==='es' ? 'Introducción' : 'Introduction'"></p>
+                <p class="text-[17px] text-ink-soft leading-relaxed whitespace-pre-line" x-text="t('d1_intro')"></p>
+              </div>
+              <div class="border-t border-ink/8 pt-5">
+                <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute mb-3">Highlights</p>
+                <ul class="space-y-2.5 text-sm text-ink">
+                  <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('d1_hl1')"></span></li>
+                  <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('d1_hl2')"></span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-ink/10">
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">09:00 — 09:20</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3" x-text="lang==='es' ? 'Bienvenida al programa' : 'Program Welcome'"></h3>
+              <ul class="space-y-2 text-[15px] text-ink-mute">
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Check-in y expectativas.' : 'Check-in and expectations.'"></span></li>
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Bienvenida e introducción al programa' : 'Welcome and introduction to the program'"></span></li>
+              </ul>
+            </div>
+            <div class="col-span-12 md:col-span-3">
+  <div class="flex flex-col gap-3">
+    <div class="bg-ink/[0.03] border border-ink/5 p-4 flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/Florie.jpg" alt="Florie Saulnier" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Florie Saulnier</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+    <div class="bg-ink/[0.03] border border-ink/5 p-4 flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/lucia-crespo.jpg" alt="Lucía Crespo" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Lucía Crespo</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/in/luciacrespodelacruz/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+          </article>
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-t border-ink/8">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">09:20 — 10:25</p>
+              <p class="font-mono text-sm text-ink tracking-tight mt-1">10:45 — 12:45</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3">Embedding the New Indra</h3>
+              <p class="text-[16px] text-ink-soft leading-relaxed mb-4 max-w-xl" x-text="lang==='es' ? 'Sesión interactiva para entender, internalizar y traducir la estrategia Transform & Grow y el modelo de liderazgo en comportamientos del día a día.' : 'Interactive session to understand, internalize and translate the Transform & Grow strategy and leadership model into day-to-day behaviors.'"></p>
+              <ul class="space-y-2 text-[15px] text-ink-mute">
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Reflexión sobre Transform & Grow y su propósito' : 'Reflection around Transform & Grow and its purpose'"></span></li>
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Visión compartida de \'One Indra\' en la práctica' : 'Shared vision of \'One Indra\' in practice'"></span></li>
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Claridad sobre los comportamientos de liderazgo esperados como role model' : 'Clarity on expected leadership behaviors as a role model'"></span></li>
+              </ul>
+            </div>
+            <div class="col-span-12 md:col-span-3">
+  <div class="bg-ink/[0.03] border border-ink/5 p-4">
+    <div class="flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/greg-orme.png" alt="Greg Orme" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Greg Orme</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/in/gregorme/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+          </article>
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-t border-ink/8">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">13:00 — 18:15</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3">Clarity &amp; Courage</h3>
+              <p class="text-[16px] text-ink-soft leading-relaxed mb-4 max-w-xl" x-text="lang==='es' ? 'Simulación de negocio en grupos pequeños para practicar cómo liderar con claridad y valentía en situaciones reales de Indra.' : 'Business simulation in small groups to practice how to lead clearly and courageously in real Indra situations.'"></p>
+              <ul class="space-y-2 text-[15px] text-ink-mute">
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Construir confianza psicológica en el equipo' : 'Building psychological trust in the team'"></span></li>
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Gestionar el conflicto de forma productiva' : 'Managing conflict productively'"></span></li>
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Tomar decisiones colectivas con datos, no por consenso pasivo' : 'Making collective decisions with data, not by passive consensus'"></span></li>
+              </ul>
+            </div>
+            <div class="col-span-12 md:col-span-3">
+  <div class="bg-ink/[0.03] border border-ink/5 p-4">
+    <div class="flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/greg-orme.png" alt="Greg Orme" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Greg Orme</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/in/gregorme/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+          </article>
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-t border-ink/8">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">20:00 — 22:00</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3" x-text="lang==='es' ? 'Actividad temática' : 'Theme Activity'"></h3>
+              <p class="font-mono text-[11px] tracking-[0.18em] uppercase text-ink-mute">Escuela Superior de Música Reina Sofía · C. de Requena, 1</p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- DAY 2 -->
+      <div x-show="activeDay===2" x-cloak x-transition.opacity.duration.200ms>
+
+        <div class="relative bg-paper border border-ink/10 px-8 md:px-12 py-10 mb-12" style="box-shadow:0 2px 20px rgba(3,26,52,0.06);">
+          <span class="absolute top-3 left-3 w-4 h-4 border-t border-l border-ink/25"></span>
+          <span class="absolute top-3 right-3 w-4 h-4 border-t border-r border-ink/25"></span>
+          <span class="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-ink/25"></span>
+          <span class="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-ink/25"></span>
+          <span class="absolute right-6 top-4 font-normal leading-none tracking-[-0.03em] text-tef-blue text-[6rem] md:text-[8rem] select-none pointer-events-none">02</span>
+          <div class="relative">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="flex gap-1.5">
+                <div class="w-2 h-2 rounded-full bg-ink/15"></div>
+                <div class="w-2 h-2 rounded-full bg-tef-blue"></div>
+                <div class="w-2 h-2 rounded-full bg-ink/15"></div>
+              </div>
+              <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="lang==='es' ? 'Día 2 de 3' : 'Day 2 of 3'"></p>
+            </div>
+            <h2 class="font-normal text-4xl md:text-5xl leading-tight tracking-tight mb-5" x-text="t('d2_title')"></h2>
+            <div class="flex flex-col gap-6">
+              <div>
+                <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute mb-3" x-text="lang==='es' ? 'Introducción' : 'Introduction'"></p>
+                <p class="text-[17px] text-ink-soft leading-relaxed whitespace-pre-line" x-text="t('d2_intro')"></p>
+              </div>
+              <div class="border-t border-ink/8 pt-5">
+                <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute mb-3">Highlights</p>
+                <ul class="space-y-2.5 text-sm text-ink">
+                  <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('d2_hl1')"></span></li>
+                  <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('d2_hl2')"></span></li>
+                  <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('d2_hl3')"></span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-ink/10">
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">09:00 — 09:20</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3">Rearview mirror</h3>
+              <ul class="space-y-2 text-[15px] text-ink-mute">
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Check-in e introducción del día' : 'Check-in and introduction to the day'"></span></li>
+              </ul>
+            </div>
+            <div class="col-span-12 md:col-span-3">
+  <div class="bg-ink/[0.03] border border-ink/5 p-4">
+    <div class="flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/lucia-crespo.jpg" alt="Lucía Crespo de la Cruz" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Lucía Crespo de la Cruz</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/in/luciacrespodelacruz/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+          </article>
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-t border-ink/8">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">09:20 — 10:35</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3">Digital Innovation - Leadership in the Age of AI</h3>
+              <p class="text-[16px] text-ink-soft leading-relaxed mb-4 max-w-xl" x-text="lang==='es' ? 'Sesión interactiva sobre liderazgo en la era de la IA, combinando el framework de las 4Cs (colaboración, creatividad, conciencia y curiosidad) con un uso práctico y ligero de la IA.' : 'Interactive session on leadership in the age of AI, combining 4Cs framework (collaboration, creativity, consciousness & curiosity) with practical and lightweight use of AI.'"></p>
+              <ul class="space-y-2 text-[15px] text-ink-mute">
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Cómo liderar la incertidumbre que provoca la IA' : 'How to lead the uncertainty that AI causes'"></span></li>
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Experimentos aplicables a tu trabajo diario' : 'Experiments applicable to your daily work'"></span></li>
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Convertir la innovación en un hábito diario' : 'Making innovation a daily habit'"></span></li>
+              </ul>
+            </div>
+            <div class="col-span-12 md:col-span-3">
+  <div class="bg-ink/[0.03] border border-ink/5 p-4">
+    <div class="flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/greg-orme.png" alt="Greg Orme" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Greg Orme</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/in/gregorme/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+          </article>
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-t border-ink/8">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">10:55 — 12:10</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3">Digital Innovation - Experimentation</h3>
+              <p class="text-[16px] text-ink-soft leading-relaxed mb-4 max-w-xl" x-text="lang==='es' ? 'Marco práctico para diseñar experimentos: definir objetivos, identificar stakeholders, mitigar riesgos y medir impacto.' : 'Practical framework for designing experiments: define objectives, identify stakeholders, mitigate risks and measure impact.'"></p>
+              <ul class="space-y-2 text-[15px] text-ink-mute">
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Definir experimentos con KPIs claros' : 'Define experiments with clear KPIs'"></span></li>
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Identificar stakeholders y riesgos' : 'Identify stakeholders and risks'"></span></li>
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Set up y ejecución individual del experimento' : 'Set up and individual execution of the experiment'"></span></li>
+              </ul>
+            </div>
+            <div class="col-span-12 md:col-span-3">
+  <div class="bg-ink/[0.03] border border-ink/5 p-4">
+    <div class="flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/greg-orme.png" alt="Greg Orme" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Greg Orme</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/in/gregorme/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+          </article>
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-t border-ink/8">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">12:20 — 18:15</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3">My Inner Leadership Response</h3>
+              <p class="text-[16px] text-ink-soft leading-relaxed mb-4 max-w-xl" x-text="lang==='es' ? 'Sesión reflexiva e interactiva para profundizar en el autoconocimiento, definir el propósito personal y aplicarlo al contexto de Indra.' : 'Reflective and interactive session to deepen self-knowledge, define personal purpose and apply to the context of Indra.'"></p>
+              <ul class="space-y-2 text-[15px] text-ink-mute">
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Definir tu propósito, valores y visión personal' : 'Define your personal purpose, values, and vision'"></span></li>
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Comprender tus patrones personales: los que ayudan y los que hay que gestionar' : 'Understanding your personal patterns: those that help and those that need to manage'"></span></li>
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Experimentar el poder de la conexión y la conversación profunda' : 'Experience the power of connection and deep conversation'"></span></li>
+              </ul>
+            </div>
+            <div class="col-span-12 md:col-span-3">
+  <div class="bg-ink/[0.03] border border-ink/5 p-4">
+    <div class="flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/greg-orme.png" alt="Greg Orme" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Greg Orme</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/in/gregorme/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+          </article>
+
+
+        </div>
+      </div>
+
+      <!-- DAY 3 -->
+      <div x-show="activeDay===3" x-cloak x-transition.opacity.duration.200ms>
+
+        <div class="relative bg-paper border border-ink/10 px-8 md:px-12 py-10 mb-12" style="box-shadow:0 2px 20px rgba(3,26,52,0.06);">
+          <span class="absolute top-3 left-3 w-4 h-4 border-t border-l border-ink/25"></span>
+          <span class="absolute top-3 right-3 w-4 h-4 border-t border-r border-ink/25"></span>
+          <span class="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-ink/25"></span>
+          <span class="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-ink/25"></span>
+          <span class="absolute right-6 top-4 font-normal leading-none tracking-[-0.03em] text-tef-blue text-[6rem] md:text-[8rem] select-none pointer-events-none">03</span>
+          <div class="relative">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="flex gap-1.5">
+                <div class="w-2 h-2 rounded-full bg-ink/15"></div>
+                <div class="w-2 h-2 rounded-full bg-ink/15"></div>
+                <div class="w-2 h-2 rounded-full bg-tef-blue"></div>
+              </div>
+              <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="lang==='es' ? 'Día 3 de 3' : 'Day 3 of 3'"></p>
+            </div>
+            <h2 class="font-normal text-4xl md:text-5xl leading-tight tracking-tight mb-5" x-text="t('d3_title')"></h2>
+            <div class="flex flex-col gap-6">
+              <div>
+                <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute mb-3" x-text="lang==='es' ? 'Introducción' : 'Introduction'"></p>
+                <p class="text-[17px] text-ink-soft leading-relaxed whitespace-pre-line" x-text="t('d3_intro')"></p>
+              </div>
+              <div class="border-t border-ink/8 pt-5">
+                <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute mb-3">Highlights</p>
+                <ul class="space-y-2.5 text-sm text-ink">
+                  <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('d3_hl1')"></span></li>
+                  <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('d3_hl2')"></span></li>
+                  <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('d3_hl3')"></span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-ink/10">
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">09:00 — 09:20</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3">Rearview mirror</h3>
+              <ul class="space-y-2 text-[15px] text-ink-mute">
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Check-in e introducción del día' : 'Check-in and introduction to the day'"></span></li>
+              </ul>
+            </div>
+            <div class="col-span-12 md:col-span-3">
+  <div class="bg-ink/[0.03] border border-ink/5 p-4">
+    <div class="flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/lucia-crespo.jpg" alt="Lucía Crespo de la Cruz" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Lucía Crespo de la Cruz</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/in/luciacrespodelacruz/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+          </article>
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-t border-ink/8">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">09:20 — 11:00</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3">Connecting Dots: Leadership, Ownership &amp; High Performance</h3>
+              <p class="text-[16px] text-ink-soft leading-relaxed mb-4 max-w-xl" x-text="lang==='es' ? 'Explora la evolución del liderazgo: del rendimiento individual a sostener resultados a través del equipo y expandir el impacto en la organización.' : 'It explores the evolution of leadership: from individual performance to sustaining results across the team and expanding impact on the organization.'"></p>
+              <ul class="space-y-2 text-[15px] text-ink-mute">
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Conciencia de los shifts de liderazgo para operar con mayor impacto' : 'Awareness of leadership shifts to operate at greater impact'"></span></li>
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Confianza, autonomía y rendición de cuentas compartida en equipos' : 'Trust, autonomy and shared accountability in teams'"></span></li>
+                <li class="flex gap-2"><span class="text-ink/30 flex-shrink-0">·</span><span x-text="lang==='es' ? 'Perspectiva ampliada: del éxito personal al legado organizativo' : 'Expanded Perspective: From Personal Success to Organizational Legacy'"></span></li>
+              </ul>
+            </div>
+            <div class="col-span-12 md:col-span-3">
+  <div class="bg-ink/[0.03] border border-ink/5 p-4">
+    <div class="flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/rafa-vazquez.jpg" alt="Rafa Vázquez" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Rafa Vázquez</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/in/rafa-v%C3%A1zquez-10814534/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+          </article>
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-t border-ink/8">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">11:15 — 14:00</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3">Impact Leadership: from Own Success to Lasting Legacy</h3>
+              <p class="text-[16px] text-ink-soft leading-relaxed mb-4 max-w-xl" x-text="lang==='es' ? 'La verdadera madurez del liderazgo no se mide por lo que logras, sino por lo que dejas atrás. Exploraremos el cambio de una autoridad basada en tener las respuestas a una influencia basada en el propósito, las personas y el pensamiento sistémico.' : 'True leadership maturity isn\'t measured by what you achieve, but by what you leave behind. We will explore the shift from authority built on having the answers to influence built on purpose, people and systems thinking.'"></p>
+            </div>
+            <div class="col-span-12 md:col-span-3">
+  <div class="bg-ink/[0.03] border border-ink/5 p-4">
+    <div class="flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/rafa-vazquez.jpg" alt="Rafa Vázquez" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Rafa Vázquez</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/in/rafa-v%C3%A1zquez-10814534/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+          </article>
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-t border-ink/8">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">15:00 — 16:40</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3">Level Up: Biohacking for Peak Performance</h3>
+              <p class="text-[16px] text-ink-soft leading-relaxed mb-4 max-w-xl" x-text="lang==='es' ? 'El alto rendimiento se sostiene, no se fuerza. A partir de la evidencia en breathwork, ciencia del sueño y recuperación, explorarás palancas prácticas para gestionar tu rendimiento a lo largo del tiempo, inspiradas en los mejores atletas.' : 'High performance is sustained, not forced. Drawing on evidence from breathwork, sleep science and recovery, you\'ll explore practical levers to manage your performance over time, inspired by top athletes.'"></p>
+            </div>
+            <div class="col-span-12 md:col-span-3">
+  <div class="flex flex-col gap-3">
+    <div class="bg-ink/[0.03] border border-ink/5 p-4 flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/javier-albares.png" alt="Javier Albares" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Javier Albares</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://youtu.be/VZyBJI5V24U?si=-zvPngJhjiHUOyt7" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </a>
+      </div>
+    </div>
+    <div class="bg-ink/[0.03] border border-ink/5 p-4 flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/amanda-carmo.jpg" alt="Amanda Carmo" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Amanda Carmo</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/in/amandacarmobreathwork/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+          </article>
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-t border-ink/8">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">16:55 — 18:00</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3">Grand Finale</h3>
+              <p class="text-[16px] text-ink-soft leading-relaxed mb-4 max-w-xl" x-text="lang==='es' ? 'Consolidación del journey y traducción de los aprendizajes en compromisos concretos con el apoyo de Nadia y próximos pasos.' : 'Consolidation of the journey and translation of the learnings into concrete commitments with Nadia\'s support, and next steps.'"></p>
+            </div>
+            <div class="col-span-12 md:col-span-3">
+  <div class="flex flex-col gap-3">
+    <div class="bg-ink/[0.03] border border-ink/5 p-4 flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/rafa-vazquez.jpg" alt="Rafa Vázquez" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Rafa Vázquez</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/in/rafa-v%C3%A1zquez-10814534/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+    <div class="bg-ink/[0.03] border border-ink/5 p-4 flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/lucia-crespo.jpg" alt="Lucía Crespo de la Cruz" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Lucía Crespo de la Cruz</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/in/luciacrespodelacruz/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+    <div class="bg-ink/[0.03] border border-ink/5 p-4 flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="images/facilitators/Almu.jpg" alt="Almudena Ruiz Cid" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Almudena Ruiz Cid</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('facilitator')"></p>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono tracking-[0.12em] uppercase text-tef-blue hover:opacity-70 transition-opacity">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+    <div class="bg-ink/[0.03] border border-ink/5 p-4 flex items-center gap-3">
+      <div class="fac-photo">
+        <img src="https://api.dicebear.com/9.x/shapes/svg?seed=Nadia&backgroundColor=ec4899" alt="Nadia" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="font-medium text-ink text-[15px] leading-tight">Nadia</span>
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="lang==='es' ? 'Coach de Liderazgo IA' : 'AI Leadership Coach'"></p>
+      </div>
+    </div>
+  </div>
+</div>
+          </article>
+
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-t border-ink/8">
+            <div class="col-span-12 md:col-span-2">
+              <p class="font-mono text-sm text-ink tracking-tight">19:00 — 22:00</p>
+            </div>
+            <div class="col-span-12 md:col-span-7">
+              <h3 class="font-normal text-2xl md:text-3xl tracking-tight leading-tight mb-3" x-text="lang==='es' ? 'Cóctel y cena de despedida' : 'Farewell Cocktail &amp; Dinner'"></h3>
+              <p class="font-mono text-[11px] tracking-[0.18em] uppercase text-ink-mute">La Borda del Mentidero · Ronda de la Comunicación, 5</p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+    </div>
+    </section>
+
+    <!-- Page navigation -->
+    <section class="bg-paper-warm border-t border-ink/10 py-8">
+      <div class="max-w-[1920px] mx-auto px-8 md:px-12 lg:px-16 flex items-center justify-between">
+        <!-- Día 1 & 3: volver a Journey -->
+        <a x-show="activeDay===1 || activeDay===3" href="journey"
+           class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <svg class="w-4 h-4 shrink-0 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="lang==='es' ? 'Volver a Journey' : 'Back to Journey'"></span>
+        </a>
+
+        <!-- Día 2: ir a Día 1 -->
+        <button x-show="activeDay===2" x-cloak
+                @click="activeDay=1; (window.__lenis ? window.__lenis.scrollTo(0, {duration: 0.8}) : window.scrollTo({top:0, behavior:'smooth'}))"
+                class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <svg class="w-4 h-4 shrink-0 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="lang==='es' ? 'Ir a Agenda Día 1' : 'Go to Agenda Day 1'"></span>
+        </button>
+
+        <!-- Día 1: ir a Día 2 -->
+        <button x-show="activeDay===1"
+                @click="activeDay=2; (window.__lenis ? window.__lenis.scrollTo(0, {duration: 0.8}) : window.scrollTo({top:0, behavior:'smooth'}))"
+                class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="lang==='es' ? 'Ir a Agenda Día 2' : 'Go to Agenda Day 2'"></span>
+          <svg class="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+
+        <!-- Día 2: ir a Día 3 -->
+        <button x-show="activeDay===2" x-cloak
+                @click="activeDay=3; (window.__lenis ? window.__lenis.scrollTo(0, {duration: 0.8}) : window.scrollTo({top:0, behavior:'smooth'}))"
+                class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="lang==='es' ? 'Ir a Agenda Día 3' : 'Go to Agenda Day 3'"></span>
+          <svg class="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+
+        <!-- Día 3: conocer a Nadia -->
+        <a x-show="activeDay===3" x-cloak href="nadia"
+           class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="lang==='es' ? 'Conoce a Nadia' : 'Meet Nadia'"></span>
+          <svg class="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="site-footer" class="bg-tef-dark text-paper mt-auto"></footer>
+
+  <script src="components.js"></script>
+  <script src="scroll.js"></script>
+  <script src="animations.js"></script>
+</body>
+</html>

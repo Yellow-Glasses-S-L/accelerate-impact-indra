@@ -1,0 +1,40 @@
+{
+	auto_https off
+	admin off
+	persist_config off
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+:{$PORT:8080} {
+	root * /app
+	encode gzip zstd
+
+	# Clean URLs: /journey.html -> /journey (301)
+	@hasHtmlExt path_regexp hashtml ^/(.+)\.html$
+	redir @hasHtmlExt /{re.hashtml.1} 301
+
+	# Serve /journey by mapping to /journey.html on disk
+	try_files {path} {path}.html
+
+	file_server
+
+	# CSP permisiva para que Alpine.js (que usa eval) funcione
+	# y para permitir Tailwind CDN, fuentes embebidas en data: URIs, etc.
+	header Content-Security-Policy "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:; font-src 'self' https: data:; style-src 'self' https: 'unsafe-inline'; script-src 'self' https: 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https:;"
+
+	# Otras cabeceras
+	header X-Content-Type-Options "nosniff"
+	header Referrer-Policy "strict-origin-when-cross-origin"
+
+	# Caching: assets con hash largo, HTML sin cache para reflejar cambios rapido
+	@assets {
+		path *.woff2 *.mp4 *.jpg *.jpeg *.png *.gif *.svg *.webp *.geojson
+	}
+	header @assets Cache-Control "public, max-age=31536000, immutable"
+
+	# HTML + scripts/styles/json: no cache (cambian con cada deploy)
+	@nocache path_regexp ^/([^./]*|.+\.(html|js|css|json|map))$
+	header @nocache Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+}

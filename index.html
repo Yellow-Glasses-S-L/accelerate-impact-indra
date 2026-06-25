@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="es" x-data="{
+  lang: localStorage.getItem('lang') || 'es',
+  page: 'home',
+  howPopup: null,
+  init() {
+    this.$watch('lang', v => localStorage.setItem('lang', v));
+  },
+  t(key) {
+    return i18n[key] ? (i18n[key][this.lang] || i18n[key]['es']) : key;
+  }
+}">
+<head>
+  <style id="page-cloak">html{background:#E3E2DA}html:not(.loaded) body{opacity:0!important}html:not(.loaded) #site-navbar,html:not(.loaded) #site-footer{opacity:0!important}html:not(.loaded) .reveal{animation:none!important;opacity:0!important;transform:none!important}body{transition:opacity .25s ease}</style>
+  <meta name="view-transition" content="same-origin" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accelerate Impact — Indra</title>
+  <meta name="description" content="Programa de liderazgo de Indra. Tres días, un líder." />
+  <link rel="icon" type="image/svg+xml" href="images/brand/favicon_indra.svg" />
+  <link rel="apple-touch-icon" href="images/brand/favicon_indra.svg" />
+  <link rel="canonical" href="https://accelerateimpact.es/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Accelerate Impact" />
+  <meta property="og:url" content="https://accelerateimpact.es/" />
+  <meta property="og:title" content="Accelerate Impact — Indra" />
+  <meta property="og:description" content="Programa de liderazgo de Indra. Tres días, un líder." />
+  <meta property="og:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <meta property="og:image:width" content="8000" />
+  <meta property="og:image:height" content="4500" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Accelerate Impact — Indra" />
+  <meta name="twitter:description" content="Programa de liderazgo de Indra. Tres días, un líder." />
+  <meta name="twitter:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            tef: { blue: '#00B0BD', dark: '#002532', light: '#C2D2D6' },
+            gold: { DEFAULT: '#E8B547', soft: '#F5CD73', deep: '#B8842A' },
+            ink: { DEFAULT: '#002532', soft: '#2B3447', mute: '#58617A' },
+            paper: { DEFAULT: '#E3E2DA', warm: '#D8D7CE', deep: '#002532' }
+          },
+          fontFamily: {
+            sans: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            display: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            mono: ['"Indra Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+    *, *::before, *::after { font-family: "Indra Sans", sans-serif !important; }
+    body, p, span, a, li, td, th, label, input, button, textarea, select { font-family: "Indra Sans", sans-serif !important; }
+    html, body, * { font-feature-settings: normal !important; }
+
+    /* Carousel image: smaller on laptop screens (<1280px) */
+    @media (min-width: 768px) and (max-width: 1279px) {
+      .hscroll-card-img { height: clamp(200px,25vw,380px) !important; }
+    }
+    @media (min-width: 1280px) {
+      .hscroll-card-img { height: clamp(260px,30vw,600px); }
+    }
+
+    /* Fondos oficiales toolkit Indra */
+    .bg-tef-gradient-dark { background: radial-gradient(ellipse at 70% 0%, #0A4A5A 0%, #002532 55%, #001318 100%); }
+    .bg-tef-gradient-white { background: linear-gradient(180deg, #E3E2DA 0%, #D8D7CE 50%, #E3E2DA 100%); }
+
+    /* Animaciones */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { animation: fadeUp 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .reveal-1 { animation-delay: 0.1s; }
+    .reveal-2 { animation-delay: 0.25s; }
+    .reveal-3 { animation-delay: 0.4s; }
+    .reveal-4 { animation-delay: 0.55s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { animation: none; }
+    }
+
+    /* Fondo oscuro continuo */
+    .intro-hero {
+      background: #020914;
+      position: relative;
+      min-height: 100vh; height: 100vh; overflow: hidden;
+      margin-top: -79px; /* navbar = 16px top-padding + h-14(3.5rem×18px=63px) = 79px */
+    }
+    .nav-hero-filler { height: 68px; background: transparent; margin-top: -68px; pointer-events: none; position: relative; z-index: 0; }
+
+    /* Glow atmosférico fixed al viewport — visible solo detrás de secciones oscuras */
+    .dark-atmosphere {
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80vw 60vh at 50% 30%, rgba(0,102,255,0.16) 0%, transparent 55%),
+        radial-gradient(ellipse 70vw 55vh at 50% 80%, rgba(0,102,255,0.10) 0%, transparent 55%);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .dark-atmosphere.visible { opacity: 1; }
+    .intro-hero::before {
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background-image:
+        radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 24% 62%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 38% 28%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1.2px 1.2px at 47% 78%, rgba(255,255,255,0.65), transparent),
+        radial-gradient(1.5px 1.5px at 58% 12%, rgba(255,255,255,0.85), transparent),
+        radial-gradient(1px 1px at 66% 48%, rgba(255,255,255,0.35), transparent),
+        radial-gradient(1.2px 1.2px at 72% 82%, rgba(255,255,255,0.55), transparent),
+        radial-gradient(1.5px 1.5px at 83% 34%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 92% 68%, rgba(255,255,255,0.45), transparent),
+        radial-gradient(1px 1px at 8% 88%, rgba(255,255,255,0.5), transparent);
+      opacity: 0.8;
+    }
+    /* Three parallax starfield layers — near/mid/far (handled by data-parallax) */
+    .stars-far, .stars-mid, .stars-near { position:absolute; inset:-10% -5%; pointer-events:none; }
+    .stars-far {
+      background-image:
+        radial-gradient(0.8px 0.8px at 3% 12%, rgba(255,255,255,0.35), transparent),
+        radial-gradient(0.8px 0.8px at 17% 38%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(0.8px 0.8px at 28% 8%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(0.8px 0.8px at 52% 52%, rgba(255,255,255,0.25), transparent),
+        radial-gradient(0.8px 0.8px at 71% 18%, rgba(255,255,255,0.35), transparent),
+        radial-gradient(0.8px 0.8px at 85% 72%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(0.8px 0.8px at 94% 46%, rgba(255,255,255,0.4), transparent);
+      opacity: 0.85;
+    }
+    .stars-mid {
+      background-image:
+        radial-gradient(1.1px 1.1px at 9% 54%, rgba(255,255,255,0.55), transparent),
+        radial-gradient(1.1px 1.1px at 23% 22%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1.1px 1.1px at 41% 74%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1.1px 1.1px at 62% 36%, rgba(255,255,255,0.65), transparent),
+        radial-gradient(1.1px 1.1px at 79% 62%, rgba(255,255,255,0.55), transparent),
+        radial-gradient(1.1px 1.1px at 88% 26%, rgba(255,255,255,0.5), transparent);
+      opacity: 0.95;
+    }
+    .stars-near {
+      background-image:
+        radial-gradient(1.8px 1.8px at 14% 44%, rgba(255,255,255,0.9), transparent),
+        radial-gradient(2px 2px at 38% 18%, rgba(0,102,255,0.8), transparent),
+        radial-gradient(1.8px 1.8px at 57% 68%, rgba(255,255,255,0.95), transparent),
+        radial-gradient(2px 2px at 74% 32%, rgba(0,102,255,0.7), transparent),
+        radial-gradient(1.8px 1.8px at 91% 82%, rgba(255,255,255,0.85), transparent);
+      opacity: 1;
+    }
+
+    /* Big intro title — bottom anchored */
+    .intro-word {
+      letter-spacing: -0.04em;
+      will-change: transform, opacity, filter;
+      cursor: default;
+      display: inline-block;
+    }
+    /* El h1 no recorta overflow para permitir escape tipográfico */
+    .intro-hero h1 { overflow: visible !important; }
+
+    /* Scroll line indicator */
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(180deg, rgba(247,247,255,0.6) 0%, transparent 100%);
+      position: relative; overflow: hidden;
+    }
+    .scroll-line::after {
+      content:""; position:absolute; inset:0;
+      background: linear-gradient(180deg, #00B0BD 0%, transparent 60%);
+      animation: scroll-drop 2s ease-in-out infinite;
+    }
+    @keyframes scroll-drop {
+      0%   { transform: translateY(-100%); opacity: 0; }
+      20%  { opacity: 1; }
+      80%  { opacity: 1; }
+      100% { transform: translateY(100%); opacity: 0; }
+    }
+
+    /* Scroll progress bar (global chrome) */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #00B0BD 0%, #7FB3FF 100%);
+      transform-origin: left center;
+      transform: scaleX(0);
+      z-index: 60;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .scroll-progress.visible { opacity: 1; }
+
+    /* Navbar adaptativa sobre secciones oscuras */
+    .navbar-pill {
+      transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    #site-navbar.nav-on-dark .navbar-pill {
+      background: rgba(2, 9, 20, 0.15) !important;
+      border-color: rgba(247, 247, 255, 0.12) !important;
+      backdrop-filter: blur(24px) saturate(150%) !important;
+      -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+    }
+    #site-navbar.nav-on-dark .navbar-pill img {
+      filter: brightness(0) invert(1) opacity(0.95);
+      transition: filter 0.35s ease;
+    }
+    #site-navbar.nav-on-dark .navbar-pill nav a,
+    #site-navbar.nav-on-dark .navbar-pill button { color: rgba(247, 247, 255, 0.72) !important; }
+    #site-navbar.nav-on-dark .navbar-pill nav a:hover,
+    #site-navbar.nav-on-dark .navbar-pill button:hover { color: #E3E2DA !important; }
+    /* Activo (página actual): texto blanco pleno */
+    #site-navbar.nav-on-dark .navbar-pill a.text-tef-dark,
+    #site-navbar.nav-on-dark .navbar-pill button.text-tef-dark { color: #E3E2DA !important; }
+    /* Separador "/" entre ES/EN */
+    #site-navbar.nav-on-dark .navbar-pill span.text-tef-dark\/20 { color: rgba(247,247,255,0.3) !important; background: transparent !important; }
+    /* Hamburger lines */
+    #site-navbar.nav-on-dark .navbar-pill button[aria-label] span { background-color: rgba(247, 247, 255, 0.85) !important; }
+
+    /* Suave transición dark→paper (zonas de encuentro) */
+    .section-fade-top::before {
+      content:""; position:absolute; top:0; left:0; right:0; height:120px;
+      background: linear-gradient(180deg, rgba(2,9,20,0.15) 0%, transparent 100%);
+      pointer-events:none; z-index:1;
+    }
+    .section-fade-bottom::after {
+      content:""; position:absolute; bottom:0; left:0; right:0; height:120px;
+      background: linear-gradient(180deg, transparent 0%, rgba(2,9,20,0.18) 100%);
+      pointer-events:none; z-index:1;
+    }
+
+
+    /* GLOBE SECTION — starfield + aurora */
+    .globe-section {
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(0,102,255,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 80%, rgba(0,102,255,0.12) 0%, transparent 50%),
+        #020914;
+      position: relative;
+    }
+    .globe-section::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 24% 62%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 38% 28%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 47% 78%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1.5px 1.5px at 58% 12%, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 66% 48%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 72% 82%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1.5px 1.5px at 83% 34%, rgba(255,255,255,0.85), transparent),
+        radial-gradient(1px 1px at 92% 68%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 8% 88%, rgba(255,255,255,0.55), transparent),
+        radial-gradient(1px 1px at 15% 42%, rgba(255,255,255,0.45), transparent),
+        radial-gradient(1.5px 1.5px at 31% 8%, rgba(255,255,255,0.9), transparent);
+      background-repeat: no-repeat;
+      pointer-events: none;
+      opacity: 0.65;
+      animation: twinkle 6s ease-in-out infinite alternate;
+    }
+    @keyframes twinkle { from { opacity: 0.4; } to { opacity: 0.8; } }
+
+    #globeViz { width: 100%; height: clamp(260px, 45vw, 560px); cursor: grab; }
+    @media (max-width: 767px) {
+      #globeViz { height: min(80vw, 360px) !important; }
+    }
+    @media (max-width: 767px) {
+      .hscroll-card { min-height: auto !important; height: auto !important; }
+      /* Disable sticky horizontal scroll — stack cards vertically */
+      #hscroll-pin { position: static !important; height: auto !important; }
+      #hscroll-section { height: auto !important; overflow: visible !important; }
+      #hscroll-track {
+        flex-direction: column !important;
+        width: 100% !important;
+        padding: 1.5rem 1.5rem 2rem !important;
+        transform: none !important;
+        gap: 1.5rem;
+      }
+      #hscroll-active-num,
+      #hscroll-tabs { display: none !important; }
+      [data-accelerate-header] { padding-bottom: 0.5rem !important; }
+    }
+    #globeViz:active { cursor: grabbing; }
+    #globeViz canvas { background: transparent !important; }
+
+    /* Tooltip personalizado */
+    .globe-tooltip {
+      background: rgba(2,9,20,0.92);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0,102,255,0.4);
+      color: #E3E2DA;
+      padding: 10px 14px;
+      font-family: "Indra Sans", sans-serif;
+      font-size: 13px;
+      border-radius: 2px;
+      box-shadow: 0 8px 32px rgba(0,102,255,0.25);
+    }
+    .globe-tooltip .tt-name {
+      font-size: 15px; font-weight: 500; margin-bottom: 2px;
+    }
+    .globe-tooltip .tt-count {
+      color: #7FB3FF; font-variant-numeric: tabular-nums;
+    }
+    .globe-tooltip .tt-hint {
+      font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(247,247,255,0.45); margin-top: 6px;
+    }
+
+    /* Stats counter */
+    @keyframes countUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .count-reveal { animation: countUp 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+    /* Legend country chips */
+    .country-chip {
+      transition: all 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+      cursor: pointer;
+    }
+    .country-chip:hover {
+      background: rgba(0,102,255,0.12);
+      border-color: #00B0BD;
+      transform: translateY(-1px);
+    }
+    .country-chip.active {
+      background: #00B0BD;
+      color: #E3E2DA;
+      border-color: #00B0BD;
+    }
+
+    /* Globe headline split */
+    .globe-title span {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 1s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    }
+    .globe-title span:nth-child(2) { animation-delay: 0.12s; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- Globe 3D — Three.js + Globe.gl via CDN -->
+  <script defer src="https://unpkg.com/three@0.149.0/build/three.min.js"></script>
+  <script defer src="https://unpkg.com/globe.gl@2.27.2/dist/globe.gl.min.js"></script>
+  <!-- Scroll system — Lenis smooth scroll + GSAP ScrollTrigger -->
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script>
+    const i18n = {
+      /* NAV */
+      nav_journey: { es: 'Journey', en: 'Journey' },
+      nav_info: { es: 'Contacto', en: 'Contact' },
+
+      /* INTRO cinematográfico */
+      intro_eyebrow_left:  { es: 'Indra · Comunidad de Líderes', en: 'Indra · Leadership Community' },
+      intro_eyebrow_right: { es: '2026', en: '2026' },
+      intro_claim:    { es: 'El presente nos reta.', en: 'The present challenges us.' },
+      intro_sub:      { es: 'El liderazgo convierte la estrategia en acción.', en: 'Leadership turns strategy into action.' },
+      intro_scroll:   { es: 'Desliza para empezar', en: 'Scroll to begin' },
+
+      /* Sección manifiesto */
+      mf_tag1:  { es: '#Ambición', en: '#Ambition' },
+      mf_tag2:  { es: '#Disciplina', en: '#Discipline' },
+      mf_tag3:  { es: '#Responsabilidad compartida', en: '#Shared responsibility' },
+      mf_l1:    { es: 'El presente nos reta.', en: 'The present challenges us.' },
+      mf_l2:    { es: 'Y estamos preparados.', en: 'And we are ready.' },
+      mf_l3:    { es: 'No esperamos al futuro: lo construimos.', en: 'We don\'t wait for the future: we build it.' },
+      mf_l4:    { es: 'Con ambición, disciplina y responsabilidad compartida.', en: 'With ambition, discipline, and shared responsibility.' },
+      mf_l5:    { es: 'Porque no hay nada más poderoso que un grupo de personas persiguiendo un objetivo común, teniendo claro cómo lograrlo y comprometiéndose a dar lo mejor de sí para conseguirlo.', en: 'Because there is nothing more powerful than a group of people pursuing a common goal, knowing clearly how to achieve it and committing to give their best to make it happen.' },
+      mf_video_label: { es: 'Por qué tienes que venir', en: 'Why you should come' },
+
+      /* HERO It's on Us — 3 actos con claims oficiales Laura */
+      hero_eyebrow: { es: 'Programa de liderazgo · 2026', en: 'Leadership program · 2026' },
+      sub_its:      { es: 'Damos lo mejor de nosotros.',         en: 'We give our best.' },
+      sub_its_kicker: { es: 'Porque lo bueno no basta.',          en: 'Because good enough is not enough.' },
+      sub_on:       { es: 'Cuestionamos nuestros propios límites.', en: 'We challenge our own limits.' },
+      sub_on_kicker:  { es: 'Y los rompemos.',                    en: 'And we break them.' },
+      sub_us:       { es: 'Crecemos juntos.',                    en: 'We grow together.' },
+      sub_us_kicker:  { es: 'O no crecemos.',                     en: 'Or we don’t grow at all.' },
+
+      val_time:    { es: 'El momento del cliente es ahora',     en: 'Customer time is now' },
+      val_excel:   { es: 'La excelencia es nuestro estándar',   en: 'Excellence is our standard' },
+      val_curio:   { es: 'La curiosidad impulsa la innovación', en: 'Curiosity drives innovation' },
+      val_clarity: { es: 'La claridad guía decisiones valientes', en: 'Clarity leads to bold decisions' },
+      val_results: { es: 'El resultado depende de nosotros',    en: 'Results depend on us' },
+      val_growth:  { es: 'El crecimiento construye futuro',     en: "People's growth builds our future" },
+
+      program_eyebrow: { es: 'El presente nos reta', en: 'The present challenges us' },
+      program_lead: {
+        es: 'El presente nos reta. Y estamos preparados. No esperamos al futuro: lo construimos. Con ambición, disciplina y responsabilidad compartida. Porque no hay nada más poderoso que un grupo de personas persiguiendo un objetivo común, teniendo claro cómo lograrlo y comprometiéndose a dar lo mejor de sí para conseguirlo.',
+        en: 'The present challenges us. And we are ready. We do not wait for the future: we build it. With ambition, discipline and shared responsibility. Because nothing is more powerful than a group of people pursuing a common goal, knowing how to achieve it and committing to give their best to get there.'
+      },
+
+      /* 4 BLOQUES — claims rojos Laura (titulares) + verbatim negros (body) */
+      b_why_label:  { es: '¿Por qué ahora?', en: 'Why now?' },
+      b_why_title:  { es: 'Porque sin ti, no hay transformación.',
+                      en: 'Because without you, there is no transformation.' },
+      b_why_body:   {
+        es: '<strong class="text-ink font-semibold">Transformar y Crecer depende de nosotros.</strong> El futuro de Indra está en nuestras manos. Lo miramos con ilusión y optimismo. Con una misión clara, una visión compartida y una convicción muy firme: <strong class="text-ink font-semibold">el negocio necesita a las personas</strong>. Esto no va solo de entender la estrategia. Va de aplicarla. No se trata de qué empezarás a hacer mañana, sino de qué haces hoy. Ahora mismo.',
+        en: '<strong class="text-ink font-semibold">Transform & Grow depends on us.</strong> The future of Indra is in our hands. We face it with optimism, a clear mission and one very firm conviction: <strong class="text-ink font-semibold">the business needs its people</strong>. This is not just about understanding the strategy. It is about applying it. It is not about what you will start doing tomorrow — it is about what you do today. Right now.'
+      },
+
+      b_how_label:  { es: '¿Cómo lo haremos?', en: 'How will we do it?' },
+      b_how_title:  { es: 'Te damos las herramientas. Tú decides hasta dónde llegas.',
+                      en: 'We give you the tools. You decide how far you go.' },
+      b_how_body:   {
+        es: 'Para conseguir nuestros objetivos de negocio, contamos con un nuevo modelo de liderazgo que nos da las herramientas que necesitamos para transformarnos.<br><br>Porque lo que transforma a Indra es <strong class="text-ink font-semibold">cómo decidimos, cómo colaboramos y cómo actuamos.</strong>',
+        en: 'To achieve our business goals, we have a new leadership model that gives us the tools we need to transform.<br><br>Because what transforms Indra is <strong class="text-ink font-semibold">how we decide, how we collaborate, and how we act.</strong>'
+      },
+      b_how_c1_claim: { es: 'Damos lo mejor de nosotros', en: 'We give our best' },
+      b_how_c1_sub:   { es: 'Porque lo bueno no basta.', en: 'Because good is not enough.' },
+      b_how_c1_ctx:   { es: 'El negocio necesita relevancia.', en: 'The business needs relevance.' },
+      b_how_c1_body:  { es: 'Porque lo bueno no basta. El negocio necesita relevancia.', en: 'Because good is not enough. The business needs relevance.' },
+      b_how_c2_claim: { es: 'Cuestionamos nuestros propios límites', en: 'We challenge our own limits' },
+      b_how_c2_sub:   { es: 'Y los rompemos.', en: 'And we break them.' },
+      b_how_c2_ctx:   { es: 'El negocio necesita velocidad y eficiencia.', en: 'The business needs speed and efficiency.' },
+      b_how_c2_body:  { es: 'Y los rompemos. El negocio necesita velocidad y eficiencia.', en: 'And we break them. The business needs speed and efficiency.' },
+      b_how_c3_claim: { es: 'Crecemos juntos', en: 'We grow together' },
+      b_how_c3_sub:   { es: 'O no crecemos.', en: 'Or we do not grow at all.' },
+      b_how_c3_ctx:   { es: 'El negocio necesita resultados y un talento preparado para lograrlos.', en: 'The business needs results and the talent ready to achieve them.' },
+      b_how_c3_body:  { es: 'O no crecemos. El negocio necesita resultados y un talento preparado para lograrlos.', en: 'Or we don\'t grow. The business needs results and talent ready to achieve them.' },
+
+      b_what_label: { es: '¿Qué es Accelerate Impact?', en: 'What is Accelerate Impact?' },
+      b_what_title: { es: 'El programa que te convierte en el líder que Indra necesita.',
+                      en: 'The program that turns you into the leader Indra needs.' },
+      b_what_body:  {
+        es: '<p class="mb-3">Una experiencia de <strong class="text-ink font-semibold">formación y acompañamiento</strong> para <strong class="text-ink font-semibold">acelerar la ejecución del plan estratégico</strong>.</p><p class="mb-2">Diseñada para ayudar a los líderes a:</p><ul class="list-disc list-outside ml-5 space-y-1"><li>Tomar mejores decisiones en contextos complejos.</li><li>Priorizar lo que genera impacto real.</li><li>Actuar con claridad, foco y responsabilidad compartida.</li></ul>',
+        en: '<p class="mb-3">A <strong class="text-ink font-semibold">training and coaching</strong> experience to <strong class="text-ink font-semibold">accelerate the execution of the strategic plan</strong>.</p><p class="mb-2">Designed to help leaders to:</p><ul class="list-disc list-outside ml-5 space-y-1"><li>Make better decisions in complex contexts.</li><li>Prioritise what creates real impact.</li><li>Act with clarity, focus and shared responsibility.</li></ul>'
+      },
+
+      b_exp_label:  { es: 'Lo que te llevas contigo', en: 'What you take with you' },
+      b_exp_title:  { es: 'Lo que te llevas de aquí no se queda aquí.',
+                      en: 'What you take from here does not stay here.' },
+      b_exp_body:   {
+        es: 'Comprender nuestro modelo de liderazgo y cómo desafiar nuestros propios límites para dar lo mejor de nosotros. Aprender a simplificar nuestro modelo operativo: <strong class="text-ink font-semibold">cada paso suma</strong>. Adquirir actitudes y herramientas prácticas para hacer realidad el plan estratégico. Multiplicar nuestras capacidades como líderes para generar conocimiento, compromiso y asumir nuevos retos.',
+        en: 'Understand our leadership model and how to challenge our own limits to give our best. Learn to simplify our operating model: <strong class="text-ink font-semibold">every step counts</strong>. Acquire attitudes and practical tools to make the strategic plan real. Multiply our capabilities as leaders to generate knowledge, commitment and take on new challenges.'
+      },
+
+      /* TRACK */
+      track_eyebrow: { es: 'Tu viaje', en: 'Your journey' },
+      track_title_1: { es: 'Cinco paradas,', en: 'Five stops,' },
+      track_title_2: { es: 'un solo programa.', en: 'one program.' },
+
+      n0_meta: { es: 'Email · Punto de partida', en: 'Email · Starting point' },
+      n0_title: { es: 'El correo que lo cambia todo.', en: 'The email that changes everything.' },
+      n0_body:  { es: 'Tu primer contacto con el programa. El correo que abre la puerta a este reto y es el punto de partida del recorrido.', en: 'Your first contact with the program. The email that opens the door to this challenge and marks the start of the journey.' },
+
+      n1_meta: { es: 'Online · todo el recorrido', en: 'Online · the whole journey' },
+      n1_title: { es: 'Sesiones Online de Nadia', en: 'Nadia Online Sessions' },
+      n1_body: { es: 'Conocerás a Nadia, tu Leadership AI Coach, y cómo te acompañará durante todo el camino.', en: 'Meet Nadia, your Leadership AI Coach, and how she will accompany you throughout the journey.' },
+
+      n2_meta: { es: 'Virtual · antes de empezar', en: 'Virtual · before kick-off' },
+      n2_title: { es: 'Sesión Online de bienvenida', en: 'Online Welcome Session' },
+      n2_body: { es: 'Conoces el programa, su estructura y los compañeros con los que compartirás este camino.', en: 'Meet the program, its structure and the peers you will share this journey with.' },
+
+      n3_meta: { es: 'Online · antes del ALW', en: 'Online · before ALW' },
+      n3_title: { es: 'Autodiagnóstico', en: 'Self-Diagnosis' },
+      n3_body: { es: 'Realizarás un autodiagnóstico diseñado para ayudarte a conocer cómo lideras hoy y cómo puedes amplificar tu impacto.', en: 'Complete a self-diagnosis to understand how you lead today and how to amplify your impact.' },
+      n3_cta: { es: 'Empezar ahora', en: 'Start now' },
+
+      n4_meta: { es: 'Presencial · Universitas', en: 'In-person · Universitas' },
+      n4_title: { es: 'Residential Action Learning Week at Universitas', en: 'Residential Action Learning Week at Universitas' },
+      n4_body: { es: 'Tres días presenciales en Universitas. El corazón del programa y el momento donde todo converge.', en: 'Three in-person days at Universitas. The heart of the program and the moment where everything converges.' },
+      n4_cta: { es: 'Ver agenda', en: 'See agenda' },
+
+      /* NADIA */
+      nadia_eyebrow: { es: 'Siempre contigo', en: 'Always with you' },
+      nadia_title_1: { es: 'Tu', en: 'Your' },
+      nadia_title_2: { es: 'AI Coach.', en: 'AI Coach.' },
+      nadia_body: { es: 'Nadia es tu AI Leadership Coach personal. Conversa cuando quieras, desde donde estés.', en: 'Nadia is your personal AI Leadership Coach. Talk to her anytime, from anywhere.' },
+      nadia_cta: { es: 'Conectar con Nadia', en: 'Connect with Nadia' },
+
+      /* GLOBE — Distribución mundial de la comunidad de líderes */
+      globe_eyebrow: { es: 'Comunidad global', en: 'Global community' },
+      globe_title_1: { es: 'Top líderes mundial.', en: 'Top leaders worldwide.' },
+      globe_title_2: { es: 'Un solo equipo.', en: 'One single team.' },
+      globe_body: {
+        es: 'Compañeros repartidos por el mundo. Haz clic en cualquier país para conocer a los líderes de esa operación.',
+        en: 'Peers spread across the world. Click any country to meet the leadership team of that operation.'
+      },
+      globe_legend: { es: 'Participantes por país', en: 'Participants per country' },
+      globe_hint: { es: 'Arrastra para rotar · clic para abrir', en: 'Drag to rotate · click to open' },
+      globe_total: { es: 'participantes', en: 'participants' },
+      globe_countries: { es: 'países', en: 'countries' },
+
+      /* COHORTES */
+      cohort_title: { es: 'Conecta con tus compañeros', en: 'Connect with your peers' },
+      cohort_body: {
+        es: 'Nosotros somos los protagonistas de todo. La transformación se construye en comunidad — compartiendo, retándonos y aprendiendo juntos.<br><br>Cada cohorte tendrá su propio espacio privado en Microsoft Teams.',
+        en: 'We are the protagonists of everything. Transformation is built as a community — sharing, challenging each other and learning together.<br><br>Each cohort will have its own private space in Microsoft Teams.'
+      },
+      cohort_notice: {
+        es: 'Cuando llegue el turno de tu cohorte, recibirás un email con tu enlace de acceso personal para conectar con el resto de líderes del programa.',
+        en: 'When your cohort\'s time comes, you will receive an email with your personal access link to connect with the rest of the program leaders.'
+      },
+
+      /* 3 PILLARS verbatim — claims rojos + verbatim negro */
+      p1_title: { es: 'Damos lo mejor de nosotros.', en: 'We give our best.' },
+      p1_kicker: { es: 'Porque lo bueno no basta.', en: 'Because good enough is not enough.' },
+      p1_body: {
+        es: 'El negocio necesita relevancia. Y si queremos convertirnos en socios de confianza de nuestros clientes, necesitamos profesionales que simplifiquen, prioricen y se enfoquen en lo que realmente genera impacto.',
+        en: 'The business needs relevance. To become trusted partners for our clients, we need professionals who simplify, prioritise and focus on what truly creates impact.'
+      },
+      p1_s1: { es: 'Customer First: el momento del cliente es ahora. Escuchamos y resolvemos con rapidez.', en: 'Customer First: customer time is now. We listen and resolve with speed.' },
+      p1_s2: { es: 'Delivering Excellence: la excelencia es nuestro estándar. Menos es más. Obsesión por la simplicidad.', en: 'Delivering Excellence: excellence is our standard. Less is more. Obsession with simplicity.' },
+
+      p2_title: { es: 'Cuestionamos nuestros propios límites.', en: 'We challenge our own limits.' },
+      p2_kicker: { es: 'Y los rompemos.', en: 'And we break them.' },
+      p2_body: {
+        es: 'El negocio necesita velocidad y eficiencia. Si queremos ser competitivos, necesitamos profesionales valientes y curiosos, que cuestionen los límites, estén dispuestos a tomar decisiones difíciles, asumir riesgos controlados y utilizar la tecnología para resolver problemas reales.',
+        en: 'The business needs speed and efficiency. To stay competitive we need brave, curious professionals who challenge limits, make hard decisions, take calculated risks and use technology to solve real problems.'
+      },
+      p2_s1: { es: 'Digital Innovation: creamos entornos para sentirnos libres, compartir ideas, generar soluciones creativas e innovar con propósito.', en: 'Digital Innovation: we create environments to think freely, share ideas, generate creative solutions and innovate with purpose.' },
+      p2_s2: { es: 'Clarity & Courage: la claridad guía decisiones valientes. Impulsamos la toma de decisiones sin miedo, el debate abierto y el cuestionamiento riguroso.', en: 'Clarity & Courage: clarity leads to bold decisions. We drive fearless decision-making, open debate and rigorous challenge.' },
+
+      p3_title: { es: 'Crecemos juntos.', en: 'We grow together.' },
+      p3_kicker: { es: 'O no crecemos.', en: 'Or we don\'t grow at all.' },
+      p3_body: {
+        es: 'El negocio necesita resultados y un talento preparado para lograrlos. Si queremos transformarnos para liderar el futuro, necesitamos desarrollar hoy las capacidades que el negocio demandará mañana.',
+        en: 'The business needs results and talent ready to deliver them. To transform and lead the future, we must develop today the capabilities the business will demand tomorrow.'
+      },
+      p3_s1: { es: 'Driving Ownership: el resultado depende de nosotros. Asumimos la responsabilidad por el todo y buscamos soluciones.', en: 'Driving Ownership: results depend on us. We take responsibility for the whole and seek solutions.' },
+      p3_s2: { es: 'Growing People: el crecimiento construye futuro. Aprendemos de la experiencia, lideramos con el ejemplo e impulsamos a las personas.', en: 'Growing People: growth builds the future. We learn from experience, lead by example and develop our people.' },
+      p3_close: { es: 'It\'s on us.', en: 'It\'s on us.' },
+
+      /* MANIFIESTO */
+      ai_intro: { es: 'es la respuesta para aquellos que se preguntan...', en: 'is the answer for those who ask themselves...' },
+      ai_q1: { es: '¿Cómo aplicar la estrategia más allá de simplemente comprenderla?', en: 'How to apply strategy beyond simply understanding it?' },
+      ai_q2: { es: '¿Cómo liderar en un contexto impulsado por la IA?', en: 'How to lead in an AI-driven context?' },
+      ai_q3: { es: '¿Cómo experimentar y aprender rápidamente sin limitarnos a adoptar tecnología?', en: 'How to experiment and learn fast without just adopting technology?' },
+      ai_q4: { es: '¿Estamos haciendo todo lo necesario?', en: 'Are we doing everything we need to?' },
+      ai_q5: { es: '¿Escuchamos lo que nuestra mente y nuestro cuerpo nos dicen durante este cambio?', en: 'Are we listening to what our mind and body tell us during this change?' },
+      ai_essence_label: { es: 'Es en esencia', en: 'Is essentially' },
+      ai_e1: { es: 'Un viaje de autoconocimiento', en: 'A journey of self-knowledge' },
+      ai_e2: { es: '3 días de aprendizaje inmersivo en Universitas', en: '3 days of immersive learning at Universitas' },
+      ai_e3: { es: 'Un coach para ti siempre disponible', en: 'A coach always available for you' },
+      ai_e4: { es: 'Y, lo más relevante...', en: 'And, most importantly...' },
+      ai_e5: { es: 'Una comunidad global de líderes conectados', en: 'A global community of connected leaders' },
+
+      pop_close: { es: 'Cerrar', en: 'Close' },
+      video_soon: { es: 'Vídeo · Próximamente', en: 'Video · Coming soon' },
+      community_title_l1: { es: 'La Comunidad de Líderes', en: 'The Community of Leaders' },
+      community_title_l2: { es: 'de Indra', en: 'of Indra' },
+
+      pop_c1_title: { es: 'Damos lo mejor de nosotros.', en: 'We give our best.' },
+      pop_c1_body: {
+        es: '<p class="text-sm text-ink-soft leading-relaxed mb-3">Y si queremos convertirnos en socios de confianza de nuestros clientes, necesitamos profesionales que simplifiquen, prioricen y se enfoquen en lo que realmente genera impacto.</p><p class="text-sm text-ink-soft leading-relaxed mb-4">Esto, hoy, en Indra, lo expresamos a través de dos skills clave:</p><ul class="space-y-3 text-sm text-ink-soft"><li><span class="font-medium text-ink">Customer First:</span> el momento del cliente es ahora. Escuchamos y resolvemos con rapidez.</li><li><span class="font-medium text-ink">Delivering Excellence:</span> la excelencia es nuestro estándar. Menos es más. Obsesión por la simplicidad.</li></ul>',
+        en: '<p class="text-sm text-ink-soft leading-relaxed mb-3">And if we want to become trusted partners for our customers, we need professionals who simplify, prioritize and focus on what really creates impact.</p><p class="text-sm text-ink-soft leading-relaxed mb-4">At Indra, we express this today through two key skills:</p><ul class="space-y-3 text-sm text-ink-soft"><li><span class="font-medium text-ink">Customer First:</span> the customer\'s moment is now. We listen and resolve quickly.</li><li><span class="font-medium text-ink">Delivering Excellence:</span> excellence is our standard. Less is more. Obsession with simplicity.</li></ul>'
+      },
+
+      pop_c2_title: { es: 'Cuestionamos nuestros propios límites.', en: 'We question our own limits.' },
+      pop_c2_body: {
+        es: '<p class="text-sm text-ink-soft leading-relaxed mb-3">Si queremos ser competitivos, necesitamos profesionales valientes y curiosos, que cuestionen los límites, estén dispuestos a tomar decisiones difíciles, asumir riesgos controlados y utilizar la tecnología para resolver problemas reales.</p><p class="text-sm text-ink-soft italic leading-relaxed mb-3">Las compañías que avanzan no son las que convierten sus rutinas en dogma, sino las que se atreven a cuestionarlas.</p><p class="text-sm text-ink-soft leading-relaxed mb-4">Esto, hoy, en Indra, lo expresamos a través de dos skills clave:</p><ul class="space-y-3 text-sm text-ink-soft"><li><span class="font-medium text-ink">Digital Innovation:</span> creamos entornos para sentirnos libres, compartir ideas, generar soluciones creativas e innovar con propósito.</li><li><span class="font-medium text-ink">Clarity &amp; Courage:</span> la claridad guía decisiones valientes. Impulsamos la toma de decisiones sin miedo, el debate abierto y sincero, y el cuestionamiento riguroso.</li></ul>',
+        en: '<p class="text-sm text-ink-soft leading-relaxed mb-3">If we want to be competitive, we need brave, curious professionals who challenge limits, are willing to make tough decisions, take measured risks and use technology to solve real problems.</p><p class="text-sm text-ink-soft italic leading-relaxed mb-3">The companies that move forward are not the ones that turn their routines into dogma, but those that dare to question them.</p><p class="text-sm text-ink-soft leading-relaxed mb-4">At Indra, we express this today through two key skills:</p><ul class="space-y-3 text-sm text-ink-soft"><li><span class="font-medium text-ink">Digital Innovation:</span> we create spaces to feel free, share ideas, generate creative solutions and innovate with purpose.</li><li><span class="font-medium text-ink">Clarity &amp; Courage:</span> clarity drives brave decisions. We push fearless decision-making, open and honest debate, and rigorous questioning.</li></ul>'
+      },
+
+      pop_c3_title: { es: 'Crecemos juntos.', en: 'We grow together.' },
+      pop_c3_body: {
+        es: '<p class="text-sm text-ink-soft leading-relaxed mb-3">Si queremos transformarnos para liderar el futuro, necesitamos desarrollar hoy las capacidades que el negocio demandará mañana. Necesitamos profesionales que promuevan que cada persona asuma la responsabilidad por el todo, no solo por su parte.</p><p class="text-sm text-ink-soft leading-relaxed mb-4">Esto, hoy, en Indra, lo expresamos a través de dos skills clave:</p><ul class="space-y-3 text-sm text-ink-soft mb-4"><li><span class="font-medium text-ink">Driving Ownership:</span> el resultado depende de nosotros. Asumimos la responsabilidad por el todo y buscamos soluciones.</li><li><span class="font-medium text-ink">Growing People:</span> el crecimiento construye futuro. Aprendemos de la experiencia, lideramos con el ejemplo e impulsamos a las personas.</li></ul><p class="text-xs text-ink-mute italic leading-relaxed">El crecimiento de la compañía depende del crecimiento de cada equipo. Y el crecimiento de cada equipo comienza con las personas. Depende de nuestra ambición. De nuestra iniciativa. <em class="not-italic font-medium text-ink">It\'s on us.</em></p>',
+        en: '<p class="text-sm text-ink-soft leading-relaxed mb-3">If we want to transform to lead the future, we need to develop today the capabilities the business will demand tomorrow. We need professionals who encourage everyone to take responsibility for the whole, not just their part.</p><p class="text-sm text-ink-soft leading-relaxed mb-4">At Indra, we express this today through two key skills:</p><ul class="space-y-3 text-sm text-ink-soft mb-4"><li><span class="font-medium text-ink">Driving Ownership:</span> the result depends on us. We take responsibility for the whole and search for solutions.</li><li><span class="font-medium text-ink">Growing People:</span> growth builds the future. We learn from experience, lead by example and lift people up.</li></ul><p class="text-xs text-ink-mute italic leading-relaxed">The company\'s growth depends on each team\'s growth. And each team\'s growth begins with people. It depends on our ambition. On our initiative. <em class="not-italic font-medium text-ink">It\'s on us.</em></p>'
+      }
+    };
+  </script>
+</head>
+<body class="flex flex-col min-h-screen bg-paper text-ink font-sans antialiased">
+
+  <!-- HEADER — 4 items -->
+  <header id="site-navbar" class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b border-ink/10"></header>
+
+  <!-- HOW SKILL POPUPS -->
+  <div x-show="howPopup !== null"
+       x-transition.opacity
+       @click.self="howPopup = null"
+       class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-tef-dark/60 backdrop-blur-sm"
+       style="display:none" x-cloak>
+    <div class="max-w-lg w-full bg-paper rounded-br-2xl shadow-2xl pb-20 pt-8 px-8 md:pt-10 md:px-10 relative overflow-hidden">
+      <div class="mb-6">
+        <img src="images/brand/indra-logo.svg" class="h-7 w-auto" alt="Accelerate Impact">
+      </div>
+
+      <!-- Bloque 1: Customer First + Delivering Excellence -->
+      <template x-if="howPopup === 'c1'">
+        <div>
+          <h2 class="font-sans font-normal text-3xl md:text-4xl text-ink leading-tight mb-4" x-text="t('pop_c1_title')"></h2>
+          <div x-html="t('pop_c1_body')"></div>
+        </div>
+      </template>
+
+      <!-- Bloque 2: Digital Innovation + Clarity & Courage -->
+      <template x-if="howPopup === 'c2'">
+        <div>
+          <h2 class="font-sans font-normal text-3xl md:text-4xl text-ink leading-tight mb-4" x-text="t('pop_c2_title')"></h2>
+          <div x-html="t('pop_c2_body')"></div>
+        </div>
+      </template>
+
+      <!-- Bloque 3: Driving Ownership + Growing People -->
+      <template x-if="howPopup === 'c3'">
+        <div>
+          <h2 class="font-sans font-normal text-3xl md:text-4xl text-ink leading-tight mb-4" x-text="t('pop_c3_title')"></h2>
+          <div x-html="t('pop_c3_body')"></div>
+        </div>
+      </template>
+
+      <button @click="howPopup = null"
+              class="absolute bottom-0 right-0 inline-flex items-center gap-3 bg-tef-blue text-white px-7 py-4 hover:bg-blue-700 transition-colors group rounded-br-2xl">
+        <span class="font-mono text-xs tracking-[0.18em] uppercase" x-text="t('pop_close')"></span>
+        <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Global scroll progress bar -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- Hscroll progress bar — fija al fondo del viewport, solo visible en la sección -->
+  <div id="hscroll-progress-wrap" aria-hidden="true"
+       style="position:fixed;bottom:0;left:0;right:0;height:4px;z-index:45;background:rgba(3,26,52,0.1);opacity:0;transition:opacity 0.3s ease;pointer-events:none;">
+    <div id="hscroll-progress" style="width:0%;height:100%;background:#00B0BD;transition:none;"></div>
+  </div>
+
+  <!-- Atmospheric glow fixed — visible sobre secciones oscuras para unificar intro+hero+globe -->
+  <div class="dark-atmosphere" id="darkAtmosphere" aria-hidden="true"></div>
+
+  <!-- MAIN -->
+  <main class="flex-1">
+
+    <!-- INTRO cinematográfico — Bienvenidos scene -->
+    <section class="intro-hero text-paper" data-nav-dark>
+      <!-- Vídeo de fondo -->
+      <video id="hero-video" muted playsinline
+             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;z-index:0;opacity:0.65;">
+        <source src="videos/1920x1080_Hero INICIO.mp4" type="video/mp4">
+      </video>
+      <script>
+        (function() {
+          var v = document.getElementById('hero-video');
+          if (!v) return;
+          v.muted = true;
+          v.play().catch(function(){});
+          var lastTs = null;
+          function reverse(ts) {
+            if (lastTs === null) lastTs = ts;
+            var dt = (ts - lastTs) / 1000;
+            lastTs = ts;
+            v.currentTime = Math.max(0, v.currentTime - dt);
+            if (v.currentTime <= 0.05) {
+              lastTs = null;
+              v.currentTime = 0;
+              v.play().catch(function(){});
+            } else {
+              requestAnimationFrame(reverse);
+            }
+          }
+          v.addEventListener('ended', function() {
+            lastTs = null;
+            requestAnimationFrame(reverse);
+          });
+        })();
+      </script>
+      <!-- Overlay oscuro sobre el vídeo -->
+      <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(2,9,20,0.35) 0%,rgba(2,9,20,0.15) 50%,rgba(2,9,20,0.35) 100%);"></div>
+
+      <!-- 3 capas de estrellas con parallax distinto -->
+      <div class="stars-far" style="z-index:2;position:absolute;inset:0;" data-parallax="0.15" aria-hidden="true"></div>
+      <div class="stars-mid" style="z-index:2;position:absolute;inset:0;" data-parallax="0.5" aria-hidden="true"></div>
+      <div class="stars-near" style="z-index:2;position:absolute;inset:0;" data-parallax="1.1" aria-hidden="true"></div>
+
+<div style="position:relative;z-index:3;" class="min-h-screen flex flex-col">
+
+        <!-- Centro: eyebrow + claim pequeño -->
+        <div class="flex-1 flex flex-col items-center justify-center px-6 text-center pt-[20vh]">
+          <h2 class="intro-claim opacity-0 font-sans font-normal text-paper leading-[1.1] tracking-tight"
+              style="font-size: clamp(2rem, 4vw, 4rem)"
+              x-text="t('intro_claim')"></h2>
+          <p class="intro-sub opacity-0 mt-4 font-sans font-light text-paper/55 leading-snug"
+             style="font-size: clamp(1.1rem, 1.8vw, 1.4rem)"
+             x-text="t('intro_sub')"></p>
+        </div>
+
+        <!-- Bottom: "Accelerate Impact" + scroll indicator -->
+        <div class="w-full overflow-hidden">
+          <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+            <div class="intro-word opacity-0 w-full" aria-hidden="false">
+              <p id="intro-word-text" class="font-sans font-normal text-paper whitespace-nowrap"
+                 style="font-size: 6.5vw; letter-spacing: -0.04em; line-height: 1; display:block; width:100%;">
+                Accelerate <em class="italic text-tef-blue font-normal">Impact.</em>
+              </p>
+            </div>
+          </div>
+          <div class="intro-scroll opacity-0 w-full text-center py-6 md:py-8" data-scroll-hide>
+            <div class="inline-flex flex-col items-center gap-3">
+              <span class="font-mono text-[10px] tracking-[0.3em] uppercase text-paper/45" x-text="t('intro_scroll')"></span>
+              <div class="scroll-line" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MANIFIESTO — hashtags + texto + vídeo -->
+    <section class="bg-paper py-20 md:py-28">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+
+        <!-- Dos columnas -->
+        <div class="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 md:gap-20 items-start" data-reveal-stagger data-stagger-delay="0.12">
+
+          <!-- Izquierda: hashtags -->
+          <div class="flex flex-col gap-4" data-stagger-item>
+            <p class="font-sans font-normal text-tef-blue leading-tight" style="font-size: clamp(1.1rem, 1.8vw, 1.9rem)" x-text="t('mf_tag1')"></p>
+            <p class="font-sans font-normal text-tef-blue leading-tight" style="font-size: clamp(1.1rem, 1.8vw, 1.9rem)" x-text="t('mf_tag2')"></p>
+            <p class="font-sans font-normal text-tef-blue leading-tight" style="font-size: clamp(1.1rem, 1.8vw, 1.9rem)">
+              <span x-text="lang==='es' ? '#Responsabilidad' : '#Shared'"></span><br>
+              <span class="inline-block" style="padding-left:1.1ch" x-text="lang==='es' ? 'compartida' : 'responsibility'"></span>
+            </p>
+          </div>
+
+          <!-- Derecha: manifiesto -->
+          <div data-stagger-item class="space-y-8">
+            <p class="font-sans font-normal italic text-ink leading-[1.15]" style="font-size: clamp(1.1rem, 1.8vw, 1.9rem)">
+              <span x-text="t('mf_l1')"></span><br>
+              <span x-text="t('mf_l2')"></span>
+            </p>
+            <p class="font-sans font-normal italic text-ink leading-[1.15]" style="font-size: clamp(1.1rem, 1.8vw, 1.9rem)">
+              <span x-text="t('mf_l3')"></span><br>
+              <span x-text="t('mf_l4')"></span>
+            </p>
+            <p class="font-sans font-normal italic text-ink leading-[1.15]" style="font-size: clamp(1.1rem, 1.8vw, 1.9rem)" x-text="t('mf_l5')"></p>
+          </div>
+
+        </div>
+
+        <!-- Placeholder vídeo — oculto hasta que recibamos el vídeo -->
+        <div class="mt-16 md:mt-24 hidden" data-reveal="up">
+          <div class="relative w-full bg-ink/5 border border-ink/10 flex items-center justify-center overflow-hidden"
+               style="aspect-ratio: 16/9;">
+            <!-- Icono play -->
+            <div class="flex flex-col items-center gap-4 text-ink-mute">
+              <div class="w-16 h-16 rounded-full border border-ink/20 flex items-center justify-center">
+                <svg class="w-6 h-6 translate-x-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <p class="font-mono text-[11px] tracking-[0.2em] uppercase" x-text="t('video_soon')"></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4 BLOQUES WHY / HOW / WHAT / EXPECT — horizontal scroll pinned -->
+    <section id="hscroll-section" class="bg-paper-warm overflow-hidden" data-accelerate-section>
+
+      <!-- Wrapper pinned — la altura controla cuánto scroll hay -->
+      <div id="hscroll-pin">
+
+        <!-- Header fijo dentro del pin -->
+        <div class="px-6 md:px-12 lg:px-16 pt-16 md:pt-20 pb-10 max-w-[1920px] mx-auto relative" data-accelerate-header>
+          <div class="flex items-end justify-between gap-8">
+            <h2 class="font-sans font-normal tracking-tight text-ink leading-[0.95] accelerate-title"
+                style="font-size: clamp(2rem, 4.5vw, 5.2rem)">
+              <span x-text="t('community_title_l1')">La Comunidad de Líderes</span><br><em class="font-normal italic text-tef-blue" style="letter-spacing:-0.02em" x-text="t('community_title_l2')">de Indra</em>
+            </h2>
+            <!-- Número activo — alineado a la base del título, cambia con blur -->
+            <span id="hscroll-active-num" class="font-sans font-normal text-tef-blue leading-none flex-shrink-0 select-none"
+                  style="font-size: clamp(48px, 11vw, 150px); letter-spacing:-0.05em; line-height:0.9;">01</span>
+          </div>
+
+          <!-- Tabs -->
+          <div class="flex items-center gap-1 mt-6 md:mt-8 flex-wrap" id="hscroll-tabs">
+            <button data-tab="0" class="hscroll-tab font-mono text-[10px] md:text-[12px] tracking-[0.15em] md:tracking-[0.2em] uppercase px-3 md:px-5 py-1.5 md:py-2 border transition-all duration-200 border-tef-blue bg-tef-blue text-white">Why</button>
+            <button data-tab="1" class="hscroll-tab font-mono text-[10px] md:text-[12px] tracking-[0.15em] md:tracking-[0.2em] uppercase px-3 md:px-5 py-1.5 md:py-2 border transition-all duration-200 border-ink/15 text-ink/50 hover:text-ink hover:border-ink/30">How</button>
+            <button data-tab="2" class="hscroll-tab font-mono text-[10px] md:text-[12px] tracking-[0.15em] md:tracking-[0.2em] uppercase px-3 md:px-5 py-1.5 md:py-2 border transition-all duration-200 border-ink/15 text-ink/50 hover:text-ink hover:border-ink/30">What</button>
+            <button data-tab="3" class="hscroll-tab font-mono text-[10px] md:text-[12px] tracking-[0.15em] md:tracking-[0.2em] uppercase px-3 md:px-5 py-1.5 md:py-2 border transition-all duration-200 border-ink/15 text-ink/50 hover:text-ink hover:border-ink/30">Expect</button>
+          </div>
+        </div>
+
+        <!-- Track horizontal -->
+        <div class="relative overflow-hidden">
+          <div id="hscroll-track" class="flex pb-10" style="width: max-content; padding-right: 4rem;">
+
+            <!-- WHY -->
+            <article class="hscroll-card flex-shrink-0 w-[85vw] md:w-[78vw] lg:w-[68vw] flex flex-col md:flex-row">
+              <div class="md:hidden w-full overflow-hidden flex-shrink-0" style="height:44vw; max-height:240px;">
+                <img src="images/content/La Comunidad de Líderes 01 - man-jumps-into-air-with-sun-him.jpg" alt="Why" class="w-full h-full object-cover">
+              </div>
+              <span class="hidden md:block flex-shrink-0 self-start w-px bg-ink/20 mx-5 hscroll-card-img"></span>
+              <div class="hidden md:block flex-shrink-0 overflow-hidden self-start hscroll-card-img" style="aspect-ratio:32/27;">
+                <img src="images/content/La Comunidad de Líderes 01 - man-jumps-into-air-with-sun-him.jpg" alt="Why" class="w-full h-full object-cover">
+              </div>
+              <div class="flex flex-col flex-1 px-6 md:px-8 pt-6 md:pt-0 pb-6">
+                <p class="font-mono text-[11px] tracking-[0.25em] uppercase mb-4 flex items-center gap-2"><span class="text-tef-blue" x-text="t('b_why_label')"></span></p>
+                <h3 class="font-sans font-normal text-xl md:text-3xl lg:text-4xl leading-[1.05] tracking-tight text-ink mb-4" x-text="t('b_why_title')"></h3>
+                <p class="text-[20px] text-ink-soft leading-relaxed" x-html="t('b_why_body')"></p>
+              </div>
+            </article>
+
+            <!-- HOW -->
+            <article class="hscroll-card flex-shrink-0 w-[85vw] md:w-[78vw] lg:w-[68vw] flex flex-col md:flex-row">
+              <div class="md:hidden w-full overflow-hidden flex-shrink-0" style="height:44vw; max-height:240px;">
+                <img src="images/content/La Comunidad de Líderes 02 - hologram-projector-screen-with-futuristic-technology.png" alt="How" class="w-full h-full object-cover">
+              </div>
+              <span class="hidden md:block flex-shrink-0 self-start w-px bg-ink/20 mx-5 hscroll-card-img"></span>
+              <div class="hidden md:block flex-shrink-0 overflow-hidden self-start hscroll-card-img" style="aspect-ratio:32/27;">
+                <img src="images/content/La Comunidad de Líderes 02 - hologram-projector-screen-with-futuristic-technology.png" alt="How" class="w-full h-full object-cover">
+              </div>
+              <div class="flex flex-col flex-1 px-6 md:px-8 pt-6 md:pt-0 pb-6">
+                <p class="font-mono text-[11px] tracking-[0.25em] uppercase mb-4 flex items-center gap-2"><span class="text-tef-blue" x-text="t('b_how_label')"></span></p>
+                <h3 class="font-sans font-normal text-xl md:text-3xl lg:text-4xl leading-[1.05] tracking-tight text-ink mb-4" x-text="t('b_how_title')"></h3>
+                <p class="text-[20px] text-ink-soft leading-relaxed mb-6 md:mb-8" x-html="t('b_how_body')"></p>
+
+                <a href="lider-indra"
+                   class="group self-start inline-flex items-center gap-2 bg-tef-blue text-white px-4 py-2 text-[11px] font-mono tracking-[0.18em] uppercase hover:bg-blue-700 transition-colors">
+                  <span x-text="lang==='es' ? 'El Líder Indra' : 'The Indra Leader'"></span>
+                  <span class="text-[14px] leading-none">+</span>
+                </a>
+              </div>
+            </article>
+
+            <!-- WHAT -->
+            <article class="hscroll-card flex-shrink-0 w-[85vw] md:w-[78vw] lg:w-[68vw] flex flex-col md:flex-row">
+              <div class="md:hidden w-full overflow-hidden flex-shrink-0" style="height:44vw; max-height:240px;">
+                <img src="https://images.unsplash.com/photo-1712844470079-d9cc7ebd69a5?w=1600&q=90&fit=crop&crop=center" alt="What" class="w-full h-full object-cover">
+              </div>
+              <span class="hidden md:block flex-shrink-0 self-start w-px bg-ink/20 mx-5 hscroll-card-img"></span>
+              <div class="hidden md:block flex-shrink-0 overflow-hidden self-start hscroll-card-img" style="aspect-ratio:32/27;">
+                <img src="https://images.unsplash.com/photo-1712844470079-d9cc7ebd69a5?w=1600&q=90&fit=crop&crop=center" alt="What" class="w-full h-full object-cover">
+              </div>
+              <div class="flex flex-col flex-1 px-6 md:px-8 pt-6 md:pt-0 pb-6">
+                <p class="font-mono text-[11px] tracking-[0.25em] uppercase mb-4 flex items-center gap-2"><span class="text-tef-blue" x-text="t('b_what_label')"></span></p>
+                <h3 class="font-sans font-normal text-xl md:text-3xl lg:text-4xl leading-[1.05] tracking-tight text-ink mb-4" x-text="t('b_what_title')"></h3>
+                <div class="text-[20px] text-ink-soft leading-relaxed" x-html="t('b_what_body')"></div>
+              </div>
+            </article>
+
+            <!-- EXPECT -->
+            <article class="hscroll-card flex-shrink-0 w-[85vw] md:w-[78vw] lg:w-[68vw] flex flex-col md:flex-row">
+              <div class="md:hidden w-full overflow-hidden flex-shrink-0" style="height:44vw; max-height:240px;">
+                <img src="images/content/La Comunidad de Líderes 01 - edit young-girl-dreams-fantasizes-pretends-step-cloud-walking-along-parapet.png" alt="Expect" class="w-full h-full object-cover">
+              </div>
+              <span class="hidden md:block flex-shrink-0 self-start w-px bg-ink/20 mx-5 hscroll-card-img"></span>
+              <div class="hidden md:block flex-shrink-0 overflow-hidden self-start hscroll-card-img" style="aspect-ratio:32/27;">
+                <img src="images/content/La Comunidad de Líderes 01 - edit young-girl-dreams-fantasizes-pretends-step-cloud-walking-along-parapet.png" alt="Expect" class="w-full h-full object-cover">
+              </div>
+              <div class="flex flex-col flex-1 px-6 md:px-8 pt-6 md:pt-0 pb-6">
+                <p class="font-mono text-[11px] tracking-[0.25em] uppercase mb-4 flex items-center gap-2"><span class="text-tef-blue" x-text="t('b_exp_label')"></span></p>
+                <h3 class="font-sans font-normal text-xl md:text-3xl lg:text-4xl leading-[1.05] tracking-tight text-ink mb-4" x-text="t('b_exp_title')"></h3>
+                <p class="text-[20px] text-ink-soft leading-relaxed" x-html="t('b_exp_body')"></p>
+              </div>
+            </article>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PREGUNTAS — sección clara -->
+    <section class="bg-paper-warm text-ink pt-40 pb-20 md:pt-64 md:pb-28" data-questions-section>
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+
+          <!-- Izquierda: título grande sticky -->
+          <div class="lg:sticky lg:top-28" data-reveal="up">
+            <h2 class="font-sans font-normal tracking-tight leading-[0.95]"
+                style="font-size: clamp(2rem, 4.5vw, 5.2rem)">
+              <span class="text-tef-blue">Accelerate Impact</span><br>
+              <em class="font-normal italic text-ink" x-text="t('ai_intro')"></em>
+            </h2>
+          </div>
+
+          <!-- Derecha: stacking cards con scroll -->
+          <div data-stack-cards>
+
+            <!-- Card 01 — número izquierda -->
+            <article class="relative w-full bg-paper border border-ink/10 px-10 py-10"
+                     style="position:sticky;top:5.5rem;z-index:1;box-shadow:0 2px 20px rgba(3,26,52,0.06);"
+                     data-stack-card>
+              <span class="absolute top-3 left-3 w-4 h-4 border-t border-l border-ink/30"></span>
+              <span class="absolute top-3 right-3 w-4 h-4 border-t border-r border-ink/30"></span>
+              <span class="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-ink/30"></span>
+              <span class="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-ink/30"></span>
+              <div class="flex items-center gap-8">
+                <span class="font-normal text-6xl tracking-[-0.03em] text-tef-blue leading-none shrink-0">01</span>
+                <p class="font-sans font-normal italic text-ink leading-snug"
+                   style="font-size: clamp(1.1rem, 1.8vw, 1.75rem)" x-text="t('ai_q1')"></p>
+              </div>
+            </article>
+            <div style="height:8vh" aria-hidden="true"></div>
+
+            <!-- Card 02 — número derecha -->
+            <article class="relative w-full bg-paper border border-ink/10 px-10 py-10"
+                     style="position:sticky;top:5.5rem;z-index:2;box-shadow:0 2px 20px rgba(3,26,52,0.06);"
+                     data-stack-card>
+              <span class="absolute top-3 left-3 w-4 h-4 border-t border-l border-ink/30"></span>
+              <span class="absolute top-3 right-3 w-4 h-4 border-t border-r border-ink/30"></span>
+              <span class="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-ink/30"></span>
+              <span class="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-ink/30"></span>
+              <div class="flex items-center gap-8">
+                <p class="font-sans font-normal italic text-ink leading-snug flex-1"
+                   style="font-size: clamp(1.1rem, 1.8vw, 1.75rem)" x-text="t('ai_q2')"></p>
+                <span class="font-normal text-6xl tracking-[-0.03em] text-tef-blue leading-none shrink-0">02</span>
+              </div>
+            </article>
+            <div style="height:8vh" aria-hidden="true"></div>
+
+            <!-- Card 03 — número izquierda -->
+            <article class="relative w-full bg-paper border border-ink/10 px-10 py-10"
+                     style="position:sticky;top:5.5rem;z-index:3;box-shadow:0 2px 20px rgba(3,26,52,0.06);"
+                     data-stack-card>
+              <span class="absolute top-3 left-3 w-4 h-4 border-t border-l border-ink/30"></span>
+              <span class="absolute top-3 right-3 w-4 h-4 border-t border-r border-ink/30"></span>
+              <span class="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-ink/30"></span>
+              <span class="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-ink/30"></span>
+              <div class="flex items-center gap-8">
+                <span class="font-normal text-6xl tracking-[-0.03em] text-tef-blue leading-none shrink-0">03</span>
+                <p class="font-sans font-normal italic text-ink leading-snug"
+                   style="font-size: clamp(1.1rem, 1.8vw, 1.75rem)" x-text="t('ai_q3')"></p>
+              </div>
+            </article>
+            <div style="height:8vh" aria-hidden="true"></div>
+
+            <!-- Card 04 — número derecha -->
+            <article class="relative w-full bg-paper border border-ink/10 px-10 py-10"
+                     style="position:sticky;top:5.5rem;z-index:4;box-shadow:0 4px 28px rgba(3,26,52,0.1);"
+                     data-stack-card>
+              <span class="absolute top-3 left-3 w-4 h-4 border-t border-l border-ink/30"></span>
+              <span class="absolute top-3 right-3 w-4 h-4 border-t border-r border-ink/30"></span>
+              <span class="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-ink/30"></span>
+              <span class="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-ink/30"></span>
+              <div class="flex items-center gap-8">
+                <p class="font-sans font-normal italic text-ink leading-snug flex-1"
+                   style="font-size: clamp(1.1rem, 1.8vw, 1.75rem)" x-text="t('ai_q4')"></p>
+                <span class="font-normal text-6xl tracking-[-0.03em] text-tef-blue leading-none shrink-0">04</span>
+              </div>
+            </article>
+            <div style="height:8vh" aria-hidden="true"></div>
+
+            <!-- Card 05 — número izquierda -->
+            <article class="relative w-full bg-paper border border-ink/10 px-10 py-10"
+                     style="position:sticky;top:5.5rem;z-index:5;box-shadow:0 4px 28px rgba(3,26,52,0.1);"
+                     data-stack-card>
+              <span class="absolute top-3 left-3 w-4 h-4 border-t border-l border-ink/30"></span>
+              <span class="absolute top-3 right-3 w-4 h-4 border-t border-r border-ink/30"></span>
+              <span class="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-ink/30"></span>
+              <span class="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-ink/30"></span>
+              <div class="flex items-center gap-8">
+                <span class="font-normal text-6xl tracking-[-0.03em] text-tef-blue leading-none shrink-0">05</span>
+                <p class="font-sans font-normal italic text-ink leading-snug"
+                   style="font-size: clamp(1.1rem, 1.8vw, 1.75rem)" x-text="t('ai_q5')"></p>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMUNIDAD — sección oscura: esencia + globo -->
+    <section class="globe-section text-paper py-20 md:py-28" data-nav-dark data-globe-section x-data="globeSection()">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+
+        <!-- TÍTULO full-width -->
+        <div class="mb-14 md:mb-18" data-reveal="up">
+          <h2 class="font-sans font-normal tracking-tight leading-[0.95]"
+              style="font-size: clamp(2rem, 4.5vw, 5.2rem)">
+            <em class="font-normal italic text-paper" x-text="t('ai_essence_label')"></em>
+          </h2>
+        </div>
+
+        <!-- ESENCIA LIST — full width -->
+        <ol class="mb-20 md:mb-28">
+          <li class="flex items-start gap-5 py-3 border-t border-paper/10" data-stagger-item>
+            <span class="font-mono text-[10px] tracking-[0.2em] text-tef-blue/50 mt-2 flex-shrink-0 w-5">01</span>
+            <span class="text-xl md:text-2xl text-paper/75 leading-snug" x-text="t('ai_e1')"></span>
+          </li>
+          <li class="flex items-start gap-5 py-3 border-t border-paper/10" data-stagger-item>
+            <span class="font-mono text-[10px] tracking-[0.2em] text-tef-blue/50 mt-2 flex-shrink-0 w-5">02</span>
+            <span class="text-xl md:text-2xl text-paper/75 leading-snug" x-text="t('ai_e2')"></span>
+          </li>
+          <li class="flex items-start gap-5 py-3 border-t border-paper/10" data-stagger-item>
+            <span class="font-mono text-[10px] tracking-[0.2em] text-tef-blue/50 mt-2 flex-shrink-0 w-5">03</span>
+            <span class="text-xl md:text-2xl text-paper/75 leading-snug" x-text="t('ai_e3')"></span>
+          </li>
+          <li class="flex items-start gap-5 py-3 border-t border-paper/10" data-stagger-item>
+            <span class="font-mono text-[10px] tracking-[0.2em] text-tef-blue/50 mt-2 flex-shrink-0 w-5">04</span>
+            <span class="text-xl md:text-2xl text-paper/50 leading-snug italic" x-text="t('ai_e4')"></span>
+          </li>
+          <li class="flex items-start gap-5 py-3 border-t border-paper/10 border-b border-paper/10" data-stagger-item>
+            <span class="font-mono text-[10px] tracking-[0.2em] text-tef-blue/50 mt-2 flex-shrink-0 w-5">05</span>
+            <span class="font-sans font-normal text-tef-blue leading-snug" style="font-size: clamp(1.4rem, 2.4vw, 2.6rem)"
+                  x-text="t('ai_e5')"></span>
+          </li>
+        </ol>
+
+        <!-- GLOBO + COMUNIDAD — dos columnas -->
+        <div class="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center" data-reveal="up">
+
+          <!-- Izquierda: globo + tabs países -->
+          <div class="w-full lg:w-[48%] flex flex-col items-center">
+            <div id="globeViz" aria-label="Global cohort distribution" class="w-full"></div>
+            <!-- Label país activo -->
+            <div x-show="active" x-transition.opacity class="text-center mt-3" style="display:none" x-cloak>
+              <p class="font-mono text-[10px] tracking-[0.25em] uppercase text-[#7FB3FF] mb-0.5" x-text="active?.region || ''"></p>
+              <h4 class="font-sans text-base text-paper leading-tight" x-text="(lang==='es' ? active?.name_es : active?.name) || ''"></h4>
+            </div>
+            <!-- Tabs países -->
+            <div class="flex flex-wrap justify-center gap-2 mt-5">
+              <template x-for="c in countries" :key="c.code">
+                <button @click="flyTo(c)"
+                        class="font-mono text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 border transition-all duration-200"
+                        :class="active?.code === c.code
+                          ? 'border-tef-blue bg-tef-blue text-white'
+                          : 'border-paper/20 text-paper/50 hover:text-paper hover:border-paper/40'"
+                        x-text="lang==='es' ? c.name_es : c.name">
+                </button>
+              </template>
+            </div>
+          </div>
+
+          <!-- Derecha: Connect with peers -->
+          <div class="w-full lg:w-[52%] lg:border-l lg:border-paper/10 lg:pl-16 pt-10 lg:pt-0 border-t border-paper/10 lg:border-t-0">
+            <h3 class="font-sans font-normal text-3xl md:text-4xl leading-[1.05] tracking-tight mb-3" x-text="t('cohort_title')"></h3>
+            <p class="text-[17px] text-paper/70 mb-8" x-html="t('cohort_body')"></p>
+
+            <div class="flex items-start gap-4 border-l-2 border-tef-blue/60 bg-paper/[0.04] px-5 py-4">
+              <svg class="w-5 h-5 text-tef-blue flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="1.5"/>
+                <path d="M3 7l9 6 9-6"/>
+              </svg>
+              <p class="text-[14px] text-paper/85 leading-relaxed" x-text="t('cohort_notice')"></p>
+            </div>
+
+            <a href="journey"
+               class="mt-6 inline-flex items-center gap-2 text-paper/40 hover:text-tef-blue transition-colors group">
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase"
+                    x-text="lang==='es' ? 'Conoce tu journey en detalle' : 'Explore your journey in detail'"></span>
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="site-footer" class="bg-tef-dark text-paper mt-auto relative z-[1]"></footer>
+
+  <!-- GLOBE logic (Alpine component) -->
+  <script>
+    function globeSection() {
+      // Datos dummy de la comunidad de líderes — reemplazables cuando Indra pase la lista cerrada
+      const countries = [
+        { code: 'ES', name: 'Spain',         name_es: 'España',   region: 'Europe',        lat: 40.42,  lng: -3.70,  count: 78, url: '#' },
+        { code: 'BR', name: 'Brazil',        name_es: 'Brasil',   region: 'Latin America', lat: -15.79, lng: -47.88, count: 32, url: '#' },
+        { code: 'DE', name: 'Germany',       name_es: 'Alemania', region: 'Europe',        lat: 52.52,  lng: 13.40,  count: 18, url: '#' },
+        { code: 'GB', name: 'United Kingdom',name_es: 'Reino Unido', region: 'Europe',     lat: 51.51,  lng: -0.13,  count: 12, url: '#' }
+      ];
+
+      return {
+        countries,
+        active: null,
+        stats: { total: 0, countries: 0 },
+        _globe: null,
+        _animationId: null,
+        _targetTotal: 0,
+        _targetCountries: 0,
+
+        init() {
+          // Compute totals
+          this._targetTotal = countries.reduce((s,c) => s + c.count, 0);
+          this._targetCountries = countries.length;
+
+          this.$nextTick(() => {
+            this.animateStats();
+            // Lazy init globe when section enters viewport
+            const io = new IntersectionObserver((entries) => {
+              entries.forEach(e => {
+                if (e.isIntersecting && !this._globe) {
+                  this.initGlobe();
+                  io.disconnect();
+                }
+              });
+            }, { threshold: 0.1 });
+            io.observe(this.$el);
+          });
+        },
+
+        animateStats() {
+          const duration = 1800;
+          const start = performance.now();
+          const tick = (now) => {
+            const t = Math.min(1, (now - start) / duration);
+            const ease = 1 - Math.pow(1 - t, 3);
+            this.stats.total = Math.round(this._targetTotal * ease);
+            this.stats.countries = Math.round(this._targetCountries * ease);
+            if (t < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        },
+
+        initGlobe() {
+          if (typeof Globe === 'undefined') {
+            // Libs not yet loaded — retry
+            setTimeout(() => this.initGlobe(), 200);
+            return;
+          }
+
+          const el = document.getElementById('globeViz');
+          if (!el) return;
+
+          const participantCountries = new Set(this.countries.map(c => c.code));
+
+          // Custom HTML markers (pulse dots) for each country
+          const markers = this.countries.map(c => ({
+            ...c,
+            size: 0.6 + Math.log(c.count + 1) * 0.35
+          }));
+
+          const globeH = el.clientHeight || Math.min(Math.round(window.innerWidth * 0.9), 360);
+          const world = Globe()(el)
+            .backgroundColor('rgba(0,0,0,0)')
+            .showGlobe(true)
+            .showAtmosphere(true)
+            .atmosphereColor('#00B0BD')
+            .atmosphereAltitude(0.22)
+            .globeImageUrl(null)
+            .width(el.clientWidth)
+            .height(globeH);
+
+          // Ocean — deep navy, darker than the section background (#020914)
+          const globeMat = world.globeMaterial();
+          globeMat.color = new THREE.Color(0x000610);
+          globeMat.emissive = new THREE.Color(0x00030a);
+          globeMat.emissiveIntensity = 0.12;
+          globeMat.shininess = 0.6;
+
+          // Soften directional light so countries read evenly
+          const scene = world.scene();
+          scene.children.forEach(obj => {
+            if (obj.isDirectionalLight) obj.intensity = 0.6;
+            if (obj.isAmbientLight) obj.intensity = 0.95;
+          });
+
+          // Fetch countries GeoJSON (simplified 110m)
+          fetch('data/ne_110m_countries.geojson')
+            .then(r => r.json())
+            .then(geo => {
+              world
+                .polygonsData(geo.features.filter(f => f.properties.ISO_A2 !== 'AQ'))
+                .polygonAltitude(feat => {
+                  const iso = feat.properties.ISO_A2;
+                  return participantCountries.has(iso) ? 0.012 : 0.006;
+                })
+                .polygonCapColor(feat => {
+                  const iso = feat.properties.ISO_A2;
+                  if (participantCountries.has(iso)) {
+                    const c = this.countries.find(x => x.code === iso);
+                    const intensity = Math.min(1, c.count / 80);
+                    return `rgba(0, 102, 255, ${0.55 + intensity * 0.35})`;
+                  }
+                  return 'rgba(247, 247, 255, 0.82)';
+                })
+                .polygonSideColor(() => 'rgba(0, 20, 60, 0.35)')
+                .polygonStrokeColor(() => 'rgba(3, 26, 52, 0.4)')
+                .polygonLabel(feat => {
+                  const iso = feat.properties.ISO_A2;
+                  const c = this.countries.find(x => x.code === iso);
+                  if (!c) return '';
+                  const nm = this.lang === 'es' ? c.name_es : c.name;
+                  return `<div class="globe-tooltip">
+                    <div class="tt-name">${nm}</div>
+                    <div class="tt-hint">${c.region}</div>
+                  </div>`;
+                })
+                .onPolygonClick(feat => {
+                  const iso = feat.properties.ISO_A2;
+                  const c = this.countries.find(x => x.code === iso);
+                  if (c) this.flyTo(c);
+                })
+                .onPolygonHover(hoverD => {
+                  el.style.cursor = hoverD && participantCountries.has(hoverD.properties.ISO_A2) ? 'pointer' : 'grab';
+                });
+            })
+            .catch(err => console.warn('Globe GeoJSON load failed:', err));
+
+          // Glowing ring markers per participant country
+          world
+            .ringsData(markers)
+            .ringLat('lat').ringLng('lng')
+            .ringColor(() => (t) => `rgba(0,102,255,${1 - t})`)
+            .ringMaxRadius(d => d.size * 3)
+            .ringPropagationSpeed(1.2)
+            .ringRepeatPeriod(1800)
+            .ringAltitude(0.016);
+
+          // Point labels with count
+          world
+            .pointsData(markers)
+            .pointLat('lat').pointLng('lng')
+            .pointColor(() => '#00B0BD')
+            .pointAltitude(d => 0.018 + d.size * 0.008)
+            .pointRadius(d => 0.22 + d.size * 0.08)
+            .pointLabel(d => {
+              const nm = this.lang === 'es' ? d.name_es : d.name;
+              return `<div class="globe-tooltip">
+                <div class="tt-name">${nm}</div>
+                <div class="tt-hint">${d.region}</div>
+              </div>`;
+            })
+            .onPointClick(d => this.flyTo(d));
+
+          // Auto-rotate
+          const controls = world.controls();
+          controls.autoRotate = true;
+          controls.autoRotateSpeed = 0.35;
+          controls.enableZoom = true;
+          controls.minDistance = 200;
+          controls.maxDistance = 500;
+
+          // Pause auto-rotate when globe is off-screen (saves CPU)
+          const visObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => { controls.autoRotate = e.isIntersecting && !this.active; });
+          }, { threshold: 0.1 });
+          visObs.observe(this.$el);
+
+          // Pause rotation when user interacts
+          let userActive = false;
+          controls.addEventListener('start', () => {
+            userActive = true;
+            controls.autoRotate = false;
+          });
+          controls.addEventListener('end', () => {
+            setTimeout(() => {
+              if (!this.active) controls.autoRotate = true;
+            }, 2500);
+          });
+
+          // Initial camera angle — tilted towards Atlantic (Spain + Latam visible)
+          // Start zoomed out for cinematic entry
+          world.pointOfView({ lat: 20, lng: -30, altitude: 3.6 }, 0);
+
+          // Expose globally so ScrollTrigger can scrub camera altitude
+          window.__globeInstance = world;
+          window.dispatchEvent(new CustomEvent('globe:ready'));
+
+          // Responsive resize
+          const ro = new ResizeObserver(() => {
+            world.width(el.clientWidth).height(el.clientHeight);
+          });
+          ro.observe(el);
+
+          this._globe = world;
+        },
+
+        flyTo(c) {
+          if (!this._globe) return;
+          this.active = c;
+          this._globe.controls().autoRotate = false;
+          this._globe.pointOfView({ lat: c.lat, lng: c.lng, altitude: 2.2 }, 1200);
+        }
+      };
+    }
+  </script>
+
+  <script src="components.js"></script>
+  <script src="scroll.js"></script>
+
+  <!-- Index-specific cinematic choreography -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (typeof gsap === 'undefined') return;
+
+      // Wait for Alpine to hydrate x-text before animating title
+      const run = () => {
+        // ── INTRO · load sequence ─────────────────────────
+        if (!reduced) {
+          const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+          tl.to('.intro-claim', { opacity: 1, duration: 1.1, ease: 'power3.out' }, 0.3)
+            .from('.intro-claim', { y: 30, filter: 'blur(8px)', duration: 1.1 }, 0.3)
+            .to('.intro-sub', { opacity: 1, duration: 1.0, ease: 'power3.out' }, 0.7)
+            .from('.intro-sub', { y: 20, duration: 1.0 }, 0.7)
+            .to('.intro-word', { opacity: 1, duration: 1.2, ease: 'power3.out' }, 1.0)
+            .from('.intro-word', { filter: 'blur(18px)', duration: 1.2, ease: 'power3.out' }, 1.0)
+            .to('.intro-scroll', { opacity: 1, duration: 0.9 }, 1.8)
+            .from('.intro-scroll', { y: -8, duration: 0.9 }, 1.8);
+        } else {
+          gsap.set('.intro-claim, .intro-sub, .intro-scroll', { opacity: 1 });
+        }
+
+        // ── INTRO · scroll exit — solo fade del indicador ──
+        if (!reduced && typeof ScrollTrigger !== 'undefined') {
+          gsap.to('.intro-scroll', {
+            opacity: 0,
+            scrollTrigger: {
+              trigger: '.intro-hero',
+              start: 'top top',
+              end: '+=15%',
+              scrub: 0.4
+            }
+          });
+        }
+
+
+        // ── M3 · Horizontal scroll — 4 bloques Why/How/What/Expect ──
+        if (typeof ScrollTrigger !== 'undefined') {
+          const pin      = document.getElementById('hscroll-pin');
+          const track    = document.getElementById('hscroll-track');
+          const bar      = document.getElementById('hscroll-progress');
+          const barWrap  = document.getElementById('hscroll-progress-wrap');
+          const tabs     = document.querySelectorAll('.hscroll-tab');
+          const activeNum = document.getElementById('hscroll-active-num');
+          const LABELS   = ['01','02','03','04'];
+          let currentIdx = -1;
+
+          if (pin && track && window.innerWidth >= 768) {
+            const getScrollWidth = () => track.scrollWidth - window.innerWidth;
+
+            // Alinear track y ajustar ancho de cards al contenedor del header
+            const headerH2 = document.querySelector('[data-accelerate-header] h2');
+            function alignTrack() {
+              if (!headerH2) return;
+              const h2Left   = headerH2.getBoundingClientRect().left;
+              const sepMx    = 20; // mx-5 = 20px de margen hasta la línea
+              const offset   = Math.max(0, h2Left - sepMx);
+              track.style.paddingLeft = offset + 'px';
+
+              // Ancho de cada card: desde el borde del separator hasta el borde derecho del número
+              const numRight  = activeNum ? activeNum.getBoundingClientRect().right : window.innerWidth - h2Left;
+              const cardWidth = Math.max(300, numRight - offset);
+              track.querySelectorAll('.hscroll-card').forEach(card => {
+                card.style.width = cardWidth + 'px';
+              });
+
+              // Padding derecho mínimo para que la card 04 (índice 3) pueda alinearse con el título:
+              // necesitamos track.scrollWidth - window.innerWidth >= 3 * cardWidth
+              // → paddingRight >= window.innerWidth - numRight
+              const minPadRight = Math.max(64, window.innerWidth - numRight);
+              track.style.paddingRight = minPadRight + 'px';
+            }
+            alignTrack();
+            window.addEventListener('resize', alignTrack);
+
+            function setActiveCard(idx) {
+              if (idx === currentIdx) return;
+              currentIdx = idx;
+
+              // Tab activa
+              tabs.forEach((t, i) => {
+                if (i === idx) {
+                  t.classList.add('border-tef-blue', 'bg-tef-blue', 'text-white');
+                  t.classList.remove('border-ink/15', 'text-ink/50', 'hover:text-ink', 'hover:border-ink/30');
+                } else {
+                  t.classList.remove('border-tef-blue', 'bg-tef-blue', 'text-white');
+                  t.classList.add('border-ink/15', 'text-ink/50', 'hover:text-ink', 'hover:border-ink/30');
+                }
+              });
+
+              // Número con blur transition
+              if (activeNum) {
+                gsap.to(activeNum, {
+                  opacity: 0, filter: 'blur(14px)', duration: 0.18,
+                  onComplete: () => {
+                    activeNum.textContent = LABELS[idx];
+                    gsap.to(activeNum, { opacity: 1, filter: 'blur(0px)', duration: 0.28 });
+                  }
+                });
+              }
+            }
+
+            let hst = ScrollTrigger.create({
+              trigger: pin,
+              start: 'top top',
+              end: () => '+=' + getScrollWidth(),
+              pin: true,
+              pinSpacing: true,
+              scrub: 1,
+              invalidateOnRefresh: true,
+              onEnter:      () => { if (barWrap) barWrap.style.opacity = '1'; },
+              onLeave:      () => { if (barWrap) barWrap.style.opacity = '0'; },
+              onEnterBack:  () => { if (barWrap) barWrap.style.opacity = '1'; },
+              onLeaveBack:  () => { if (barWrap) barWrap.style.opacity = '0'; },
+              onUpdate: (self) => {
+                const total = getScrollWidth();
+                gsap.set(track, { x: -self.progress * total });
+                if (bar) bar.style.width = (self.progress * 100) + '%';
+                const n   = 4;
+                const idx = self.progress >= 1 ? n - 1 : Math.min(Math.floor(self.progress * n), n - 1);
+                setActiveCard(idx);
+              }
+            });
+
+            // Click tab → alinear la línea del card i con el título
+            tabs.forEach((tab) => {
+              tab.addEventListener('click', () => {
+                const i      = parseInt(tab.dataset.tab);
+                const cards  = track.querySelectorAll('.hscroll-card');
+                const cardW  = cards[0] ? cards[0].offsetWidth : 0;
+                const total  = getScrollWidth();
+                // scrollX necesario = i * cardW (la línea i queda sobre el título)
+                const progress = Math.max(0, Math.min(1, (i * cardW) / total));
+                const dest     = hst.start + progress * (hst.end - hst.start);
+                if (window.__lenis) {
+                  window.__lenis.scrollTo(dest, { duration: 0.8 });
+                } else {
+                  window.scrollTo({ top: dest, behavior: 'smooth' });
+                }
+              });
+            });
+
+            // Auto-activar bloque del carrusel desde URL hash (#carousel-N, 1-based)
+            const hashMatch = window.location.hash.match(/^#carousel-(\d+)$/);
+            if (hashMatch) {
+              const idx = parseInt(hashMatch[1]) - 1;
+              if (idx >= 0 && idx < tabs.length) {
+                history.replaceState(null, '', window.location.pathname);
+                setTimeout(() => tabs[idx].click(), 700);
+              }
+            }
+          }
+        }
+
+        // ── M5 · Globe cinematic (scrubbed zoom + title wipes + chip stagger) ──
+        if (!reduced && typeof ScrollTrigger !== 'undefined') {
+          const globeSec = document.querySelector('[data-globe-section]');
+          if (globeSec) {
+            // Titles wipe from opposite sides
+            gsap.from('[data-globe-title-1]', {
+              clipPath: 'inset(0 100% 0 0)',
+              duration: 1.4, ease: 'power3.inOut',
+              scrollTrigger: { trigger: globeSec, start: 'top 80%' }
+            });
+            gsap.from('[data-globe-title-2]', {
+              clipPath: 'inset(0 0 0 100%)',
+              duration: 1.4, ease: 'power3.inOut', delay: 0.2,
+              scrollTrigger: { trigger: globeSec, start: 'top 80%' }
+            });
+
+            // Globe camera altitude scrubbed with scroll progress
+            const applyCameraScrub = () => {
+              if (!window.__globeInstance) return;
+              const w = window.__globeInstance;
+              ScrollTrigger.create({
+                trigger: globeSec,
+                start: 'top 85%',
+                end: 'bottom 40%',
+                scrub: 0.8,
+                onUpdate: (self) => {
+                  // altitude: 3.6 at start → 2.0 at ~60% of scrub
+                  const p = self.progress;
+                  const altitude = Math.max(2.0, 3.6 - p * 1.6);
+                  w.pointOfView({ altitude }, 0);
+                }
+              });
+            };
+            if (window.__globeInstance) applyCameraScrub();
+            else window.addEventListener('globe:ready', applyCameraScrub, { once: true });
+
+            // Country chips stagger
+            const chipsParent = globeSec.querySelector('.country-chip')?.parentElement;
+            if (chipsParent) {
+              const chips = chipsParent.querySelectorAll('.country-chip');
+              gsap.from(chips, {
+                opacity: 0, y: 20, scale: 0.8, filter: 'blur(6px)',
+                duration: 0.6, ease: 'power3.out', stagger: 0.04,
+                scrollTrigger: { trigger: chipsParent, start: 'top 92%' }
+              });
+            }
+
+            // Stats row lift
+            const statsRow = globeSec.querySelector('.grid.grid-cols-3');
+            if (statsRow) {
+              gsap.from(statsRow.children, {
+                y: 60, opacity: 0, scale: 0.9, filter: 'blur(8px)',
+                duration: 1, ease: 'power3.out', stagger: 0.15,
+                scrollTrigger: { trigger: statsRow, start: 'top 92%' }
+              });
+            }
+          }
+        }
+
+        // ── M6 · Cohort + Nadia collision dramática ────
+        if (!reduced && typeof ScrollTrigger !== 'undefined') {
+          const cohortSection = document.querySelector('[data-cohort-nadia]');
+          if (cohortSection) {
+            const [leftCard, rightCard] = cohortSection.querySelectorAll(':scope > div');
+            if (leftCard) {
+              gsap.from(leftCard, {
+                x: -140, opacity: 0, rotate: -2, filter: 'blur(6px)',
+                duration: 1.2, ease: 'power3.out',
+                scrollTrigger: { trigger: cohortSection, start: 'top 82%' }
+              });
+            }
+            if (rightCard) {
+              gsap.from(rightCard, {
+                x: 140, opacity: 0, rotate: 2, filter: 'blur(6px)',
+                duration: 1.2, ease: 'power3.out',
+                scrollTrigger: { trigger: cohortSection, start: 'top 82%' }
+              });
+            }
+          }
+        }
+
+        // ── M7 · Navbar adaptativa — scroll listener unificado pin-aware ──
+        const navbar = document.getElementById('site-navbar');
+        if (navbar) {
+          const darkSections = Array.from(document.querySelectorAll('[data-nav-dark]'));
+          const navH = 80;
+
+          const atmosphere = document.getElementById('darkAtmosphere');
+          const updateNavbar = () => {
+            let isDark = false;
+            const y = window.scrollY;
+            for (const sec of darkSections) {
+              // ¿Está la sección pinned por ScrollTrigger? Si sí, usar su rango de pin
+              let pinned = null;
+              if (typeof ScrollTrigger !== 'undefined') {
+                pinned = ScrollTrigger.getAll().find(st => st.pin && st.trigger === sec);
+              }
+              if (pinned && y >= pinned.start && y <= pinned.end) {
+                isDark = true;
+                break;
+              }
+              // Fallback: geometría natural — la sección ocupa el espacio bajo la navbar
+              // Usar ≤ para cubrir el caso scrollY=0 donde la intro arranca exactamente en y=navH
+              const r = sec.getBoundingClientRect();
+              if (r.top <= navH + 1 && r.bottom > navH) {
+                isDark = true;
+                break;
+              }
+            }
+            navbar.classList.toggle('nav-on-dark', isDark);
+            if (atmosphere) atmosphere.classList.toggle('visible', isDark);
+          };
+
+          window.addEventListener('scroll', updateNavbar, { passive: true });
+          // Lenis no dispara scroll nativo — registrar cuando esté listo (window.load)
+          window.addEventListener('load', () => {
+            if (window.__lenis) window.__lenis.on('scroll', updateNavbar);
+          }, { once: true });
+          // Evaluar al arranque y tras ScrollTrigger.refresh
+          updateNavbar();
+          // Refresh completo después de que todo cargue (Lenis + fuentes + imágenes)
+          window.addEventListener('load', () => {
+            setTimeout(() => {
+              if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+              updateNavbar();
+            }, 200);
+          }, { once: true });
+        }
+        // ── Global scroll progress bar (hidden during intro) ──
+        if (typeof ScrollTrigger !== 'undefined') {
+          const bar = document.getElementById('scrollProgress');
+          if (bar) {
+            const introH = () => (document.querySelector('.intro-hero')?.offsetHeight || 800) * 0.7;
+            ScrollTrigger.create({
+              start: 0,
+              end: () => document.documentElement.scrollHeight - window.innerHeight,
+              onUpdate: (self) => {
+                bar.style.transform = `scaleX(${self.progress})`;
+                const scrolled = self.progress * (document.documentElement.scrollHeight - window.innerHeight);
+                bar.classList.toggle('visible', scrolled > introH());
+              }
+            });
+          }
+        }
+      };
+
+      if (document.querySelector('[x-data]') && !window.Alpine) {
+        document.addEventListener('alpine:initialized', run, { once: true });
+      } else {
+        run();
+      }
+    });
+  </script>
+
+  <!-- Alinea el track horizontal con el margen del header -->
+  <script>
+    (function alignHscroll() {
+      function align() {
+        const header = document.querySelector('[data-accelerate-header]');
+        const track  = document.getElementById('hscroll-track');
+        if (!header || !track) return;
+        const rect = header.getBoundingClientRect();
+        const pl   = parseFloat(getComputedStyle(header).paddingLeft) || 0;
+        track.style.paddingLeft = (rect.left + pl) + 'px';
+      }
+      align();
+      window.addEventListener('resize', align);
+    })();
+  </script>
+
+  <!-- Fit "Accelerate Impact." al 100% del viewport -->
+  <script>
+    (function fitIntroWord() {
+      const el = document.getElementById('intro-word-text');
+      if (!el) return;
+      function fit() {
+        el.style.fontSize = '300px';           /* tamaño grande de referencia */
+        const naturalWidth = el.scrollWidth;   /* cuánto mide el texto a 300px */
+        const containerWidth = el.parentElement.clientWidth; /* ancho del max-w container */
+        const newSize = (containerWidth / naturalWidth) * 300 * 0.99;
+        el.style.fontSize = newSize + 'px';
+      }
+      /* Esperar a que la fuente cargue para medir bien */
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(fit);
+      } else {
+        window.addEventListener('load', fit);
+      }
+      window.addEventListener('resize', fit);
+    })();
+  </script>
+</body>
+</html>

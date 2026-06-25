@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es" x-data="{
+  lang: localStorage.getItem('lang') || 'es',
+  page: 'modelo',
+  init() {
+    this.$watch('lang', v => localStorage.setItem('lang', v));
+  },
+  t(key) {
+    return i18n[key] ? (i18n[key][this.lang] || i18n[key]['es']) : key;
+  }
+}">
+<head>
+  <style id="page-cloak">html{background:#E3E2DA}html:not(.loaded) body{opacity:0!important}html:not(.loaded) #site-navbar,html:not(.loaded) #site-footer{opacity:0!important}html:not(.loaded) .reveal{animation:none!important;opacity:0!important;transform:none!important}body{transition:opacity .25s ease}</style>
+  <meta name="view-transition" content="same-origin" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modelo — Accelerate Impact</title>
+  <meta name="description" content="Un lenguaje común. Tres actitudes, seis comportamientos." />
+  <link rel="icon" type="image/svg+xml" href="images/brand/favicon_indra.svg" />
+  <link rel="apple-touch-icon" href="images/brand/favicon_indra.svg" />
+  <link rel="canonical" href="https://accelerateimpact.es/modelo" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Accelerate Impact" />
+  <meta property="og:url" content="https://accelerateimpact.es/modelo" />
+  <meta property="og:title" content="Modelo de Liderazgo — Accelerate Impact" />
+  <meta property="og:description" content="Un lenguaje común. Tres actitudes, seis comportamientos." />
+  <meta property="og:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <meta property="og:image:width" content="8000" />
+  <meta property="og:image:height" content="4500" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Modelo de Liderazgo — Accelerate Impact" />
+  <meta name="twitter:description" content="Un lenguaje común. Tres actitudes, seis comportamientos." />
+  <meta name="twitter:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+                        tef: { blue: '#00B0BD', dark: '#002532', light: '#C2D2D6' },
+            ink: { DEFAULT: '#002532', soft: '#2B3447', mute: '#58617A' },
+            paper: { DEFAULT: '#E3E2DA', warm: '#D8D7CE', deep: '#002532' }
+          },
+                    fontFamily: {
+            sans: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            display: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            mono: ['"Indra Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+    *, *::before, *::after { font-family: "Indra Sans", sans-serif !important; }
+    body, p, span, a, li, td, th, label, input, button, textarea, select { font-family: "Indra Sans", sans-serif !important; }
+    html, body, * { font-feature-settings: normal !important; }
+    .grain { position: relative; }
+    .grain::after { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.5'/></svg>"); opacity: 0.06; mix-blend-mode: overlay; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { animation: fadeUp 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .reveal-1 { animation-delay: 0.05s; }
+    .reveal-2 { animation-delay: 0.15s; }
+    .reveal-3 { animation-delay: 0.25s; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script>
+    const i18n = {
+      nav_modelo: { es: 'Modelo', en: 'Model' },
+      nav_journey: { es: 'Journey', en: 'Journey' },
+      nav_auto: { es: 'Assessment', en: 'Assessment' },
+      nav_agenda: { es: 'Agenda', en: 'Agenda' },
+      nav_info: { es: 'Contacto', en: 'Contact' },
+
+      hero_eyebrow: { es: 'Modelo de Liderazgo', en: 'Leadership Model' },
+      hero_title_1: { es: 'Un lenguaje', en: 'A shared language' },
+      hero_title_2: { es: 'común.', en: 'for us all.' },
+      hero_subtitle: {
+        es: 'Tres actitudes definen a la comunidad de líderes de Indra, expresadas a través de seis comportamientos concretos.',
+        en: 'Three attitudes define the Indra leadership community, expressed through six concrete behaviours.'
+      },
+
+      intro_label: { es: 'Marco', en: 'Framework' },
+      model_intro_text: {
+        es: 'El Modelo de Liderazgo de Indra no es un marco teórico, sino un lenguaje común para la comunidad de líderes. Estas tres actitudes y seis comportamientos definen cómo se espera que actuemos y cómo medimos el impacto del liderazgo en la organización.',
+        en: 'Indra\'s Leadership Model is not a theoretical framework but a common language for the leadership community. These three attitudes and six behaviours define how we are expected to act and how we measure the impact of leadership across the organisation.'
+      },
+
+      block1_title: { es: 'Give Your Best', en: 'Give Your Best' },
+      block1_sub: { es: 'Damos lo mejor de nosotros', en: 'We give our best' },
+      block1_desc: {
+        es: 'La excelencia no es un objetivo puntual, es nuestro estándar diario. Dos comportamientos concretos nos definen en este eje.',
+        en: 'Excellence is not a one-time goal; it is our daily standard. Two concrete behaviours define us in this axis.'
+      },
+      val1a_title: { es: 'Customer First', en: 'Customer First' },
+      val1a_sub: { es: 'Cliente en el centro', en: 'Customer at the center' },
+      val1a_desc: {
+        es: 'Ponemos al cliente en el centro. Ganamos su confianza entendiéndolo, y resolvemos lo que de verdad marca la diferencia, hoy y a largo plazo.',
+        en: 'We put the Customer at the center. We earn trust by understanding the customer, then solving what truly makes a difference, today and for the long term.'
+      },
+      val1b_title: { es: 'Delivering Excellence', en: 'Delivering Excellence' },
+      val1b_sub: { es: 'Excelencia como estándar', en: 'Excellence as our standard' },
+      val1b_desc: {
+        es: 'Hacemos de la excelencia nuestro estándar. La excelencia es nuestra firma y elevamos el listón cuando actuamos como un solo equipo.',
+        en: 'We make Excellence our standard. Excellence is our signature, and we raise the bar when we do it together. One team, all in.'
+      },
+
+      block2_title: { es: 'Challenge Your Limits', en: 'Challenge Your Limits' },
+      block2_sub: { es: 'Cuestionamos nuestros propios límites', en: 'We challenge our own limits' },
+      block2_desc: {
+        es: 'La transformación nace de la valentía para cuestionar el statu quo. Innovamos y tomamos decisiones con claridad.',
+        en: 'Transformation stems from the courage to challenge the status quo. We innovate and make decisions with clarity.'
+      },
+      val2a_title: { es: 'Digital Innovation', en: 'Digital Innovation' },
+      val2a_sub: { es: 'Transformación digital', en: 'Transform and embrace digital' },
+      val2a_desc: {
+        es: 'Transformamos y abrazamos lo digital. Asumimos riesgos inteligentes y experimentamos con tecnología. Las grandes ideas siguen a la curiosidad, no al organigrama.',
+        en: 'We transform and embrace digital. We take smart risks, embrace Digital and experiment. Great ideas follow curiosity, not org charts.'
+      },
+      val2b_title: { es: 'Clarity & Courage', en: 'Clarity & Courage' },
+      val2b_sub: { es: 'Hablar claro y decidir', en: 'Speak up, decide bold' },
+      val2b_desc: {
+        es: 'Hablamos claro y tomamos decisiones con valentía. Valoramos la discusión abierta sobre el consenso pasivo. Las decisiones claras necesitan debate real.',
+        en: 'We speak up and make bold decisions. We value open discussion over passive consensus. Clear decisions need real debate.'
+      },
+
+      block3_title: { es: 'Rise Together', en: 'Rise Together' },
+      block3_sub: { es: 'Nos superamos juntos', en: 'We rise together' },
+      block3_desc: {
+        es: 'El crecimiento colectivo es más potente que el individual. Creamos equipos responsables que se desarrollan mutuamente.',
+        en: 'Collective growth is more powerful than individual. We build accountable teams that develop each other.'
+      },
+      val3a_title: { es: 'Driving Ownership', en: 'Driving Ownership' },
+      val3a_sub: { es: 'Responsabilidad total', en: 'Ownership for results' },
+      val3a_desc: {
+        es: 'Asumimos la responsabilidad de los resultados. Con la misma intensidad y rendición de cuentas, no solo por nuestra parte, sino por el todo.',
+        en: 'We take responsibility for results. With the same intensity and accountability, not just for our part, but for the whole.'
+      },
+      val3b_title: { es: 'Growing People', en: 'Growing People' },
+      val3b_sub: { es: 'Crecer con nuevos retos', en: 'Grow through challenges' },
+      val3b_desc: {
+        es: 'Crecemos asumiendo nuevos retos. Somos una compañía humana. Empujamos el crecimiento y los movimientos valientes por encima del confort.',
+        en: 'We grow by taking on new challenges. We are a human company. We push for growth and bold moves over comfort.'
+      }
+    };
+  </script>
+</head>
+<body class="flex flex-col min-h-screen bg-paper text-ink font-sans antialiased">
+
+  <!-- HEADER -->
+  <header id="site-navbar" class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b border-ink/10"></header>
+
+  <!-- MAIN -->
+  <main class="flex-1">
+
+    <!-- HERO -->
+    <section class="bg-paper-deep text-paper grain relative overflow-hidden" data-nav-dark style="margin-top:-79px;">
+      <div class="relative max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 pt-32 pb-20 md:pt-40 md:pb-28">
+        <div class="grid grid-cols-12 gap-6 items-end">
+          <div class="col-span-12 md:col-span-3 reveal reveal-1">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="w-8 h-px bg-paper/40"></span>
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-paper/60" x-text="t('hero_eyebrow')"></span>
+            </div>
+            <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-paper/60">§ 02 / 07</p>
+          </div>
+          <div class="col-span-12 md:col-span-9">
+            <h1 class="font-normal leading-[0.95] tracking-[-0.02em] text-5xl md:text-7xl lg:text-[5.5rem] mb-8 reveal reveal-2">
+              <span x-text="t('hero_title_1')"></span>
+              <em class="italic font-normal" x-text="t('hero_title_2')"></em>
+            </h1>
+            <p class="text-sm md:text-base text-paper/70 max-w-2xl leading-relaxed reveal reveal-3" x-text="t('hero_subtitle')"></p>
+          </div>
+        </div>
+      </div>
+      <div class="relative border-t border-paper/10">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4 font-mono text-[11px] tracking-[0.18em] uppercase text-paper/50">
+          <span x-text="lang==='es' ? '3 actitudes' : '3 attitudes'"></span>
+          <span class="hidden md:inline" x-text="lang==='es' ? '6 comportamientos' : '6 behaviors'"></span>
+          <span x-text="lang==='es' ? '1 cultura de alto impacto' : '1 high-impact culture'"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRO -->
+    <section class="max-w-7xl mx-auto px-6 py-16 md:py-20">
+      <div class="grid grid-cols-12 gap-6 items-start">
+        <div class="col-span-12 md:col-span-3">
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('intro_label')"></span>
+            <span class="w-12 h-px bg-ink/20"></span>
+          </div>
+        </div>
+        <div class="col-span-12 md:col-span-9">
+          <p class="font-normal text-2xl md:text-3xl leading-[1.25] tracking-tight text-ink max-w-3xl" x-text="t('model_intro_text')"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCKS: 3 actitudes · 6 comportamientos · chapter-style -->
+
+    <!-- CHAPTER 1 -->
+    <article class="border-t border-ink/10">
+      <!-- Chapter header: full-width band with oversized italic title + number floating -->
+      <header class="relative max-w-7xl mx-auto px-6 pt-20 md:pt-28 pb-10 md:pb-12">
+        <div class="flex items-start justify-between gap-6">
+          <div class="max-w-2xl">
+            <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute mb-5" x-text="(lang==='es' ? 'Capítulo' : 'Chapter') + ' · 01 / 03'"></p>
+            <h2 class="font-normal leading-[0.95] tracking-[-0.02em] text-5xl md:text-7xl mb-4">
+              <em class="italic font-normal" x-text="t('block1_title')"></em>.
+            </h2>
+            <p class="font-mono text-[11px] tracking-[0.15em] uppercase text-ink-mute" x-text="t('block1_sub')"></p>
+          </div>
+          <p class="hidden md:block font-normal leading-none tracking-[-0.04em] text-ink/10 text-[14rem] select-none">01</p>
+        </div>
+        <p class="font-normal text-xl md:text-2xl leading-[1.35] text-ink-soft mt-10 max-w-3xl" x-text="t('block1_desc')"></p>
+      </header>
+      <!-- Behaviors: 2 wide columns, full-width page bleed via borders -->
+      <div class="border-t border-ink/10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2">
+          <div class="py-10 md:py-14 md:pr-10 md:border-r border-ink/10">
+            <div class="flex items-baseline gap-3 mb-4">
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-tef-blue">01 · A</span>
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('val1a_sub')"></span>
+            </div>
+            <h3 class="font-normal text-3xl md:text-4xl tracking-tight leading-tight mb-5" x-text="t('val1a_title')"></h3>
+            <p class="text-[17px] text-ink-soft leading-relaxed max-w-md" x-text="t('val1a_desc')"></p>
+          </div>
+          <div class="py-10 md:py-14 md:pl-10 border-t md:border-t-0 border-ink/10">
+            <div class="flex items-baseline gap-3 mb-4">
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-tef-blue">01 · B</span>
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('val1b_sub')"></span>
+            </div>
+            <h3 class="font-normal text-3xl md:text-4xl tracking-tight leading-tight mb-5" x-text="t('val1b_title')"></h3>
+            <p class="text-[17px] text-ink-soft leading-relaxed max-w-md" x-text="t('val1b_desc')"></p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CHAPTER 2 — warm bg -->
+    <article class="border-t border-ink/10 bg-paper-warm">
+      <header class="relative max-w-7xl mx-auto px-6 pt-20 md:pt-28 pb-10 md:pb-12">
+        <div class="flex items-start justify-between gap-6">
+          <div class="max-w-2xl">
+            <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute mb-5" x-text="(lang==='es' ? 'Capítulo' : 'Chapter') + ' · 02 / 03'"></p>
+            <h2 class="font-normal leading-[0.95] tracking-[-0.02em] text-5xl md:text-7xl mb-4">
+              <em class="italic font-normal" x-text="t('block2_title')"></em>.
+            </h2>
+            <p class="font-mono text-[11px] tracking-[0.15em] uppercase text-ink-mute" x-text="t('block2_sub')"></p>
+          </div>
+          <p class="hidden md:block font-normal leading-none tracking-[-0.04em] text-ink/10 text-[14rem] select-none">02</p>
+        </div>
+        <p class="font-normal text-xl md:text-2xl leading-[1.35] text-ink-soft mt-10 max-w-3xl" x-text="t('block2_desc')"></p>
+      </header>
+      <div class="border-t border-ink/10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2">
+          <div class="py-10 md:py-14 md:pr-10 md:border-r border-ink/10">
+            <div class="flex items-baseline gap-3 mb-4">
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-tef-blue">02 · A</span>
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('val2a_sub')"></span>
+            </div>
+            <h3 class="font-normal text-3xl md:text-4xl tracking-tight leading-tight mb-5" x-text="t('val2a_title')"></h3>
+            <p class="text-[17px] text-ink-soft leading-relaxed max-w-md" x-text="t('val2a_desc')"></p>
+          </div>
+          <div class="py-10 md:py-14 md:pl-10 border-t md:border-t-0 border-ink/10">
+            <div class="flex items-baseline gap-3 mb-4">
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-tef-blue">02 · B</span>
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('val2b_sub')"></span>
+            </div>
+            <h3 class="font-normal text-3xl md:text-4xl tracking-tight leading-tight mb-5" x-text="t('val2b_title')"></h3>
+            <p class="text-[17px] text-ink-soft leading-relaxed max-w-md" x-text="t('val2b_desc')"></p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CHAPTER 3 -->
+    <article class="border-t border-ink/10">
+      <header class="relative max-w-7xl mx-auto px-6 pt-20 md:pt-28 pb-10 md:pb-12">
+        <div class="flex items-start justify-between gap-6">
+          <div class="max-w-2xl">
+            <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute mb-5" x-text="(lang==='es' ? 'Capítulo' : 'Chapter') + ' · 03 / 03'"></p>
+            <h2 class="font-normal leading-[0.95] tracking-[-0.02em] text-5xl md:text-7xl mb-4">
+              <em class="italic font-normal" x-text="t('block3_title')"></em>.
+            </h2>
+            <p class="font-mono text-[11px] tracking-[0.15em] uppercase text-ink-mute" x-text="t('block3_sub')"></p>
+          </div>
+          <p class="hidden md:block font-normal leading-none tracking-[-0.04em] text-ink/10 text-[14rem] select-none">03</p>
+        </div>
+        <p class="font-normal text-xl md:text-2xl leading-[1.35] text-ink-soft mt-10 max-w-3xl" x-text="t('block3_desc')"></p>
+      </header>
+      <div class="border-t border-ink/10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2">
+          <div class="py-10 md:py-14 md:pr-10 md:border-r border-ink/10">
+            <div class="flex items-baseline gap-3 mb-4">
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-tef-blue">03 · A</span>
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('val3a_sub')"></span>
+            </div>
+            <h3 class="font-normal text-3xl md:text-4xl tracking-tight leading-tight mb-5" x-text="t('val3a_title')"></h3>
+            <p class="text-[17px] text-ink-soft leading-relaxed max-w-md" x-text="t('val3a_desc')"></p>
+          </div>
+          <div class="py-10 md:py-14 md:pl-10 border-t md:border-t-0 border-ink/10">
+            <div class="flex items-baseline gap-3 mb-4">
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-tef-blue">03 · B</span>
+              <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('val3b_sub')"></span>
+            </div>
+            <h3 class="font-normal text-3xl md:text-4xl tracking-tight leading-tight mb-5" x-text="t('val3b_title')"></h3>
+            <p class="text-[17px] text-ink-soft leading-relaxed max-w-md" x-text="t('val3b_desc')"></p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- NEXT step -->
+    <section class="border-t border-ink/10 py-10 md:py-12">
+      <div class="max-w-7xl mx-auto px-6 grid grid-cols-12 gap-6 items-end">
+        <div class="col-span-12 md:col-span-2">
+          <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute" x-text="lang==='es' ? 'Siguiente' : 'Next'"></span>
+          <div class="mt-2 h-px w-12 bg-ink/20"></div>
+        </div>
+        <div class="col-span-12 md:col-span-7">
+          <h3 class="font-normal text-3xl md:text-4xl leading-[1] tracking-[-0.01em] mb-2" x-text="lang==='es' ? 'Empieza tu journey.' : 'Start your journey.'"></h3>
+          <p class="text-sm text-ink-mute max-w-md" x-text="lang==='es' ? 'Descubre las tres fases del programa y cómo se conectan con tu desarrollo.' : 'Discover the three phases of the program and how they connect with your development.'"></p>
+        </div>
+        <div class="col-span-12 md:col-span-3 flex md:justify-end">
+          <a href="journey" class="group inline-flex items-center gap-3 text-ink border-b border-ink/40 hover:border-tef-blue hover:text-tef-blue transition-colors pb-1">
+            <span class="font-mono text-xs tracking-[0.18em] uppercase" x-text="lang==='es' ? 'Ver Journey' : 'View Journey'"></span>
+            <span class="text-xl group-hover:translate-x-1 transition-transform">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-paper-deep text-paper mt-auto grain relative">
+    <div class="relative max-w-7xl mx-auto px-6 py-14 md:py-16">
+      <div class="grid grid-cols-12 gap-6 pb-10 border-b border-paper/10">
+        <div class="col-span-12 md:col-span-6 flex items-start gap-4">
+          <div>
+            <img src="images/brand/indra-logo.svg" class="h-10 md:h-12 w-auto brightness-0 invert" alt="Accelerate Impact">
+            <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-paper/50 mt-3">Leadership Program · 2026</p>
+          </div>
+        </div>
+        <div class="col-span-12 md:col-span-6 flex md:justify-end items-start">
+          <a href="mailto:accelerateimpact@universitas.com" class="group inline-flex items-center gap-3 border-b border-paper/30 hover:border-tef-blue pb-1 transition-colors">
+            <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="lang==='es' ? 'Escríbenos' : 'Get in touch'"></span>
+            <span class="text-lg group-hover:translate-x-1 transition-transform">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-12 gap-6 py-10 border-b border-paper/10">
+        <div class="col-span-12 md:col-span-4">
+          <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-paper/50 mb-4" x-text="lang==='es' ? 'Partners del programa' : 'Program partners'"></p>
+          <ul class="space-y-2 text-sm">
+            <li><a href="https://www.kornferry.com" target="_blank" rel="noopener" class="text-paper/80 hover:text-tef-blue transition-colors">Korn Ferry</a></li>
+            <li><a href="https://www.egonzehnder.com" target="_blank" rel="noopener" class="text-paper/80 hover:text-tef-blue transition-colors">Egon Zehnder</a></li>
+            <li><a href="https://universitas.telefonica.com" target="_blank" rel="noopener" class="text-paper/80 hover:text-tef-blue transition-colors">Indra Universitas</a></li>
+            <li><a href="https://walkconsulting.net" target="_blank" rel="noopener" class="text-paper/80 hover:text-tef-blue transition-colors">WALK</a></li>
+            <li><a href="https://peopleexcellence.com" target="_blank" rel="noopener" class="text-paper/80 hover:text-tef-blue transition-colors">People Excellence</a></li>
+          </ul>
+        </div>
+        <div class="col-span-6 md:col-span-4">
+          <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-paper/50 mb-4" x-text="lang==='es' ? 'Explorar' : 'Explore'"></p>
+          <ul class="space-y-2 text-sm">
+            <li><a href="modelo" class="text-paper/80 hover:text-tef-blue transition-colors" x-text="t('nav_modelo')"></a></li>
+            <li><a href="journey" class="text-paper/80 hover:text-tef-blue transition-colors" x-text="t('nav_journey')"></a></li>
+            <li><a href="autodiagnostico" class="text-paper/80 hover:text-tef-blue transition-colors" x-text="t('nav_auto')"></a></li>
+            <li><a href="agenda" class="text-paper/80 hover:text-tef-blue transition-colors" x-text="t('nav_agenda')"></a></li>
+            <li><a href="nadia" class="text-paper/80 hover:text-tef-blue transition-colors">Nadia</a></li>
+          </ul>
+        </div>
+        <div class="col-span-6 md:col-span-4">
+          <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-paper/50 mb-4" x-text="lang==='es' ? 'El programa' : 'The program'"></p>
+          <ul class="space-y-2 text-sm text-paper/80">
+            <li x-text="lang==='es' ? '10 meses · 3 fases' : '10 months · 3 phases'"></li>
+            <li x-text="lang==='es' ? 'Comunidad de Líderes' : 'Leadership Community'"></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6">
+        <p class="font-mono text-[11px] tracking-[0.18em] uppercase text-paper/40">© 2026 Indra S.A. · <span x-text="lang==='es' ? 'Uso interno' : 'Internal use'"></span></p>
+        <div class="flex items-center gap-5">
+          <a href="https://yellowglasses.es" target="_blank" rel="noopener" class="text-paper/50 hover:text-paper transition-colors" aria-label="Powered by Yellow Glasses">
+            <svg class="h-6 w-auto" viewBox="0 0 145 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8.78 19.5V12.7H11.11C12.65 12.7 13.62 13.52 13.62 14.85C13.62 16.22 12.64 17.02 11.12 17.02H9.7V19.5H8.78ZM11.1 13.45H9.7V16.27H11.07C12.08 16.27 12.67 15.73 12.67 14.86C12.67 14 12.07 13.45 11.1 13.45ZM16.8756 19.62C15.3556 19.62 14.4456 18.58 14.4456 16.85C14.4456 15.05 15.3856 14.06 16.8756 14.06C18.3956 14.06 19.3056 15.12 19.3056 16.85C19.3056 18.64 18.3656 19.62 16.8756 19.62ZM16.8756 18.86C17.8656 18.86 18.4056 18.15 18.4056 16.85C18.4056 15.56 17.8556 14.82 16.8756 14.82C15.8856 14.82 15.3456 15.54 15.3456 16.85C15.3456 18.13 15.8956 18.86 16.8756 18.86ZM24.9406 19.5L23.7906 15.53L23.6706 14.93L23.5506 15.53L22.4106 19.5H21.3206L19.7406 14.19H20.6906L21.7806 18.31L21.9106 18.85L22.0406 18.31L23.2506 14.19H24.2006L25.4106 18.31L25.5306 18.83L25.6406 18.31L26.7306 14.19H27.6406L26.0506 19.5H24.9406ZM32.9775 17.77C32.6875 19.01 31.7975 19.62 30.5875 19.62C29.0475 19.62 28.1175 18.58 28.1175 16.85C28.1175 15.05 29.0475 14.06 30.5375 14.06C32.0375 14.06 32.9375 15.09 32.9375 16.78V17H29.0175C29.0675 18.19 29.6275 18.86 30.5875 18.86C31.3375 18.86 31.8675 18.5 32.0575 17.77H32.9775ZM30.5375 14.82C29.6875 14.82 29.1775 15.35 29.0475 16.34H32.0175C31.8975 15.36 31.3675 14.82 30.5375 14.82ZM34.1102 19.5V14.19H34.9902V15.01C35.3502 14.36 35.9202 14.06 36.5602 14.06C36.7702 14.06 36.9602 14.11 37.0602 14.19V14.98C36.9102 14.93 36.7202 14.91 36.5102 14.91C35.4502 14.91 34.9902 15.57 34.9902 16.53V19.5H34.1102ZM42.333 17.77C42.043 19.01 41.153 19.62 39.943 19.62C38.403 19.62 37.473 18.58 37.473 16.85C37.473 15.05 38.403 14.06 39.893 14.06C41.393 14.06 42.293 15.09 42.293 16.78V17H38.373C38.423 18.19 38.983 18.86 39.943 18.86C40.693 18.86 41.223 18.5 41.413 17.77H42.333ZM39.893 14.82C39.043 14.82 38.533 15.35 38.403 16.34H41.373C41.253 15.36 40.723 14.82 39.893 14.82ZM45.4556 19.62C44.0456 19.62 43.1956 18.58 43.1956 16.85C43.1956 15.05 44.0656 14.06 45.4556 14.06C46.0856 14.06 46.5956 14.32 46.9456 14.81V12.3H47.8256V19.5H46.9456V18.83C46.5956 19.33 46.0856 19.62 45.4556 19.62ZM45.5156 18.86C46.4456 18.86 46.9456 18.15 46.9456 16.85C46.9456 15.56 46.4256 14.82 45.5156 14.82C44.5956 14.82 44.0956 15.54 44.0956 16.85C44.0956 18.13 44.6156 18.86 45.5156 18.86ZM52.1093 19.5H51.2293V12.3H52.1093V14.85C52.4593 14.35 52.9693 14.06 53.5993 14.06C55.0093 14.06 55.8593 15.1 55.8593 16.83C55.8593 18.63 54.9893 19.62 53.5993 19.62C52.9693 19.62 52.4593 19.36 52.1093 18.87V19.5ZM53.5393 14.82C52.6093 14.82 52.1093 15.53 52.1093 16.83C52.1093 18.12 52.6293 18.86 53.5393 18.86C54.4593 18.86 54.9593 18.14 54.9593 16.83C54.9593 15.55 54.4393 14.82 53.5393 14.82ZM57.0845 21.82C56.8845 21.82 56.6745 21.77 56.5645 21.74V21.06H56.8345C57.4845 21.06 57.6645 20.93 58.1845 19.74L58.3645 19.33L56.1945 14.19H57.1445L58.5845 17.7L58.8245 18.41L59.0645 17.7L60.4645 14.19H61.3645L58.8845 20.2C58.3545 21.48 58.0045 21.82 57.0845 21.82Z" fill="currentColor"/>
+              <path d="M95.6346 12.9639V13.0209C95.5901 14.3491 94.5211 15.3927 93.1975 15.3927H89.2205V13.9949H93.1975C93.7193 13.9949 94.1584 13.6217 94.2411 13.1031V13.0841V13.0145H92.1348C90.5249 13.0145 89.2205 11.7116 89.2205 10.1177V7.41699H90.6267V10.1177C90.6267 10.5162 90.7858 10.8957 91.0722 11.1803C91.3585 11.4649 91.7339 11.6167 92.1412 11.6167H94.2538V7.41699H95.6346V12.9639Z" fill="#FDC614"/>
+              <path d="M98.8483 12.0916H103.729V13.2111H98.6255C97.4038 13.2111 96.4111 12.2244 96.4111 11.0101V9.6249C96.4111 8.41052 97.4038 7.42383 98.6255 7.42383H102.558C103.118 7.42383 103.576 7.87922 103.576 8.43582V8.86591C103.576 9.22643 103.379 9.56165 103.067 9.73875C102.164 10.2574 101.222 10.7824 100.395 11.2441L98.8546 12.0979L98.8483 12.0916ZM98.1992 11.1745C98.6701 10.9089 99.1919 10.6179 99.8346 10.2637C100.35 9.97277 100.885 9.6755 101.432 9.3719L102.921 8.53701H98.6255C98.021 8.53701 97.5311 9.02403 97.5311 9.6249V11.5603L98.1992 11.1808V11.1745Z" fill="#FDC614"/>
+              <path d="M104.499 6H105.899V13.2041H104.499V6Z" fill="#FDC614"/>
+              <path d="M106.662 6H108.062V13.2041H106.662V6Z" fill="#FDC614"/>
+              <path d="M115.984 9.04882V11.5725C115.984 12.4706 115.246 13.2043 114.33 13.2043H110.48C109.57 13.2043 108.826 12.4706 108.826 11.5725V9.04882C108.826 8.15068 109.57 7.41699 110.48 7.41699H114.33C115.24 7.41699 115.984 8.15068 115.984 9.04882ZM114.591 8.80215H110.219V11.8255H114.591V8.80215Z" fill="#FDC614"/>
+              <path d="M125.714 7.41699L123.843 13.2043H122.061L120.941 9.73824L119.821 13.2043H118.04L116.169 7.41699H117.632L118.931 11.4333L120.229 7.41699H121.654L122.952 11.4333L124.25 7.41699H125.714Z" fill="#FDC614"/>
+              <path d="M95.9909 19.6183V23.4891C95.9909 24.8743 94.9983 26.0001 93.7829 26.0001H90.2513V24.6529H93.7829C94.1392 24.6529 94.521 24.2671 94.591 23.6789H90.4931C89.5831 23.6789 88.8386 22.9642 88.8386 22.085V19.6183C88.8386 18.7391 89.5768 18.0244 90.4931 18.0244H94.3365C95.2464 18.0244 95.9909 18.7391 95.9909 19.6183ZM94.5974 22.4329V19.4096H90.2258V22.4329H94.5974Z" fill="currentColor"/>
+              <path d="M96.7546 16.6074H98.1546V23.8115H96.7546V16.6074Z" fill="currentColor"/>
+              <path d="M105.396 23.8186H104.002V22.2626H101.864C101.024 22.2626 100.337 22.9457 100.337 23.7806V23.8186H98.918V23.7806C98.918 22.1677 100.242 20.8522 101.864 20.8522H104.072L103.989 20.3398C103.907 19.8212 103.461 19.4417 102.933 19.4417H98.918V18.0312H102.933C104.289 18.0312 105.396 19.1444 105.396 20.5106V23.8186Z" fill="currentColor"/>
+              <path d="M113.019 22.0476V22.0602C113.019 23.0279 112.23 23.8122 111.256 23.8122H106.821V22.5599H111.256C111.536 22.5599 111.759 22.3322 111.759 22.0602V22.0476C111.759 21.7693 111.53 21.5479 111.256 21.5479H107.935C106.961 21.5479 106.172 20.7636 106.172 19.7959V19.7833C106.172 18.8155 106.961 18.0312 107.935 18.0312H112.338V19.2836H107.935C107.655 19.2836 107.432 19.5113 107.432 19.7833V19.7959C107.432 20.0742 107.661 20.2956 107.935 20.2956H111.256C112.23 20.2956 113.019 21.0799 113.019 22.0476Z" fill="currentColor"/>
+              <path d="M120.636 22.0476V22.0602C120.636 23.0279 119.847 23.8122 118.873 23.8122H114.438V22.5599H118.873C119.153 22.5599 119.376 22.3322 119.376 22.0602V22.0476C119.376 21.7693 119.147 21.5479 118.873 21.5479H115.552C114.578 21.5479 113.789 20.7636 113.789 19.7959V19.7833C113.789 18.8155 114.578 18.0312 115.552 18.0312H119.955V19.2836H115.552C115.272 19.2836 115.049 19.5113 115.049 19.7833V19.7959C115.049 20.0742 115.278 20.2956 115.552 20.2956H118.873C119.847 20.2956 120.636 21.0799 120.636 22.0476Z" fill="currentColor"/>
+              <path d="M123.849 22.699H128.73V23.8186H123.627C122.405 23.8186 121.412 22.8319 121.412 21.6175V20.2323C121.412 19.0179 122.405 18.0312 123.627 18.0312H127.559C128.119 18.0312 128.577 18.4866 128.577 19.0432V19.4733C128.577 19.8339 128.38 20.1691 128.068 20.3462C127.164 20.8648 126.223 21.3898 125.396 21.8515L123.856 22.7054L123.849 22.699ZM123.207 21.7883C123.677 21.5226 124.199 21.2317 124.842 20.8775C125.357 20.5865 125.892 20.2892 126.439 19.9857L127.928 19.1508H123.633C123.028 19.1508 122.538 19.6378 122.538 20.2386V22.1741L123.207 21.7946V21.7883Z" fill="currentColor"/>
+              <path d="M136.353 22.0476V22.0602C136.353 23.0279 135.564 23.8122 134.59 23.8122H130.155V22.5599H134.59C134.87 22.5599 135.093 22.3322 135.093 22.0602V22.0476C135.093 21.7693 134.864 21.5479 134.59 21.5479H131.269C130.295 21.5479 129.506 20.7636 129.506 19.7959V19.7833C129.506 18.8155 130.295 18.0312 131.269 18.0312H135.672V19.2836H131.269C130.989 19.2836 130.766 19.5113 130.766 19.7833V19.7959C130.766 20.0742 130.995 20.2956 131.269 20.2956H134.59C135.564 20.2956 136.353 21.0799 136.353 22.0476Z" fill="currentColor"/>
+              <path d="M78.7657 7.58105H70.5316C68.5845 7.58105 67 9.11169 67 10.9902V11.8567H69.9716V10.5348H79.3193V11.8567H82.2909V10.9902C82.2909 9.11169 80.7065 7.58105 78.7593 7.58105" fill="#FDC614"/>
+              <path d="M79.3256 13.2041V18.3526H71.4606C70.6398 18.3526 69.978 17.6948 69.978 16.8789V13.2041H67V17.6126C67 19.4974 68.5845 21.0217 70.5316 21.0217H79.3002C79.1538 22.2804 78.3266 23.1089 77.5694 23.1089H70.0098V25.9931H77.5694C80.1783 25.9931 82.2973 23.5833 82.2973 20.6169V13.2041H79.3256Z" fill="currentColor"/>
+            </svg>
+          </a>
+          <div class="flex items-center gap-0 font-mono text-[11px] tracking-widest">
+            <button @click="lang='es'" :class="lang==='es' ? 'text-paper' : 'text-paper/40 hover:text-paper'" class="px-2 py-1 transition-colors">ES</button>
+            <span class="text-paper/20">/</span>
+            <button @click="lang='en'" :class="lang==='en' ? 'text-paper' : 'text-paper/40 hover:text-paper'" class="px-2 py-1 transition-colors">EN</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="components.js"></script>
+  <script src="scroll.js"></script>
+</body>
+</html>

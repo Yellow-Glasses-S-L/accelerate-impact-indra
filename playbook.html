@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es" x-data="{
+  lang: localStorage.getItem('lang') || 'es',
+  page: 'playbook',
+  init() { this.$watch('lang', v => localStorage.setItem('lang', v)); },
+  t(key) { return i18n[key] ? (i18n[key][this.lang] || i18n[key]['es']) : key; }
+}">
+<head>
+  <style id="page-cloak">html{background:#E3E2DA}html:not(.loaded) body{opacity:0!important}html:not(.loaded) #site-navbar,html:not(.loaded) #site-footer{opacity:0!important}html:not(.loaded) .reveal{animation:none!important;opacity:0!important;transform:none!important}body{transition:opacity .25s ease}</style>
+  <meta name="view-transition" content="same-origin" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Participant Playbook — Accelerate Impact</title>
+  <meta name="description" content="Tu guía para el autodiagnóstico de liderazgo Indra." />
+  <link rel="icon" type="image/svg+xml" href="images/brand/favicon_indra.svg" />
+  <link rel="apple-touch-icon" href="images/brand/favicon_indra.svg" />
+  <link rel="canonical" href="https://accelerateimpact.es/playbook" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Accelerate Impact" />
+  <meta property="og:url" content="https://accelerateimpact.es/playbook" />
+  <meta property="og:title" content="Participant Playbook — Accelerate Impact" />
+  <meta property="og:description" content="Tu guía para el autodiagnóstico de liderazgo Indra." />
+  <meta property="og:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <meta property="og:image:width" content="8000" />
+  <meta property="og:image:height" content="4500" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Participant Playbook — Accelerate Impact" />
+  <meta name="twitter:description" content="Tu guía para el autodiagnóstico de liderazgo Indra." />
+  <meta name="twitter:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            tef: { blue: '#00B0BD', dark: '#002532', light: '#C2D2D6' },
+            ink: { DEFAULT: '#002532', soft: '#2B3447', mute: '#58617A' },
+            paper: { DEFAULT: '#E3E2DA', warm: '#D8D7CE', deep: '#002532' }
+          },
+          fontFamily: {
+            sans: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            display: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            mono: ['"Indra Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+    *, *::before, *::after { font-family: "Indra Sans", sans-serif !important; }
+    html, body, * { font-feature-settings: normal !important; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { animation: fadeUp 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .reveal-1 { animation-delay: 0.1s; }
+    .reveal-2 { animation-delay: 0.25s; }
+    .reveal-3 { animation-delay: 0.4s; }
+    @media (prefers-reduced-motion: reduce) { .reveal { animation: none; } }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script>
+    const i18n = {
+      nav_journey: { es: 'Journey', en: 'Journey' },
+      nav_info: { es: 'Contacto', en: 'Contact' },
+      back_auto: { es: 'Volver al Autodiagnóstico', en: 'Back to Self-Diagnosis' },
+      go_faq: { es: 'FAQ sobre el proceso', en: 'Process FAQ' },
+      pdf_link: { es: 'Descargar PDF original', en: 'Download original PDF' },
+
+      hero_eyebrow: { es: 'Indra\'s Leadership Self-Diagnosis', en: 'Indra\'s Leadership Self-Diagnosis' },
+      hero_title: { es: 'Participant Playbook', en: 'Participant Playbook' },
+      hero_subtitle: {
+        es: 'Tu guía para el Leadership Self-Diagnosis de Indra.',
+        en: 'Your guide to the Indra Leadership Self-Diagnosis.'
+      },
+      hero_date: { es: '26 de mayo de 2026', en: 'May 21, 2026' },
+
+      /* 1. Welcome */
+      sec1_label: { es: '01 · Bienvenida', en: '01 · Welcome' },
+      sec1_title: { es: 'Bienvenido/a', en: 'Welcome' },
+      sec1_p1: {
+        es: 'Te damos la bienvenida al <strong>Leadership Self-Diagnosis de Indra</strong>, y ¡enhorabuena por haber sido seleccionado/a para participar en esta experiencia de desarrollo!',
+        en: 'Welcome to <strong>Indra\'s Leadership Self-Diagnosis</strong>, and congratulations on being selected to take part in this development experience.'
+      },
+      sec1_p2: {
+        es: 'Te incorporas a este proceso en un momento clave para Indra. La compañía avanza hacia una cultura de alto impacto, en la que el liderazgo desempeña un papel fundamental para hacer realidad esta transformación. Tu participación refleja la confianza en la importancia de tu liderazgo y en tu capacidad para contribuir a construir nuestro futuro.',
+        en: 'You are joining this journey at an important moment for Indra. The company is moving toward a high-impact, future-ready culture, and leadership plays a central role in making this transformation real. Your invitation reflects the belief that your leadership matters and that you can help shape what comes next.'
+      },
+      sec1_p3: {
+        es: 'Este recorrido ha sido diseñado para fomentar <strong>el autoconocimiento y el crecimiento</strong>. A través de un diagnóstico basado en evidencia científica, obtendrás una visión clara de cómo lideras hoy, qué te surge de forma natural, qué puede estar limitando tu impacto y en qué aspectos pequeños cambios pueden generar una diferencia significativa.',
+        en: 'This journey has been designed to support <strong>self-knowledge, clarity and growth</strong>. Through a science-based diagnostic, you will gain a clear view of how you lead today, what comes naturally to you, what may limit your impact, and where small shifts can make a meaningful difference.'
+      },
+      sec1_p4: {
+        es: 'Esta experiencia está alineada con el nuevo <strong>Modelo de Liderazgo de Indra</strong>, que traduce la ambición cultural de la compañía en comportamientos concretos de liderazgo en el día a día. Refleja la evolución que Indra está impulsando: avanzar hacia una mayor claridad y valentía, una responsabilidad más sólida y una forma más innovadora de aprender y trabajar conjuntamente.',
+        en: 'The experience is aligned with <strong>Indra\'s new Leadership Model</strong>, which translates the company\'s cultural ambition into everyday leadership skills. It reflects the evolution Indra is embracing: moving toward greater clarity and courage, stronger ownership, and a more innovative way of learning and working together.'
+      },
+      sec1_p5: {
+        es: 'Las reflexiones que obtengas te ayudarán a tomar decisiones de liderazgo más conscientes y servirán como base para tu desarrollo continuo. Por encima de todo, este proceso es una invitación a detenerte, reflexionar y reforzar tu contribución como líder.',
+        en: 'The insights you gain will help you make more intentional leadership decisions and will serve as a foundation for your ongoing development. Above all, this journey is an invitation to pause, reflect and strengthen your contribution as a leader.'
+      },
+      sec1_p6: {
+        es: 'Te damos la bienvenida a un proceso de aprendizaje, desarrollo e impacto en el liderazgo.',
+        en: 'Welcome to a journey of insight, growth and leadership impact.'
+      },
+
+      /* 2. Why This Journey Matters Now */
+      sec2_label: { es: '02 · El contexto', en: '02 · The context' },
+      sec2_title: { es: '¿Por qué este proceso es importante ahora?', en: 'Why This Journey Matters Now' },
+      sec2_intro: {
+        es: 'Indra atraviesa un momento relevante de transformación. La compañía está simplificando su forma de trabajar, renovando su cultura y preparándose para lo que viene. En este contexto, el liderazgo desempeña un papel decisivo. La forma en que los líderes actuáis cada día es clave para hacer realidad esta transformación.',
+        en: 'Indra is going through an important moment of change. The company is simplifying how it works, renewing its culture and preparing for what comes next. In this context, leadership plays a decisive role. How leaders show up every day will shape how this transformation becomes real.'
+      },
+      sec2_intro2: {
+        es: 'Para guiar este cambio, Indra ha definido una <strong>cultura de alto impacto</strong> basada en tres actitudes sencillas que describen cómo queremos trabajar y liderar:',
+        en: 'To guide this change, Indra has defined a <strong>high-impact culture</strong> built around three simple attitudes that describe how we want to work and lead:'
+      },
+
+      att1_title: { es: 'DAMOS LO MEJOR DE NOSOTROS', en: 'WE GIVE OUR BEST' },
+      att1_sub: { es: 'IMPACTO', en: 'IMPACT' },
+      att1_body: {
+        es: 'Para generar IMPACTO, creemos en el poder de la simplicidad y en centrarnos en lo que realmente importa. Construimos confianza cuando entendemos a nuestros clientes y ofrecemos lo que marca la diferencia. La excelencia es nuestro estándar para generar impacto hoy y a largo plazo.',
+        en: 'To make an IMPACT, we believe in the power of simplicity and focusing on what really matters. We build trust when we understand our customers and deliver what makes a difference. Excellence is our standard for making an impact today and in the long term.'
+      },
+      att2_title: { es: 'CUESTIONAMOS NUESTROS PROPIOS LÍMITES', en: 'WE CHALLENGE OUR LIMITS' },
+      att2_sub: { es: 'TRANSFORMAR', en: 'TRANSFORM' },
+      att2_body: {
+        es: 'Para TRANSFORMAR, innovamos y asumimos riesgos inteligentes. Fomentamos el debate real, tomamos decisiones claras y actuamos con valentía para que las buenas ideas avancen sin miedo a equivocarnos.',
+        en: 'To TRANSFORM, we innovate and take intelligent risks. We encourage real debate, make clear decisions and act with courage so that good ideas can move forward without fear of making mistakes.'
+      },
+      att3_title: { es: 'NOS SUPERAMOS JUNTOS', en: 'WE RISE TOGETHER' },
+      att3_sub: { es: 'CRECER', en: 'GROW' },
+      att3_body: {
+        es: 'Para CRECER, todos asumimos la responsabilidad de los resultados, nos implicamos de verdad en lo que logramos como equipo y tomamos la iniciativa para que las cosas sucedan. Desarrollar nuestras capacidades y atrevernos a dar pasos personales ambiciosos es lo que impulsa a un líder en Indra.',
+        en: 'To GROW, we all take responsibility for results, truly engage in what we achieve as a team, and take the initiative to make things happen. Evolving our capabilities and daring to take bold personal steps is what drives a leading Indra.'
+      },
+
+      model_label: { es: 'El Modelo de Liderazgo de Indra', en: 'The Indra Leadership Model' },
+      model_intro: {
+        es: 'Estas actitudes cobran vida a través del Modelo de Liderazgo de Indra: seis skills que describen cómo es el liderazgo excelente en la práctica.',
+        en: 'These attitudes are brought to life through Indra\'s Leadership Model – six core leadership skills that describe what great leadership looks like in practice.'
+      },
+
+      ls1_title: { es: 'Foco en el Cliente', en: 'Customer First' },
+      ls1_sub: { es: 'El momento del cliente es ahora.', en: 'Customer\'s time is now.' },
+      ls1_body: {
+        es: 'Ponemos al cliente en el centro. Nos ganamos su confianza entendiéndolo, escuchándolo activamente y resolviendo con rapidez lo que realmente importa, hoy y a largo plazo. Elegimos mirar el negocio desde fuera hacia dentro. Así de simple.',
+        en: 'We put customer at the center. We earn their trust through understanding, active listening and resolving with speed what really matters, today and in the long term. With an outside-in view. Simple as that.'
+      },
+      ls2_title: { es: 'Innovación Digital', en: 'Digital Innovation' },
+      ls2_sub: { es: 'La curiosidad impulsa la innovación.', en: 'Curiosity drives innovation.' },
+      ls2_body: {
+        es: 'Innovamos con propósito y adoptamos lo digital. Cuestionamos el "siempre se ha hecho así". Asumimos riesgos inteligentes y buscamos soluciones creativas para resolver problemas reales, desde mejoras en el día a día hasta grandes avances.',
+        en: 'We innovate with purpose and embrace digital. We challenge the "we\'ve always done it this way". We take smart risks and seek creative solutions to real problems, from everyday improvements to big leaps.'
+      },
+      ls3_title: { es: 'Impulsar la Responsabilidad', en: 'Driving Ownership' },
+      ls3_sub: { es: 'El resultado depende de nosotros.', en: 'Result depends on us.' },
+      ls3_body: {
+        es: 'Asumimos la responsabilidad por el total, no solo de nuestra parte. Buscamos soluciones en lugar de esperar instrucciones. Asumimos nuestra contribución individual, nos empoderamos y confiamos mutuamente como equipo, y multiplicamos nuestro impacto como Indra.',
+        en: 'We take responsibility of the whole, not just our part. We seek solutions rather than waiting for instructions. We own our contribution as individuals, we trust and empower each other as a team, and we multiply our collective impact as Indra.'
+      },
+      ls4_title: { es: 'Excelencia en la Ejecución', en: 'Delivering Excellence' },
+      ls4_sub: { es: 'La Excelencia es nuestro estándar.', en: 'Excellence is our standard.' },
+      ls4_body: {
+        es: 'Estamos orgullosos del trabajo que hacemos; juntos. No se trata de hacer más, sino de hacer mejor lo que realmente marca la diferencia. Simplicidad, foco y disciplina en la ejecución. Todo en uno.',
+        en: 'We are proud of the work we do, together. It is not about doing more but doing better what truly makes a difference. Simplicity, focus, and disciplined execution. All in.'
+      },
+      ls5_title: { es: 'Claridad y Valentía', en: 'Clarity & Courage' },
+      ls5_sub: { es: 'La claridad conduce a decisiones valientes.', en: 'Clarity leads to bold decisions.' },
+      ls5_body: {
+        es: 'La valentía no es la ausencia de duda, sino la capacidad de avanzar con claridad en medio de la complejidad. Valoramos el debate abierto y sincero por encima del consenso pasivo. Las decisiones valientes requieren debate y la disciplina de seguir los datos.',
+        en: 'Courage is not the absence of doubt, but the ability to move forward with complexity. We speak up and value open discussion over passive consensus. Courageous decisions need real debate and the discipline to follow the data.'
+      },
+      ls6_title: { es: 'Hacer Crecer a las Personas', en: 'Growing People' },
+      ls6_sub: { es: 'El crecimiento de las personas construye nuestro futuro.', en: 'People\'s growth builds our future.' },
+      ls6_body: {
+        es: 'Crecer significa atreverse a dar pasos audaces que nos lleven a desarrollar nuevas capacidades. Lideramos con el ejemplo e impulsamos a las personas a ir siempre más allá de lo conocido; porque nadie está completamente preparado para el mañana.',
+        en: 'We dare to take bold steps to build new capabilities. We lead by example and challenge ourselves and others to go beyond the known; because no one is fully ready for tomorrow.'
+      },
+
+      /* 3. Overview of the self-diagnosis experience */
+      sec3_label: { es: '03 · La experiencia', en: '03 · The experience' },
+      sec3_title: { es: 'Visión general de la experiencia del Leadership Self-Diagnosis', en: 'Overview of the Leadership self-diagnosis experience' },
+      sec3_intro1: {
+        es: 'Este proceso te invita a detenerte un momento y mirar hacia dentro, para reconectar con el líder que eres hoy y el que quieres llegar a ser. Ha sido diseñado como un recorrido sencillo y coherente que te permite avanzar desde la comprensión de tu liderazgo actual hasta el fortalecimiento de tu impacto a lo largo del tiempo.',
+        en: 'This journey invites you to slow down for a moment and look inward, to reconnect with the leader you are today and the leader you want to become. This journey has been designed as a simple and coherent pathway that helps you move from understanding your leadership today to strengthening your impact over time.'
+      },
+      sec3_intro2: {
+        es: 'El punto de partida es el autoconocimiento: comprender cómo lideras hoy. Te ofrece la oportunidad de parar y obtener una visión más clara y objetiva de cómo actúas como líder en la actualidad, qué te surge de forma natural, qué impulsa tus decisiones y en qué aspectos podrías querer desarrollarte a continuación.',
+        en: 'The starting point is about self-knowledge, understanding how you lead today. It gives you the opportunity to pause and gain a clearer, more objective view of how you show up as a leader today, what comes naturally to you, what drives your decisions, and where you may want to grow next.'
+      },
+      sec3_intro3: {
+        es: 'La experiencia de autodiagnóstico está diseñada para ser reveladora, práctica y plenamente orientada al desarrollo.',
+        en: 'The self-diagnosis experience is designed to be insightful, practical and fully developmental.'
+      },
+
+      step1_label: { es: 'Paso 01', en: 'Step 01' },
+      step1_title: { es: 'Autodiagnóstico online', en: 'Online Self-diagnosis' },
+      step1_time: { es: '~60 minutos', en: '~60 minutes' },
+      step1_body: {
+        es: 'Completarás un cuestionario online de autodiagnóstico que analiza <strong>quién eres como líder, explorando tus habilidades de liderazgo</strong>.<br><br>El autodiagnóstico dura aproximadamente 60 minutos. <strong>Es solo una orientación: tómate el tiempo que necesites, ya que el tiempo no afecta los resultados.</strong> Recomendamos encontrar un espacio tranquilo y responder de forma natural, sin prisas ni sobreanálisis.<br><br><strong>No hay respuestas correctas ni incorrectas.</strong>',
+        en: 'You will complete an online self-diagnosis questionnaire that looks at <strong>who you are as a leader, exploring your leadership skills</strong>.<br><br>The self-diagnosis takes approximately 60 minutes. <strong>This is a guideline only. You can take the time you need, as the time spent does not affect the results.</strong> We recommend finding a quiet space and answering naturally, without rushing or overthinking.<br><br><strong>There are no right or wrong answers.</strong>'
+      },
+
+      step2_label: { es: 'Paso 02', en: 'Step 02' },
+      step2_title: { es: 'Leadership Snapshot de Indra', en: 'Indra\'s leadership snapshot — "Your View in One Shot"' },
+      step2_body: {
+        es: 'Tus resultados se traducirán en un informe <strong>claro, visual y fácil de leer</strong>. Este informe te ofrece una visión rápida de cómo te posicionas respecto al <strong>Modelo de Liderazgo de Indra</strong>, utilizando una escala sencilla que te permite identificar con agilidad:',
+        en: 'Your results will be translated into a <strong>clear, visual and easy-to-read Report</strong>. This report gives you an <em>at-a-glance</em> view of how you are positioned against <strong>Indra\'s Leadership Model</strong>, using a simple scale that helps you quickly identify:'
+      },
+      step2_b1: { es: 'Tus principales fortalezas.', en: 'Your key strengths.' },
+      step2_b2: { es: 'Tus principales oportunidades de desarrollo.', en: 'Your main development opportunities.' },
+      step2_b3: { es: 'Dónde enfocar tu energía para lograr el máximo impacto.', en: 'Where to focus your energy for the greatest impact.' },
+      step2_close: {
+        es: 'Está diseñado para ayudarte a conocerte mejor y servir como punto de partida práctico para tu recorrido de desarrollo.',
+        en: 'It is designed to help you understand yourself better and serve as a practical starting point for your development journey.'
+      },
+
+      step3_label: { es: 'Paso 03', en: 'Step 03' },
+      step3_title: { es: 'In-Depth Report: Mirar más allá de la superficie', en: 'In-Depth Report — Looking Beneath the Surface' },
+      step3_body: {
+        es: 'Además del Leadership Snapshot de Indra, tendrás acceso a un <strong>informe más detallado, llamado In-Depth Report,</strong> que te permitirá profundizar en tus resultados.<br><br>Este informe va más allá de lo visible en la superficie. Aunque los comportamientos y las competencias de liderazgo reflejan <em>lo que haces</em>, hay mucho más debajo: tus <strong>rasgos y motivadores</strong>, que influyen en <em>por qué</em> actúas como lo haces.<br><br>Puedes imaginarlo como la <strong>metáfora del iceberg</strong>:',
+        en: 'In addition to the Indra\'s leadership snapshot, you will have access to a <strong>more detailed report</strong> that allows you to go deeper into your results.<br><br>This report goes beyond what is visible on the surface. While leadership behaviours and competencies reflect <em>what you do</em>, there is much more beneath, your <strong>traits and drivers</strong>, which influence <em>why</em> you act the way you do.<br><br>You can think of this as an <strong>iceberg view</strong>:'
+      },
+      step3_b1: {
+        es: 'La parte visible representa tus comportamientos y competencias.',
+        en: 'The visible part represents your leadership skills and competencies.'
+      },
+      step3_b2: {
+        es: 'Bajo la superficie se encuentran tus rasgos y motivadores, que modelan cómo piensas, decides y respondes.',
+        en: 'Below the surface sit your traits and drivers, shaping how you think, decide and respond.'
+      },
+      step3_close: {
+        es: 'Esta perspectiva te ayudará a entender no solo lo que haces como líder, sino <em>por qué</em> lo haces, ofreciéndote una comprensión más profunda sobre cómo crecer y adaptarte con el tiempo.',
+        en: 'This perspective helps you understand not only <em>what</em> you do as a leader, but <em>why</em> you do it, giving you deeper insight into how to grow and adapt over time.'
+      },
+
+      step4_label: { es: 'Paso 04', en: 'Step 04' },
+      step4_title: { es: 'Avatar Feedback: cómo interpretar los resultados', en: 'Avatar Feedback — Making Sense of Your Results' },
+      step4_body: {
+        es: 'Para facilitar la interpretación y ayudarte a obtener el máximo valor de tus insights, interactuarás con un <strong>Avatar de Feedback</strong>: una experiencia conversacional e interactiva diseñada para complementar los informes.<br><br>El Avatar te ayudará a:',
+        en: 'To support interpretation and help you get the most value from your insights, you will engage with a <strong>Feedback Avatar</strong> — an interactive, conversational experience designed to complement the reports.<br><br>The Avatar helps you to:'
+      },
+      step4_b1: {
+        es: 'Interpretar tus resultados con claridad y confianza.',
+        en: 'Interpret your results with clarity and confidence.'
+      },
+      step4_b2: {
+        es: 'Explorar los comportamientos que hay detrás de tus puntuaciones.',
+        en: 'Explore the behaviours behind your scores.'
+      },
+      step4_b3: {
+        es: 'Priorizar acciones concretas de desarrollo adaptadas a tu contexto.',
+        en: 'Prioritise concrete development actions that fit your context.'
+      },
+      step4_close: {
+        es: 'Es un espacio seguro y disponible bajo demanda en el que podrás reflexionar, hacer preguntas y transformar los insights en acciones a tu propio ritmo.',
+        en: 'It is a safe, on-demand space where you can reflect, ask questions and translate insight into action at your own pace.'
+      },
+
+      /* 4. How to Maximize Your Feedback Avatar Session */
+      sec4_label: { es: '04 · Prompts', en: '04 · Prompts' },
+      sec4_title: { es: 'Cómo maximizar tu sesión con el "Avatar Feedback"', en: 'How to Maximize Your Feedback Avatar Session' },
+      sec4_intro: {
+        es: 'Tu Avatar Feedback es un espacio privado y disponible bajo demanda, diseñado para ayudarte a interpretar tus resultados y transformar los insights en acciones prácticas de desarrollo.<br><br>Puedes utilizar los siguientes <em>prompts</em> tal cual están redactados en el chat del Avatar:',
+        en: 'Your Feedback Avatar is a private, on-demand space designed to help you interpret your results and translate insight into practical development actions.<br><br>You can use the prompts below exactly as written in the Avatar chat:'
+      },
+
+      prompt1_title: {
+        es: 'Relacionar mis resultados con el Modelo de Liderazgo de Indra',
+        en: 'Connecting my results to Indra\'s Leadership Model'
+      },
+      prompt1_body: {
+        es: 'Según mis resultados, ¿qué habilidades del Modelo de Liderazgo de Indra están impulsando mi mejor desempeño? ¿Qué comportamientos específicos parecen estar contribuyendo más a estas fortalezas? ¿Y qué habilidades y comportamientos debería priorizar para seguir reforzando en adelante? Por favor, utiliza las habilidades de Indra mapeadas a las competencias de Korn Ferry que se indican a continuación:',
+        en: 'Based on my results, which of Indra\'s Leadership skills are driving my strongest performance? What specific behaviours seem to be contributing most to these strengths? And which skills and behaviours should I prioritise to strengthen going forward? Please use the Indra skills mapped to the Korn Ferry competencies below:'
+      },
+
+      map_h1: { es: 'Skills Indra', en: 'Indra\'s skill' },
+      map_h2: { es: 'Competencias Korn Ferry', en: 'Korn Ferry\'s competency' },
+      map_r1a: { es: 'Foco en el Cliente', en: 'Customer first' },
+      map_r1b: { es: 'Enfoque en el cliente', en: 'Customer focus' },
+      map_r2a: { es: 'Excelencia en la Ejecución', en: 'Delivering excellence' },
+      map_r2b: { es: 'Empuje por obtener resultados', en: 'Drives results' },
+      map_r3a: { es: 'Innovación Digital', en: 'Digital innovation' },
+      map_r3b: { es: 'Cultiva la innovación', en: 'Cultivates innovation' },
+      map_r4a: { es: 'Claridad y Valentía', en: 'Clarity & Courage' },
+      map_r4b: { es: 'Valentía', en: 'Courage' },
+      map_r5a: { es: 'Impulsar la Responsabilidad', en: 'Driving ownership' },
+      map_r5b: { es: 'Asegura responsabilidad', en: 'Ensures accountability' },
+      map_r6a: { es: 'Hacer Crecer a las Personas', en: 'Growing people' },
+      map_r6b: { es: 'Aprendizaje al vuelo', en: 'Nimble learning' },
+
+      prompt2_title: {
+        es: 'Comprendiendo mis resultados en profundidad',
+        en: 'Understanding my results in depth'
+      },
+      prompt2_body: {
+        es: 'Analizando mis resultados del informe, ¿cómo podría mi perfil ayudarme a liderar o gestionar un proceso de transformación? ¿En qué aspectos podría suponer un reto adicional? Explica cómo mis fortalezas pueden facilitar el cambio y en qué aspectos debería ser consciente de posibles dificultades al liderar en un contexto de transformación. Por favor, sé descriptivo/a.',
+        en: 'Looking at my overall results in the report, how might my profile help me lead or navigate a transformation? Where could it make things more challenging? Please explain how my strengths could support change and where I should be mindful of potential challenges when leading during a transformation. Please be descriptive.'
+      },
+
+      prompt3_title: {
+        es: 'Trabajar con rasgos y motivadores',
+        en: 'Working with traits and drivers'
+      },
+      prompt3_body: {
+        es: 'A partir de los insights sobre transformación que acabas de compartir, ¿qué rasgos y motivadores están más probablemente apoyando esas fortalezas? ¿Cuáles podrían generar riesgos si se utilizan en exceso durante un proceso de transformación? Explica cómo puedo aprovecharlos de forma efectiva y cómo gestionar sus posibles efectos negativos. Por favor, sé descriptivo/a.',
+        en: 'Based on the transformation insights you just shared, which of my traits and drivers are most likely supporting those strengths? Which ones could create risks if overused during a transformation? Please explain how I can leverage them effectively and how I can manage the potential downsides. Please be descriptive.'
+      },
+
+      prompt4_title: {
+        es: 'Desarrollando mis áreas de mejora',
+        en: 'Developing my areas of improvement'
+      },
+      prompt4_body1: {
+        es: '¿Cuáles son las áreas de desarrollo más importantes en las que debería centrarme y por qué son relevantes? Por favor, sé descriptivo/a.',
+        en: 'What are the most important development areas for me to focus on, and why are they important? Please be descriptive.'
+      },
+      prompt4_body2: {
+        es: '¿Cuál es la forma más efectiva de empezar a mejorar en mis principales áreas de desarrollo? Dame 2–3 microhábitos que pueda comenzar a aplicar esta misma semana para acelerar mi desarrollo.',
+        en: 'What is the most impactful way to start improving in my key development areas? Give me 2–3 micro-habits I can begin this week to accelerate my development.'
+      },
+
+      /* 5. Individual action plan */
+      sec5_label: { es: '05 · Tu plan', en: '05 · Your plan' },
+      sec5_title: { es: 'Plan de acción individual – Activar tus resultados', en: 'Individual action plan – Activating Your Results' },
+      sec5_intro: {
+        es: 'Una vez hayas completado tu experiencia con el Avatar Feedback, te animamos a no dejar que los insights se queden aquí. <strong>El valor de este proceso no reside solo en comprender tus resultados, sino en convertirlos en acciones significativas a lo largo del tiempo.</strong>',
+        en: 'Once you have completed your experience with the Feedback Avatar, we encourage you not to let the insight stop here. <strong>The value of this journey lies not only in understanding your results, but in turning them into meaningful action over time.</strong>'
+      },
+      sec5_intro2: {
+        es: 'Utiliza el espacio en blanco de la página para recoger tus reflexiones, principales aprendizajes y las prioridades de desarrollo que consideres más relevantes. Como siguiente paso práctico, te invitamos a definir <strong>tres planes de acción personales</strong> basados en las áreas que más te gustaría fortalecer.',
+        en: 'Use the blank space on the following page to capture your reflections, key takeaways and the development priorities that matter most to you. As a practical next step, we invite you to define <strong>three personal action plans</strong> based on the areas you would most like to strengthen.'
+      },
+      sec5_intro3: {
+        es: 'Cada plan de acción debe centrarse en una prioridad de desarrollo y ayudarte a pasar del insight a la acción. Para que sean útiles y realistas, intenta definir para cada uno de ellos:',
+        en: 'Each action plan should focus on one priority area for development and help you move from insight to action. To make them useful and realistic, try to define for each one:'
+      },
+
+      plan_h1: { es: 'Prioridad de Desarrollo', en: 'Development Priority' },
+      plan_h2: { es: '¿Qué quieres fortalecer?', en: 'What do you want to strengthen?' },
+      plan_h3: { es: '¿Qué acción llevarás a cabo?', en: 'What action will you take?' },
+      plan_p1: { es: 'Prioridad 1', en: 'Priority 1' },
+      plan_p2: { es: 'Prioridad 2', en: 'Priority 2' },
+      plan_p3: { es: 'Prioridad 3', en: 'Priority 3' }
+    };
+  </script>
+</head>
+<body class="flex flex-col min-h-screen bg-paper text-ink font-sans antialiased">
+
+  <header id="site-navbar" class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b border-ink/10"></header>
+
+  <main class="flex-1">
+
+    <!-- HERO -->
+    <section class="bg-tef-gradient-dark text-paper relative overflow-hidden" data-nav-dark style="margin-top:-79px;">
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 60vw 40vh at 30% 20%, rgba(0,102,255,0.20) 0%, transparent 60%);"></div>
+      <div class="relative max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 pt-36 pb-20 md:pt-44 md:pb-28">
+        <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-tef-blue mb-6 reveal reveal-1" x-text="t('hero_eyebrow')"></p>
+        <h1 class="font-sans font-normal leading-[0.95] tracking-tight mb-6 reveal reveal-2"
+            style="font-size: clamp(2.8rem, 6vw, 6rem)"
+            x-text="t('hero_title')"></h1>
+        <p class="text-xl md:text-2xl lg:text-3xl text-paper/70 leading-relaxed max-w-3xl reveal reveal-3" x-text="t('hero_subtitle')"></p>
+      </div>
+    </section>
+
+    <!-- 1. WELCOME -->
+    <section class="bg-paper border-t border-ink/10 py-20 md:py-28">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+        <div class="grid grid-cols-12 gap-6 md:gap-10">
+          <div class="col-span-12 md:col-span-4">
+            <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-tef-blue mb-4" x-text="t('sec1_label')"></p>
+            <h2 class="font-sans font-normal tracking-tight text-ink leading-[0.95]"
+                style="font-size: clamp(2rem, 4vw, 4rem)"
+                x-text="t('sec1_title')"></h2>
+          </div>
+          <div class="col-span-12 md:col-span-8 max-w-3xl space-y-5 text-[17px] md:text-[18px] text-ink-soft leading-relaxed">
+            <p x-html="t('sec1_p1')"></p>
+            <p x-html="t('sec1_p2')"></p>
+            <p x-html="t('sec1_p3')"></p>
+            <p x-html="t('sec1_p4')"></p>
+            <p x-html="t('sec1_p5')"></p>
+            <p class="font-normal italic text-ink pt-3" x-text="t('sec1_p6')"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. WHY THIS JOURNEY MATTERS NOW -->
+    <section class="bg-paper-warm border-t border-ink/10 py-20 md:py-28">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+        <div class="mb-12 md:mb-16">
+          <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-tef-blue mb-4" x-text="t('sec2_label')"></p>
+          <h2 class="font-sans font-normal tracking-tight text-ink leading-[0.95] mb-6"
+              style="font-size: clamp(2rem, 4vw, 4rem)"
+              x-text="t('sec2_title')"></h2>
+          <div class="max-w-3xl space-y-4 text-[17px] md:text-[18px] text-ink-soft leading-relaxed">
+            <p x-text="t('sec2_intro')"></p>
+            <p x-html="t('sec2_intro2')"></p>
+          </div>
+        </div>
+
+        <!-- 3 Attitudes -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-ink/10">
+          <article class="border-b md:border-b-0 md:border-r border-ink/10 p-8 md:p-10">
+            <p class="font-mono text-[10px] tracking-[0.3em] uppercase text-tef-blue mb-3" x-text="t('att1_sub')"></p>
+            <h3 class="font-sans font-normal text-2xl md:text-3xl text-ink leading-tight mb-4" x-text="t('att1_title')"></h3>
+            <p class="text-[15px] text-ink-soft leading-relaxed" x-text="t('att1_body')"></p>
+          </article>
+          <article class="border-b md:border-b-0 md:border-r border-ink/10 p-8 md:p-10">
+            <p class="font-mono text-[10px] tracking-[0.3em] uppercase text-tef-blue mb-3" x-text="t('att2_sub')"></p>
+            <h3 class="font-sans font-normal text-2xl md:text-3xl text-ink leading-tight mb-4" x-text="t('att2_title')"></h3>
+            <p class="text-[15px] text-ink-soft leading-relaxed" x-text="t('att2_body')"></p>
+          </article>
+          <article class="p-8 md:p-10">
+            <p class="font-mono text-[10px] tracking-[0.3em] uppercase text-tef-blue mb-3" x-text="t('att3_sub')"></p>
+            <h3 class="font-sans font-normal text-2xl md:text-3xl text-ink leading-tight mb-4" x-text="t('att3_title')"></h3>
+            <p class="text-[15px] text-ink-soft leading-relaxed" x-text="t('att3_body')"></p>
+          </article>
+        </div>
+
+        <!-- Leadership Model 6 skills -->
+        <div class="mt-16 md:mt-20 pt-12 md:pt-14 border-t border-ink/10">
+          <p class="font-mono text-[11px] tracking-[0.25em] uppercase text-tef-blue mb-3" x-text="t('model_label')"></p>
+          <p class="text-[17px] md:text-[18px] text-ink-soft leading-relaxed max-w-3xl mb-10" x-text="t('model_intro')"></p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-ink/10">
+            <article class="bg-paper p-7">
+              <h4 class="font-sans font-normal text-xl md:text-2xl text-ink leading-tight mb-2" x-text="t('ls1_title')"></h4>
+              <p class="font-sans italic text-tef-blue text-[14px] leading-snug mb-3" x-text="t('ls1_sub')"></p>
+              <p class="text-[14.5px] text-ink-soft leading-relaxed" x-text="t('ls1_body')"></p>
+            </article>
+            <article class="bg-paper p-7">
+              <h4 class="font-sans font-normal text-xl md:text-2xl text-ink leading-tight mb-2" x-text="t('ls2_title')"></h4>
+              <p class="font-sans italic text-tef-blue text-[14px] leading-snug mb-3" x-text="t('ls2_sub')"></p>
+              <p class="text-[14.5px] text-ink-soft leading-relaxed" x-text="t('ls2_body')"></p>
+            </article>
+            <article class="bg-paper p-7">
+              <h4 class="font-sans font-normal text-xl md:text-2xl text-ink leading-tight mb-2" x-text="t('ls3_title')"></h4>
+              <p class="font-sans italic text-tef-blue text-[14px] leading-snug mb-3" x-text="t('ls3_sub')"></p>
+              <p class="text-[14.5px] text-ink-soft leading-relaxed" x-text="t('ls3_body')"></p>
+            </article>
+            <article class="bg-paper p-7">
+              <h4 class="font-sans font-normal text-xl md:text-2xl text-ink leading-tight mb-2" x-text="t('ls4_title')"></h4>
+              <p class="font-sans italic text-tef-blue text-[14px] leading-snug mb-3" x-text="t('ls4_sub')"></p>
+              <p class="text-[14.5px] text-ink-soft leading-relaxed" x-text="t('ls4_body')"></p>
+            </article>
+            <article class="bg-paper p-7">
+              <h4 class="font-sans font-normal text-xl md:text-2xl text-ink leading-tight mb-2" x-text="t('ls5_title')"></h4>
+              <p class="font-sans italic text-tef-blue text-[14px] leading-snug mb-3" x-text="t('ls5_sub')"></p>
+              <p class="text-[14.5px] text-ink-soft leading-relaxed" x-text="t('ls5_body')"></p>
+            </article>
+            <article class="bg-paper p-7">
+              <h4 class="font-sans font-normal text-xl md:text-2xl text-ink leading-tight mb-2" x-text="t('ls6_title')"></h4>
+              <p class="font-sans italic text-tef-blue text-[14px] leading-snug mb-3" x-text="t('ls6_sub')"></p>
+              <p class="text-[14.5px] text-ink-soft leading-relaxed" x-text="t('ls6_body')"></p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. OVERVIEW OF EXPERIENCE -->
+    <section class="bg-paper border-t border-ink/10 py-20 md:py-28">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+        <div class="mb-12 md:mb-16">
+          <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-tef-blue mb-4" x-text="t('sec3_label')"></p>
+          <h2 class="font-sans font-normal tracking-tight text-ink leading-[0.95] mb-6"
+              style="font-size: clamp(2rem, 4vw, 4rem)"
+              x-text="t('sec3_title')"></h2>
+          <div class="max-w-3xl space-y-4 text-[17px] md:text-[18px] text-ink-soft leading-relaxed">
+            <p x-text="t('sec3_intro1')"></p>
+            <p x-text="t('sec3_intro2')"></p>
+            <p x-text="t('sec3_intro3')"></p>
+          </div>
+        </div>
+
+        <div class="border-t border-ink/10">
+          <!-- Step 01 -->
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-b border-ink/10">
+            <div class="col-span-12 md:col-span-3">
+              <p class="font-mono text-[10px] tracking-[0.25em] uppercase text-tef-blue mb-2" x-text="t('step1_label')"></p>
+              <p class="font-mono text-[12px] tracking-[0.18em] text-ink-mute" x-text="t('step1_time')"></p>
+            </div>
+            <div class="col-span-12 md:col-span-9">
+              <h3 class="font-sans font-normal text-2xl md:text-3xl text-ink leading-tight mb-3" x-text="t('step1_title')"></h3>
+              <p class="text-[16px] text-ink-soft leading-relaxed max-w-3xl" x-html="t('step1_body')"></p>
+            </div>
+          </article>
+
+          <!-- Step 02 -->
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-b border-ink/10">
+            <div class="col-span-12 md:col-span-3">
+              <p class="font-mono text-[10px] tracking-[0.25em] uppercase text-tef-blue mb-2" x-text="t('step2_label')"></p>
+            </div>
+            <div class="col-span-12 md:col-span-9">
+              <h3 class="font-sans font-normal text-2xl md:text-3xl text-ink leading-tight mb-3" x-text="t('step2_title')"></h3>
+              <p class="text-[16px] text-ink-soft leading-relaxed max-w-3xl mb-4" x-html="t('step2_body')"></p>
+              <ul class="space-y-2 text-[15px] text-ink-mute mb-4">
+                <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('step2_b1')"></span></li>
+                <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('step2_b2')"></span></li>
+                <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('step2_b3')"></span></li>
+              </ul>
+              <p class="text-[16px] text-ink-soft leading-relaxed max-w-3xl" x-text="t('step2_close')"></p>
+            </div>
+          </article>
+
+          <!-- Step 03 -->
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12 border-b border-ink/10">
+            <div class="col-span-12 md:col-span-3">
+              <p class="font-mono text-[10px] tracking-[0.25em] uppercase text-tef-blue mb-2" x-text="t('step3_label')"></p>
+            </div>
+            <div class="col-span-12 md:col-span-9">
+              <h3 class="font-sans font-normal text-2xl md:text-3xl text-ink leading-tight mb-3" x-text="t('step3_title')"></h3>
+              <p class="text-[16px] text-ink-soft leading-relaxed max-w-3xl mb-4" x-html="t('step3_body')"></p>
+              <ul class="space-y-2 text-[15px] text-ink-mute mb-4">
+                <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('step3_b1')"></span></li>
+                <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('step3_b2')"></span></li>
+              </ul>
+              <p class="text-[16px] text-ink-soft leading-relaxed max-w-3xl" x-html="t('step3_close')"></p>
+            </div>
+          </article>
+
+          <!-- Step 04 -->
+          <article class="grid grid-cols-12 gap-6 py-10 md:py-12">
+            <div class="col-span-12 md:col-span-3">
+              <p class="font-mono text-[10px] tracking-[0.25em] uppercase text-tef-blue mb-2" x-text="t('step4_label')"></p>
+            </div>
+            <div class="col-span-12 md:col-span-9">
+              <h3 class="font-sans font-normal text-2xl md:text-3xl text-ink leading-tight mb-3" x-text="t('step4_title')"></h3>
+              <p class="text-[16px] text-ink-soft leading-relaxed max-w-3xl mb-4" x-html="t('step4_body')"></p>
+              <ul class="space-y-2 text-[15px] text-ink-mute mb-4">
+                <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('step4_b1')"></span></li>
+                <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('step4_b2')"></span></li>
+                <li class="flex gap-2"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('step4_b3')"></span></li>
+              </ul>
+              <p class="text-[16px] text-ink-soft leading-relaxed max-w-3xl italic" x-text="t('step4_close')"></p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. MAXIMIZE AVATAR SESSION -->
+    <section class="bg-paper-warm border-t border-ink/10 py-20 md:py-28">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+        <div class="mb-12 md:mb-16">
+          <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-tef-blue mb-4" x-text="t('sec4_label')"></p>
+          <h2 class="font-sans font-normal tracking-tight text-ink leading-[0.95] mb-6"
+              style="font-size: clamp(2rem, 4vw, 4rem)"
+              x-text="t('sec4_title')"></h2>
+          <p class="max-w-3xl text-[17px] md:text-[18px] text-ink-soft leading-relaxed" x-html="t('sec4_intro')"></p>
+        </div>
+
+        <div class="space-y-8">
+          <!-- Prompt 1 -->
+          <article class="bg-paper border border-ink/10 p-7 md:p-9">
+            <p class="font-mono text-[10px] tracking-[0.25em] uppercase text-tef-blue mb-3">01</p>
+            <h3 class="font-sans font-normal text-xl md:text-2xl text-ink leading-tight mb-3" x-text="t('prompt1_title')"></h3>
+            <p class="text-[15.5px] text-ink-soft leading-relaxed mb-5 max-w-4xl" x-text="t('prompt1_body')"></p>
+            <!-- Mapping table -->
+            <div class="mt-6 border border-ink/10 overflow-hidden">
+              <div class="grid grid-cols-2 bg-tef-blue text-white">
+                <div class="px-5 py-3 font-mono text-[11px] tracking-[0.2em] uppercase" x-text="t('map_h1')"></div>
+                <div class="px-5 py-3 font-mono text-[11px] tracking-[0.2em] uppercase border-l border-white/20" x-text="t('map_h2')"></div>
+              </div>
+              <template x-for="n in [1,2,3,4,5,6]" :key="n">
+                <div class="grid grid-cols-2 border-t border-ink/10 text-[14.5px] text-ink-soft">
+                  <div class="px-5 py-3" x-text="t('map_r' + n + 'a')"></div>
+                  <div class="px-5 py-3 border-l border-ink/10 bg-paper-warm" x-text="t('map_r' + n + 'b')"></div>
+                </div>
+              </template>
+            </div>
+          </article>
+
+          <!-- Prompt 2 -->
+          <article class="bg-paper border border-ink/10 p-7 md:p-9">
+            <p class="font-mono text-[10px] tracking-[0.25em] uppercase text-tef-blue mb-3">02</p>
+            <h3 class="font-sans font-normal text-xl md:text-2xl text-ink leading-tight mb-3" x-text="t('prompt2_title')"></h3>
+            <p class="text-[15.5px] text-ink-soft leading-relaxed max-w-4xl" x-text="t('prompt2_body')"></p>
+          </article>
+
+          <!-- Prompt 3 -->
+          <article class="bg-paper border border-ink/10 p-7 md:p-9">
+            <p class="font-mono text-[10px] tracking-[0.25em] uppercase text-tef-blue mb-3">03</p>
+            <h3 class="font-sans font-normal text-xl md:text-2xl text-ink leading-tight mb-3" x-text="t('prompt3_title')"></h3>
+            <p class="text-[15.5px] text-ink-soft leading-relaxed max-w-4xl" x-text="t('prompt3_body')"></p>
+          </article>
+
+          <!-- Prompt 4 -->
+          <article class="bg-paper border border-ink/10 p-7 md:p-9">
+            <p class="font-mono text-[10px] tracking-[0.25em] uppercase text-tef-blue mb-3">04</p>
+            <h3 class="font-sans font-normal text-xl md:text-2xl text-ink leading-tight mb-4" x-text="t('prompt4_title')"></h3>
+            <ul class="space-y-3 text-[15.5px] text-ink-soft leading-relaxed max-w-4xl">
+              <li class="flex gap-3"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('prompt4_body1')"></span></li>
+              <li class="flex gap-3"><span class="text-tef-blue flex-shrink-0">·</span><span x-text="t('prompt4_body2')"></span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. INDIVIDUAL ACTION PLAN -->
+    <section class="bg-paper border-t border-ink/10 py-20 md:py-28">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+        <div class="mb-12 md:mb-16">
+          <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-tef-blue mb-4" x-text="t('sec5_label')"></p>
+          <h2 class="font-sans font-normal tracking-tight text-ink leading-[0.95] mb-6"
+              style="font-size: clamp(2rem, 4vw, 4rem)"
+              x-text="t('sec5_title')"></h2>
+          <div class="max-w-3xl space-y-4 text-[17px] md:text-[18px] text-ink-soft leading-relaxed">
+            <p x-html="t('sec5_intro')"></p>
+            <p x-html="t('sec5_intro2')"></p>
+            <p x-text="t('sec5_intro3')"></p>
+          </div>
+        </div>
+
+        <div class="border border-ink/10 overflow-hidden">
+          <div class="grid grid-cols-12 bg-tef-blue text-white">
+            <div class="col-span-12 md:col-span-3 px-5 py-4 font-mono text-[11px] tracking-[0.2em] uppercase" x-text="t('plan_h1')"></div>
+            <div class="col-span-12 md:col-span-4 px-5 py-4 font-mono text-[11px] tracking-[0.2em] uppercase md:border-l border-white/20" x-text="t('plan_h2')"></div>
+            <div class="col-span-12 md:col-span-5 px-5 py-4 font-mono text-[11px] tracking-[0.2em] uppercase md:border-l border-white/20" x-text="t('plan_h3')"></div>
+          </div>
+          <template x-for="n in [1,2,3]" :key="n">
+            <div class="grid grid-cols-12 border-t border-ink/10 min-h-[140px]">
+              <div class="col-span-12 md:col-span-3 px-5 py-6 bg-paper-warm">
+                <p class="font-mono text-[11px] tracking-[0.18em] uppercase text-tef-blue" x-text="t('plan_p' + n)"></p>
+              </div>
+              <div class="col-span-12 md:col-span-4 px-5 py-6 md:border-l border-ink/10"></div>
+              <div class="col-span-12 md:col-span-5 px-5 py-6 md:border-l border-ink/10"></div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page navigation -->
+    <section class="bg-paper-warm border-t border-ink/10 py-8">
+      <div class="max-w-[1920px] mx-auto px-8 md:px-12 lg:px-16 flex items-center justify-between gap-4">
+        <a href="autodiagnostico"
+           class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <svg class="w-4 h-4 shrink-0 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="t('back_auto')"></span>
+        </a>
+        <a href="faq"
+           class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="t('go_faq')"></span>
+          <svg class="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="site-footer" class="bg-tef-dark text-paper mt-auto"></footer>
+
+  <script src="components.js"></script>
+  <script src="scroll.js"></script>
+  <style>
+    .bg-tef-gradient-dark { background: radial-gradient(ellipse at 70% 0%, #0A4A5A 0%, #002532 55%, #001318 100%); }
+  </style>
+</body>
+</html>

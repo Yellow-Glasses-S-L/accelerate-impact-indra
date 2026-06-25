@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es" x-data="{
+  lang: localStorage.getItem('lang') || 'es',
+  page: 'info',
+  init() {
+    this.$watch('lang', v => localStorage.setItem('lang', v));
+  },
+  t(key) {
+    return i18n[key] ? (i18n[key][this.lang] || i18n[key]['es']) : key;
+  }
+}">
+<head>
+  <style id="page-cloak">html{background:#E3E2DA}html:not(.loaded) body{opacity:0!important}html:not(.loaded) #site-navbar,html:not(.loaded) #site-footer{opacity:0!important}html:not(.loaded) .reveal{animation:none!important;opacity:0!important;transform:none!important}body{transition:opacity .25s ease}</style>
+  <meta name="view-transition" content="same-origin" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto — Accelerate Impact</title>
+  <meta name="description" content="Estamos contigo en cada paso del programa." />
+  <link rel="icon" type="image/svg+xml" href="images/brand/favicon_indra.svg" />
+  <link rel="apple-touch-icon" href="images/brand/favicon_indra.svg" />
+  <link rel="canonical" href="https://accelerateimpact.es/info" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Accelerate Impact" />
+  <meta property="og:url" content="https://accelerateimpact.es/info" />
+  <meta property="og:title" content="Contacto — Accelerate Impact" />
+  <meta property="og:description" content="Estamos contigo en cada paso del programa." />
+  <meta property="og:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <meta property="og:image:width" content="8000" />
+  <meta property="og:image:height" content="4500" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Contacto — Accelerate Impact" />
+  <meta name="twitter:description" content="Estamos contigo en cada paso del programa." />
+  <meta name="twitter:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+                        tef: { blue: '#00B0BD', dark: '#002532', light: '#C2D2D6' },
+            ink: { DEFAULT: '#002532', soft: '#2B3447', mute: '#58617A' },
+            paper: { DEFAULT: '#E3E2DA', warm: '#D8D7CE', deep: '#002532' }
+          },
+                    fontFamily: {
+            sans: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            display: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            mono: ['"Indra Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+    *, *::before, *::after { font-family: "Indra Sans", sans-serif !important; }
+    body, p, span, a, li, td, th, label, input, button, textarea, select { font-family: "Indra Sans", sans-serif !important; }
+    html, body, * { font-feature-settings: normal !important; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { animation: fadeUp 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script>
+    const i18n = {
+      nav_journey: { es: 'Journey', en: 'Journey' },
+      nav_info: { es: 'Contacto', en: 'Contact' },
+
+      postmark: { es: 'Madrid · 2026', en: 'Madrid · 2026' },
+      ref: { es: 'Ref · 07 / 07', en: 'Ref · 07 / 07' },
+      addressee: { es: 'Para ti · participante del programa', en: 'To you · program participant' },
+
+      /* Claim oficial Laura */
+      hero_claim: { es: 'Estamos contigo en cada paso.', en: 'We are with you every step of the way.' },
+
+      greeting: { es: 'Hola,', en: 'Hello,' },
+      body_1: {
+        es: 'Si tienes dudas sobre el programa, su contenido o cualquier aspecto logístico, escríbenos.',
+        en: 'If you have questions about the program, its content, or anything logistical, write to us.'
+      },
+      body_2: {
+        es: 'Respondemos en menos de 48 horas laborables.',
+        en: 'We reply within 48 business hours.'
+      },
+      signoff: { es: 'Un saludo,', en: 'Warm regards,' },
+      signoff_team: { es: 'Equipo Accelerate Impact', en: 'Accelerate Impact team' },
+
+      card_label: { es: 'Persona de contacto', en: 'Contact person' },
+      card_name: { es: 'Equipo Accelerate Impact', en: 'Accelerate Impact team' },
+      card_role: { es: 'Indra Universitas', en: 'Indra Universitas' },
+      card_email: { es: 'accelerate.universitas@telefonica.com', en: 'accelerate.universitas@telefonica.com' },
+      card_phone: { es: '—', en: '—' },
+      card_note: { es: 'Escríbenos a este email y te respondemos en 48 h laborables.', en: 'Write to this email — we reply within 48 business hours.' },
+
+      note_label: { es: 'Coordinación', en: 'Coordination' },
+      note_text: {
+        es: 'Para dudas operativas, logística de las sesiones presenciales o cambios en tu calendario, contacta con tu HRBP o con el equipo de Indra Universitas.',
+        en: 'For operational questions, logistics of in-person sessions or calendar changes, contact your HRBP or the Indra Universitas team.'
+      },
+
+      back: { es: 'Volver a inicio', en: 'Back to home' }
+    };
+  </script>
+</head>
+<body class="flex flex-col min-h-screen bg-paper-warm text-ink font-sans antialiased">
+
+  <!-- HEADER -->
+  <header id="site-navbar" class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b border-ink/10"></header>
+
+  <!-- MAIN — the letter / postcard -->
+  <main class="flex-1 flex items-start justify-center py-14 md:py-20 px-6" data-info-page>
+    <div class="w-full max-w-3xl">
+
+      <!-- Envelope meta row -->
+      <div class="flex items-center justify-between mb-6" data-info-meta>
+        <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('postmark')"></p>
+      </div>
+
+      <!-- Letter -->
+      <article class="bg-paper border border-ink/10 px-8 md:px-16 py-14 md:py-20 relative" data-info-letter>
+        <span class="absolute top-4 left-4 w-5 h-5 border-t border-l border-ink/30"></span>
+        <span class="absolute top-4 right-4 w-5 h-5 border-t border-r border-ink/30"></span>
+        <span class="absolute bottom-4 left-4 w-5 h-5 border-b border-l border-ink/30"></span>
+        <span class="absolute bottom-4 right-4 w-5 h-5 border-b border-r border-ink/30"></span>
+
+        <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute mb-6 md:mb-8" x-text="t('addressee')"></p>
+
+        <!-- Hero claim oficial Laura -->
+        <h1 class="font-normal leading-[0.95] tracking-[-0.03em] text-5xl md:text-7xl lg:text-8xl mb-10 md:mb-14"
+            data-reveal="up" x-text="t('hero_claim')"></h1>
+
+        <p class="font-normal text-4xl md:text-6xl mb-8">
+          <em class="italic font-normal text-tef-blue" data-info-greeting x-text="t('greeting')"></em>
+        </p>
+
+        <div class="space-y-5 text-[18px] md:text-[19px] leading-relaxed text-ink-soft max-w-md mb-14">
+          <p x-text="t('body_1')"></p>
+          <p x-text="t('body_2')"></p>
+        </div>
+
+        <div class="flex items-baseline justify-between gap-6 pt-6 border-t border-dashed border-ink/20">
+          <p class="font-normal italic text-xl text-ink" x-text="t('signoff')"></p>
+          <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-mute" x-text="t('signoff_team')"></p>
+        </div>
+      </article>
+
+      <!-- Contact "stamp" card — overlapping slightly rotated -->
+      <aside class="md:-mt-10 mt-10 md:ml-auto md:mr-8 md:w-96 relative" data-info-stamp>
+        <div class="bg-paper-deep text-paper p-6 relative md:rotate-[1.5deg] shadow-xl">
+          <p class="font-mono text-[10px] tracking-[0.25em] uppercase text-paper/60 mb-5" x-text="t('card_label')"></p>
+          <p class="font-normal text-xl leading-tight tracking-tight mb-1" x-text="t('card_name')"></p>
+          <p class="font-mono text-[11px] tracking-[0.15em] uppercase text-paper/60 mb-6" x-text="t('card_role')"></p>
+          <div class="space-y-2 pt-5 border-t border-paper/20">
+            <a href="mailto:contacto@universitas.com" class="flex items-center gap-3 text-sm text-paper/80 hover:text-tef-blue transition-colors">
+              <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-paper/40 w-10">mail</span>
+              <span x-text="t('card_email')"></span>
+            </a>
+          </div>
+          <p class="font-mono text-[10px] tracking-[0.15em] italic text-paper/40 mt-5" x-text="t('card_note')"></p>
+        </div>
+      </aside>
+
+
+    </div>
+  </main>
+
+    <!-- Page navigation -->
+    <section class="bg-paper-warm border-t border-ink/10 py-8">
+      <div class="max-w-[1920px] mx-auto px-8 md:px-12 lg:px-16 flex items-center">
+        <a href="/"
+           class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <svg class="w-4 h-4 shrink-0 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="t('back')"></span>
+        </a>
+      </div>
+    </section>
+
+  <!-- FOOTER -->
+  <footer id="site-footer" class="bg-tef-dark text-paper mt-auto"></footer>
+
+  <script src="components.js"></script>
+  <script src="scroll.js"></script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es" x-data="{
+  lang: localStorage.getItem('lang') || 'es',
+  page: 'lider-indra',
+  liderPopup: null,
+  init() {
+    this.$watch('lang', v => localStorage.setItem('lang', v));
+  },
+  t(key) {
+    return i18n[key] ? (i18n[key][this.lang] || i18n[key]['es']) : key;
+  }
+}">
+<head>
+  <style id="page-cloak">html{background:#E3E2DA}html:not(.loaded) body{opacity:0!important}html:not(.loaded) #site-navbar,html:not(.loaded) #site-footer{opacity:0!important}html:not(.loaded) .reveal{animation:none!important;opacity:0!important;transform:none!important}body{transition:opacity .25s ease}</style>
+  <meta name="view-transition" content="same-origin" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Líder Indra — Accelerate Impact</title>
+  <meta name="description" content="Tres compromisos que definen al líder Indra. It's on all of us." />
+  <link rel="icon" type="image/svg+xml" href="images/brand/favicon_indra.svg" />
+  <link rel="apple-touch-icon" href="images/brand/favicon_indra.svg" />
+  <link rel="canonical" href="https://accelerateimpact.es/lider-indra" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Accelerate Impact" />
+  <meta property="og:url" content="https://accelerateimpact.es/lider-indra" />
+  <meta property="og:title" content="El Líder Indra — Accelerate Impact" />
+  <meta property="og:description" content="Tres compromisos que definen al líder Indra. It's on all of us." />
+  <meta property="og:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <meta property="og:image:width" content="8000" />
+  <meta property="og:image:height" content="4500" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="El Líder Indra — Accelerate Impact" />
+  <meta name="twitter:description" content="Tres compromisos que definen al líder Indra. It's on all of us." />
+  <meta name="twitter:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            tef: { blue: '#00B0BD', dark: '#002532', light: '#C2D2D6' },
+            ink: { DEFAULT: '#002532', soft: '#2B3447', mute: '#58617A' },
+            paper: { DEFAULT: '#E3E2DA', warm: '#D8D7CE', deep: '#002532' }
+          },
+          fontFamily: {
+            sans: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            display: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            mono: ['"Indra Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 300; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+    *, *::before, *::after { font-family: "Indra Sans", sans-serif !important; }
+    html, body, * { font-feature-settings: normal !important; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { animation: fadeUp 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .reveal-1 { animation-delay: 0.1s; }
+    .reveal-2 { animation-delay: 0.25s; }
+    .reveal-3 { animation-delay: 0.4s; }
+
+    @media (prefers-reduced-motion: reduce) { .reveal { animation: none; } }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script>
+    const i18n = {
+      nav_journey:        { es: 'Journey', en: 'Journey' },
+      nav_nadia:          { es: 'Nadia', en: 'Nadia' },
+      nav_lider:          { es: 'Líder Indra', en: 'Indra Leader' },
+      nav_info:           { es: 'Contacto', en: 'Contact' },
+      nav_back_journey:   { es: 'Volver a Journey', en: 'Back to Journey' },
+
+      hero_title:    { es: 'El Líder Indra.', en: 'The Indra Leader.' },
+      hero_subtitle: { es: "It's on all of us.", en: "It's on all of us." },
+
+      pilars_eyebrow: { es: "It's On Us", en: "It's On Us" },
+      pilars_title:   { es: 'Tres compromisos que nos definen.', en: 'Three commitments that define us.' },
+
+      p1_claim: { es: 'Damos lo mejor de nosotros', en: 'We give our best' },
+      p1_sub:   { es: 'Porque lo bueno no basta.', en: 'Because good is not enough.' },
+      p1_body:  { es: 'El negocio necesita relevancia.', en: 'The business needs relevance.' },
+      p1_skill1: { es: 'Customer First', en: 'Customer First' },
+      p1_skill2: { es: 'Delivering Excellence', en: 'Delivering Excellence' },
+
+      p2_claim: { es: 'Cuestionamos nuestros propios límites', en: 'We challenge our own limits' },
+      p2_sub:   { es: 'Y los rompemos.', en: 'And we break them.' },
+      p2_body:  { es: 'El negocio necesita velocidad y eficiencia.', en: 'The business needs speed and efficiency.' },
+      p2_skill1: { es: 'Digital Innovation', en: 'Digital Innovation' },
+      p2_skill2: { es: 'Clarity & Courage', en: 'Clarity & Courage' },
+
+      p3_claim: { es: 'Crecemos juntos', en: 'We grow together' },
+      p3_sub:   { es: 'O no crecemos.', en: 'Or we do not grow at all.' },
+      p3_body:  { es: 'El negocio necesita resultados y un talento preparado para lograrlos.', en: 'The business needs results and talent ready to achieve them.' },
+      p3_skill1: { es: 'Driving Ownership', en: 'Driving Ownership' },
+      p3_skill2: { es: 'Growing People', en: 'Growing People' },
+
+      more_info: { es: 'Más información', en: 'More info' },
+      pop_close: { es: 'Cerrar', en: 'Close' },
+
+      lp1_title: { es: 'Dando lo mejor de nosotros.', en: 'Giving our best.' },
+      lp1_body: {
+        es: '<p class="text-sm text-ink-soft leading-relaxed mb-3">Y si queremos convertirnos en socios de confianza de nuestros clientes, necesitamos profesionales que <strong class="text-ink font-semibold">simplifiquen, prioricen y se enfoquen en lo que realmente genera impacto</strong>.</p><p class="text-sm text-ink-soft leading-relaxed mb-4">Esto, hoy, en Indra, lo expresamos a través de dos <em>skills</em> clave:</p><ul class="space-y-3 text-sm text-ink-soft list-disc list-outside ml-5"><li><span class="font-semibold text-ink">Customer First</span>: el momento del cliente es ahora. Escuchamos y resolvemos con rapidez.</li><li><span class="font-semibold text-ink">Delivering Excellence</span>: la excelencia es nuestro estándar. Menos es más. Obsesión por la simplicidad.</li></ul>',
+        en: '<p class="text-sm text-ink-soft leading-relaxed mb-3">And if we want to become trusted partners for our customers, we need professionals who <strong class="text-ink font-semibold">simplify, prioritize and focus on what really creates impact</strong>.</p><p class="text-sm text-ink-soft leading-relaxed mb-4">At Indra, we express this today through two key <em>skills</em>:</p><ul class="space-y-3 text-sm text-ink-soft list-disc list-outside ml-5"><li><span class="font-semibold text-ink">Customer First</span>: the customer\'s moment is now. We listen and resolve quickly.</li><li><span class="font-semibold text-ink">Delivering Excellence</span>: excellence is our standard. Less is more. Obsession with simplicity.</li></ul>'
+      },
+
+      lp2_title: { es: 'Cuestionamos nuestros propios límites.', en: 'We question our own limits.' },
+      lp2_body: {
+        es: '<p class="text-sm text-ink-soft leading-relaxed mb-3">Si queremos ser competitivos, necesitamos profesionales <strong class="text-ink font-semibold">valientes y curiosos</strong>, que cuestionen los límites, estén dispuestos a tomar decisiones difíciles, asumir riesgos controlados y utilizar la tecnología para resolver problemas reales.</p><p class="text-sm text-ink-soft leading-relaxed mb-3">Las compañías que avanzan no son las que convierten sus rutinas en dogma, sino las que se atreven a cuestionarlas.</p><p class="text-sm text-ink-soft leading-relaxed mb-4">Esto, hoy, en Indra, lo expresamos a través de dos <em>skills</em> clave:</p><ul class="space-y-3 text-sm text-ink-soft list-disc list-outside ml-5"><li><span class="font-semibold text-ink">Digital Innovation</span>: creamos entornos para sentirnos libres, compartir ideas, generar soluciones creativas e innovar con propósito.</li><li><span class="font-semibold text-ink">Clarity &amp; Courage</span>: la claridad guía decisiones valientes. Impulsamos la toma de decisiones sin miedo, el debate abierto y sincero, y el cuestionamiento riguroso.</li></ul>',
+        en: '<p class="text-sm text-ink-soft leading-relaxed mb-3">If we want to be competitive, we need <strong class="text-ink font-semibold">brave and curious</strong> professionals, who challenge limits, are willing to make tough decisions, take measured risks and use technology to solve real problems.</p><p class="text-sm text-ink-soft leading-relaxed mb-3">The companies that move forward are not the ones that turn their routines into dogma, but those that dare to question them.</p><p class="text-sm text-ink-soft leading-relaxed mb-4">At Indra, we express this today through two key <em>skills</em>:</p><ul class="space-y-3 text-sm text-ink-soft list-disc list-outside ml-5"><li><span class="font-semibold text-ink">Digital Innovation</span>: we create spaces to feel free, share ideas, generate creative solutions and innovate with purpose.</li><li><span class="font-semibold text-ink">Clarity &amp; Courage</span>: clarity drives brave decisions. We push fearless decision-making, open and honest debate, and rigorous questioning.</li></ul>'
+      },
+
+      lp3_title: { es: 'Crecemos juntos.', en: 'We grow together.' },
+      lp3_body: {
+        es: '<p class="text-sm text-ink-soft leading-relaxed mb-3">Si queremos transformarnos para liderar el futuro, necesitamos desarrollar hoy las capacidades que el negocio demandará mañana.</p><p class="text-sm text-ink-soft leading-relaxed mb-3">Necesitamos profesionales que promuevan que cada persona <strong class="text-ink font-semibold">asuma la responsabilidad por el todo</strong>, no solo por su parte. Que se reten a sí mismos e impulsen a sus equipos más allá de lo conocido.</p><p class="text-sm text-ink-soft leading-relaxed mb-4">Esto, hoy, en Indra, lo expresamos a través de dos <em>skills</em> clave:</p><ul class="space-y-3 text-sm text-ink-soft list-disc list-outside ml-5 mb-4"><li><span class="font-semibold text-ink">Driving Ownership</span>: el resultado depende de nosotros. Asumimos la responsabilidad por el todo y buscamos soluciones.</li><li><span class="font-semibold text-ink">Growing People</span>: el crecimiento construye futuro. Aprendemos de la experiencia, lideramos con el ejemplo e impulsamos a las personas.</li></ul><p class="text-sm text-ink-soft leading-relaxed mb-3">El crecimiento de la compañía depende del crecimiento de cada equipo.<br>Y el crecimiento de cada equipo comienza con las personas.</p><p class="text-sm text-ink-soft leading-relaxed">Depende de nuestra ambición.<br>De nuestra iniciativa.<br>It\'s on us.</p>',
+        en: '<p class="text-sm text-ink-soft leading-relaxed mb-3">If we want to transform to lead the future, we need to develop today the capabilities the business will demand tomorrow.</p><p class="text-sm text-ink-soft leading-relaxed mb-3">We need professionals who encourage everyone to <strong class="text-ink font-semibold">take responsibility for the whole</strong>, not just their part. Who challenge themselves and push their teams beyond the known.</p><p class="text-sm text-ink-soft leading-relaxed mb-4">At Indra, we express this today through two key <em>skills</em>:</p><ul class="space-y-3 text-sm text-ink-soft list-disc list-outside ml-5 mb-4"><li><span class="font-semibold text-ink">Driving Ownership</span>: the result depends on us. We take responsibility for the whole and search for solutions.</li><li><span class="font-semibold text-ink">Growing People</span>: growth builds the future. We learn from experience, lead by example and lift people up.</li></ul><p class="text-sm text-ink-soft leading-relaxed mb-3">The company\'s growth depends on each team\'s growth.<br>And each team\'s growth begins with people.</p><p class="text-sm text-ink-soft leading-relaxed">It depends on our ambition.<br>On our initiative.<br>It\'s on us.</p>'
+      }
+    };
+  </script>
+</head>
+<body class="flex flex-col min-h-screen bg-paper text-ink font-sans antialiased">
+
+  <!-- HEADER -->
+  <header id="site-navbar" class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b border-ink/10"></header>
+
+  <main class="flex-1">
+
+    <!-- HERO -->
+    <section class="text-paper relative overflow-hidden flex flex-col justify-end" data-nav-dark style="margin-top:-79px; min-height:100vh;">
+      <video id="lider-hero-video" muted playsinline autoplay aria-hidden="true"
+             class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+             style="z-index:0; transform:scale(1.03);">
+        <source src="videos/1920x1080_Hero LÍDER.mp4" type="video/mp4">
+      </video>
+      <script>
+        (function() {
+          var v = document.getElementById('lider-hero-video');
+          if (!v) return;
+          v.muted = true;
+          v.play().catch(function(){});
+          var lastTs = null;
+          function reverse(ts) {
+            if (lastTs === null) lastTs = ts;
+            var dt = (ts - lastTs) / 1000;
+            lastTs = ts;
+            v.currentTime = Math.max(0, v.currentTime - dt);
+            if (v.currentTime <= 0.05) {
+              lastTs = null;
+              v.currentTime = 0;
+              v.play().catch(function(){});
+            } else {
+              requestAnimationFrame(reverse);
+            }
+          }
+          v.addEventListener('ended', function() {
+            lastTs = null;
+            requestAnimationFrame(reverse);
+          });
+        })();
+      </script>
+      <div class="absolute inset-0" style="background: radial-gradient(ellipse at 70% 0%, #0A4A5A 0%, #002532 55%, #001318 100%); opacity: 0.82; z-index:1;"></div>
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 60vw 40vh at 30% 20%, rgba(0,102,255,0.18) 0%, transparent 60%); z-index:1;"></div>
+      <div class="relative w-full max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 pt-32 pb-20 md:pt-40 md:pb-28" style="z-index:2;">
+        <h1 class="font-sans font-normal leading-[0.95] tracking-tight text-4xl md:text-8xl lg:text-[7rem] mb-6 reveal reveal-1">
+          <em class="italic text-tef-blue" x-text="lang==='es' ? 'El Líder' : 'The Leader'"></em><span x-text="lang==='es' ? ' Indra.' : ' Indra.'"></span>
+        </h1>
+        <p class="text-2xl md:text-4xl lg:text-5xl text-paper/80 font-normal reveal reveal-2"
+           x-text="t('hero_subtitle')"></p>
+      </div>
+    </section>
+
+    <!-- FULL-BLEED IMAGE -->
+    <section>
+      <img src="images/sections/its-on-all-of-us.jpg" alt="El Líder Indra"
+           class="w-full block">
+    </section>
+
+    <!-- TRES COMPROMISOS -->
+    <section class="bg-paper-warm py-20 md:py-28">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+
+        <!-- Header -->
+        <div class="mb-14 md:mb-20" data-reveal="up">
+          <p class="font-mono text-[11px] tracking-[0.25em] uppercase text-tef-blue mb-5" x-text="t('pilars_eyebrow')"></p>
+          <h2 class="font-sans font-normal tracking-tight leading-[0.95] text-ink"
+              style="font-size: clamp(2rem, 4.5vw, 5.2rem)" data-split-words>
+            <span x-text="lang==='es' ? 'Tres compromisos' : 'Three commitments'"></span><br>
+            <em class="italic font-normal text-tef-blue" x-text="lang==='es' ? 'que nos definen.' : 'that define us.'"></em>
+          </h2>
+        </div>
+
+        <!-- 3 tarjetas — subgrid para alinear filas entre las 3 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 md:[grid-template-rows:auto_auto_auto_auto_auto_auto] divide-x divide-ink/10" data-reveal-stagger data-stagger-delay="0.18">
+
+          <!-- 01 -->
+          <div class="bg-paper-warm px-8 md:px-10 py-10 md:py-14 grid md:[grid-template-rows:subgrid] md:[grid-row:span_6] gap-y-4" data-stagger-item>
+            <span class="font-mono text-tef-blue leading-none select-none"
+                  style="font-size: clamp(2.5rem, 5.5vw, 5.5rem); letter-spacing:-0.05em;">01</span>
+            <h3 class="font-sans font-normal text-xl md:text-2xl leading-[1.1] tracking-tight text-ink"
+                x-text="t('p1_claim')"></h3>
+            <p class="font-sans italic text-tef-blue text-base md:text-lg leading-snug"
+               x-text="t('p1_sub')"></p>
+            <p class="text-[14px] md:text-[15px] text-ink-soft leading-snug pt-4 border-t border-ink/10"
+               x-text="t('p1_body')"></p>
+            <div class="flex flex-wrap gap-2 content-start">
+              <span class="font-mono text-[10px] tracking-[0.14em] uppercase border border-tef-blue/40 text-tef-blue px-3 py-1.5" x-text="t('p1_skill1')"></span>
+              <span class="font-mono text-[10px] tracking-[0.14em] uppercase border border-tef-blue/40 text-tef-blue px-3 py-1.5" x-text="t('p1_skill2')"></span>
+            </div>
+            <div class="self-end">
+              <button @click="liderPopup = 'p1'"
+                      class="group inline-flex items-center gap-2 bg-tef-blue text-white px-4 py-2 text-[11px] font-mono tracking-[0.18em] uppercase hover:bg-blue-700 transition-colors">
+                <span x-text="t('more_info')"></span>
+                <span class="text-[14px] leading-none">+</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 02 -->
+          <div class="bg-paper-warm px-8 md:px-10 py-10 md:py-14 grid md:[grid-template-rows:subgrid] md:[grid-row:span_6] gap-y-4" data-stagger-item>
+            <span class="font-mono text-tef-blue leading-none select-none"
+                  style="font-size: clamp(2.5rem, 5.5vw, 5.5rem); letter-spacing:-0.05em;">02</span>
+            <h3 class="font-sans font-normal text-xl md:text-2xl leading-[1.1] tracking-tight text-ink"
+                x-text="t('p2_claim')"></h3>
+            <p class="font-sans italic text-tef-blue text-base md:text-lg leading-snug"
+               x-text="t('p2_sub')"></p>
+            <p class="text-[14px] md:text-[15px] text-ink-soft leading-snug pt-4 border-t border-ink/10"
+               x-text="t('p2_body')"></p>
+            <div class="flex flex-wrap gap-2 content-start">
+              <span class="font-mono text-[10px] tracking-[0.14em] uppercase border border-tef-blue/40 text-tef-blue px-3 py-1.5" x-text="t('p2_skill1')"></span>
+              <span class="font-mono text-[10px] tracking-[0.14em] uppercase border border-tef-blue/40 text-tef-blue px-3 py-1.5" x-text="t('p2_skill2')"></span>
+            </div>
+            <div class="self-end">
+              <button @click="liderPopup = 'p2'"
+                      class="group inline-flex items-center gap-2 bg-tef-blue text-white px-4 py-2 text-[11px] font-mono tracking-[0.18em] uppercase hover:bg-blue-700 transition-colors">
+                <span x-text="t('more_info')"></span>
+                <span class="text-[14px] leading-none">+</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 03 -->
+          <div class="bg-paper-warm px-8 md:px-10 py-10 md:py-14 grid md:[grid-template-rows:subgrid] md:[grid-row:span_6] gap-y-4" data-stagger-item>
+            <span class="font-mono text-tef-blue leading-none select-none"
+                  style="font-size: clamp(2.5rem, 5.5vw, 5.5rem); letter-spacing:-0.05em;">03</span>
+            <h3 class="font-sans font-normal text-xl md:text-2xl leading-[1.1] tracking-tight text-ink"
+                x-text="t('p3_claim')"></h3>
+            <p class="font-sans italic text-tef-blue text-base md:text-lg leading-snug"
+               x-text="t('p3_sub')"></p>
+            <p class="text-[14px] md:text-[15px] text-ink-soft leading-snug pt-4 border-t border-ink/10"
+               x-text="t('p3_body')"></p>
+            <div class="flex flex-wrap gap-2 content-start">
+              <span class="font-mono text-[10px] tracking-[0.14em] uppercase border border-tef-blue/40 text-tef-blue px-3 py-1.5" x-text="t('p3_skill1')"></span>
+              <span class="font-mono text-[10px] tracking-[0.14em] uppercase border border-tef-blue/40 text-tef-blue px-3 py-1.5" x-text="t('p3_skill2')"></span>
+            </div>
+            <div class="self-end">
+              <button @click="liderPopup = 'p3'"
+                      class="group inline-flex items-center gap-2 bg-tef-blue text-white px-4 py-2 text-[11px] font-mono tracking-[0.18em] uppercase hover:bg-blue-700 transition-colors">
+                <span x-text="t('more_info')"></span>
+                <span class="text-[14px] leading-none">+</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Page navigation -->
+    <section class="bg-paper-warm border-t border-ink/10 py-8">
+      <div class="max-w-[1920px] mx-auto px-8 md:px-12 lg:px-16 flex items-center justify-between gap-4">
+        <a href="/#carousel-2"
+           class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <svg class="w-4 h-4 shrink-0 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="lang==='es' ? 'Volver' : 'Back'"></span>
+        </a>
+        <a href="journey"
+           class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="lang==='es' ? 'Ir a Journey' : 'Go to Journey'"></span>
+          <svg class="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="site-footer" class="bg-tef-dark text-paper mt-auto"></footer>
+
+  <!-- POPUP -->
+  <div x-show="liderPopup !== null"
+       x-transition.opacity
+       @click.self="liderPopup = null"
+       class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-tef-dark/60 backdrop-blur-sm"
+       style="display:none" x-cloak>
+    <div class="max-w-lg w-full bg-paper rounded-br-2xl shadow-2xl pb-20 pt-8 px-8 md:pt-10 md:px-10 relative overflow-hidden">
+      <div class="mb-6">
+        <img src="images/brand/indra-logo.svg" class="h-7 w-auto" alt="Accelerate Impact">
+      </div>
+
+      <template x-if="liderPopup === 'p1'">
+        <div>
+          <h2 class="font-sans font-normal text-3xl md:text-4xl text-ink leading-tight mb-4" x-text="t('lp1_title')"></h2>
+          <div x-html="t('lp1_body')"></div>
+        </div>
+      </template>
+
+      <template x-if="liderPopup === 'p2'">
+        <div>
+          <h2 class="font-sans font-normal text-3xl md:text-4xl text-ink leading-tight mb-4" x-text="t('lp2_title')"></h2>
+          <div x-html="t('lp2_body')"></div>
+        </div>
+      </template>
+
+      <template x-if="liderPopup === 'p3'">
+        <div>
+          <h2 class="font-sans font-normal text-3xl md:text-4xl text-ink leading-tight mb-4" x-text="t('lp3_title')"></h2>
+          <div x-html="t('lp3_body')"></div>
+        </div>
+      </template>
+
+      <button @click="liderPopup = null"
+              class="absolute bottom-0 right-0 inline-flex items-center gap-3 bg-tef-blue text-white px-7 py-4 hover:bg-blue-700 transition-colors group rounded-br-2xl">
+        <span class="font-mono text-xs tracking-[0.18em] uppercase" x-text="t('pop_close')"></span>
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="components.js"></script>
+  <script src="scroll.js"></script>
+</body>
+</html>

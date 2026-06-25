@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="es" x-data="{
+  lang: localStorage.getItem('lang') || 'es',
+  page: 'auto',
+  init() {
+    this.$watch('lang', v => localStorage.setItem('lang', v));
+  },
+  t(key) {
+    return i18n[key] ? (i18n[key][this.lang] || i18n[key]['es']) : key;
+  }
+}">
+<head>
+  <style id="page-cloak">html{background:#E3E2DA}html:not(.loaded) body{opacity:0!important}html:not(.loaded) #site-navbar,html:not(.loaded) #site-footer{opacity:0!important}html:not(.loaded) .reveal{animation:none!important;opacity:0!important;transform:none!important}body{transition:opacity .25s ease}</style>
+  <meta name="view-transition" content="same-origin" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autodiagnóstico — Accelerate Impact</title>
+  <meta name="description" content="Conoce tu liderazgo en profundidad con el autodiagnóstico de Indra." />
+  <link rel="icon" type="image/svg+xml" href="images/brand/favicon_indra.svg" />
+  <link rel="apple-touch-icon" href="images/brand/favicon_indra.svg" />
+  <link rel="canonical" href="https://accelerateimpact.es/autodiagnostico" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Accelerate Impact" />
+  <meta property="og:url" content="https://accelerateimpact.es/autodiagnostico" />
+  <meta property="og:title" content="Autodiagnóstico — Accelerate Impact" />
+  <meta property="og:description" content="Conoce tu liderazgo en profundidad con el autodiagnóstico de Indra." />
+  <meta property="og:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <meta property="og:image:width" content="8000" />
+  <meta property="og:image:height" content="4500" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Autodiagnóstico — Accelerate Impact" />
+  <meta name="twitter:description" content="Conoce tu liderazgo en profundidad con el autodiagnóstico de Indra." />
+  <meta name="twitter:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            tef: { blue: '#00B0BD', dark: '#002532', light: '#C2D2D6' },
+            gold: { DEFAULT: '#E8B547', soft: '#F5CD73', deep: '#B8842A' },
+            ink: { DEFAULT: '#002532', soft: '#2B3447', mute: '#58617A' },
+            paper: { DEFAULT: '#E3E2DA', warm: '#D8D7CE', deep: '#002532' }
+          },
+          fontFamily: {
+            sans: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            display: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            mono: ['"Indra Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+    * { font-family: "Indra Sans", sans-serif !important; }
+    html, body, * { font-feature-settings: normal !important; }
+
+    .bg-tef-gradient-dark { background: radial-gradient(ellipse at 70% 0%, #0A4A5A 0%, #002532 55%, #001318 100%); }
+    .bg-tef-gradient-white { background: linear-gradient(180deg, #E3E2DA 0%, #D8D7CE 50%, #E3E2DA 100%); }
+    .step-body { padding-left: 5rem; }
+    @media (min-width: 768px) { .step-body { padding-left: 7rem; } }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { animation: fadeUp 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .reveal-1 { animation-delay: 0.1s; }
+    .reveal-2 { animation-delay: 0.25s; }
+    .reveal-3 { animation-delay: 0.4s; }
+
+    .grain { position: relative; }
+    .grain::after { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.5'/></svg>"); opacity: 0.06; mix-blend-mode: overlay; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { animation: none; }
+    }
+
+    /* ── ICEBERG INTERACTIVE MARKERS ── */
+    .iceberg-marker {
+      position: relative; display: block; width: 18px; height: 18px;
+      cursor: pointer; border: 0; padding: 0; background: transparent;
+    }
+    .marker-core {
+      position: absolute; inset: 0; border-radius: 50%;
+      background: #00B0BD;
+      border: 1px solid #fff;
+      box-sizing: border-box;
+      box-shadow: 0 0 18px rgba(0,102,255,0.85);
+      transition: transform 0.25s ease;
+    }
+    .iceberg-marker:hover .marker-core,
+    .iceberg-marker.active .marker-core { transform: scale(1.35); }
+    .marker-ring {
+      position: absolute; inset: 0; border-radius: 50%;
+      border: 1.5px solid rgba(0,102,255,0.7);
+      animation: markerPulse 2.6s ease-out infinite;
+    }
+    .marker-ring-2 { animation-delay: 1.3s; }
+    @keyframes markerPulse {
+      0%   { transform: scale(1);   opacity: 0.85; }
+      100% { transform: scale(4.2); opacity: 0; }
+    }
+    .marker-label {
+      position: absolute; top: 50%; left: 100%;
+      transform: translateY(-50%);
+      display: flex; align-items: center;
+      pointer-events: none; white-space: nowrap;
+    }
+    .marker-line {
+      display: block; width: 56px; height: 1px;
+      background: linear-gradient(to right, rgba(0,102,255,0.75), rgba(255,255,255,0.35));
+      margin-left: 14px;
+    }
+    .marker-label-text {
+      margin-left: 14px;
+      font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+      color: rgba(255,255,255,0.92);
+      text-shadow: 0 0 14px rgba(2,9,20,0.7);
+    }
+    .marker-card {
+      position: absolute; top: 50%; left: 100%;
+      transform: translateY(-50%);
+      margin-left: 96px;
+      width: 320px;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(10px);
+      border-radius: 0;
+      padding: 0; overflow: hidden;
+      box-shadow: 0 18px 56px rgba(2,9,20,0.45), 0 0 0 1px rgba(0,102,255,0.18);
+      z-index: 30;
+    }
+    /* Variante: abrir hacia la izquierda */
+    .marker-card.marker-card-left {
+      left: auto; right: 100%;
+      margin-left: 0; margin-right: 96px;
+    }
+    /* Variante: abrir hacia arriba-derecha (para markers cercanos al borde inferior) */
+    .marker-card.marker-card-up {
+      top: auto; bottom: 100%;
+      transform: translateY(0);
+      margin-bottom: 12px;
+    }
+    .marker-card-img {
+      position: relative; width: 100%; aspect-ratio: 16 / 9;
+      background: #D8D7CE; overflow: hidden;
+    }
+    .marker-card-img img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+    }
+    .marker-card-body { padding: 20px 24px 18px; }
+    .marker-card .card-eyebrow {
+      font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #00B0BD; margin-bottom: 8px;
+    }
+    .marker-card .card-title {
+      font-size: 1.5rem; font-weight: 400; color: #002532;
+      margin-bottom: 8px; line-height: 1.2; letter-spacing: -0.01em;
+    }
+    .marker-card .card-desc {
+      font-size: 0.94rem; color: rgba(3,26,52,0.72);
+      line-height: 1.55; margin-bottom: 14px;
+    }
+    .marker-card .card-time {
+      font-size: 11px; letter-spacing: 0.18em;
+      color: #00B0BD; padding-top: 12px;
+      border-top: 1px solid rgba(3,26,52,0.1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .marker-ring { animation: none; opacity: 0; }
+    }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script>
+    const i18n = {
+      nav_journey: { es: 'Journey', en: 'Journey' },
+      nav_info: { es: 'Contacto', en: 'Contact' },
+      nav_back_journey: { es: 'Volver a Journey', en: 'Back to Journey' },
+      nav_next_agenda: { es: 'Ver Agenda', en: 'View Agenda' },
+      nav_nadia: { es: 'Conoce a Nadia', en: 'Meet Nadia' },
+      nav_agenda: { es: 'Descubre la Agenda', en: 'Discover the Agenda' },
+      nav_continue_eyebrow: { es: 'Continúa tu recorrido', en: 'Continue your journey' },
+      nav_continue_title: { es: 'El diagnóstico es el primer paso. Ahora viene la acción.', en: 'The diagnosis is the first step. Now comes the action.' },
+
+      hero_title_1: { es: 'Primero.', en: 'First.' },
+      hero_title_2: { es: 'Conócete.', en: 'Know yourself.' },
+      hero_subtitle: {
+        es: 'Tu autodiagnóstico de liderazgo. Diseñado para ayudarte a conocer cómo lideras hoy, y cómo puedes amplificar tu impacto como líder de Indra.',
+        en: 'Your leadership self-diagnosis. Designed to help you understand how you lead today, and how you can amplify your impact as a Indra leader.'
+      },
+
+      disc_banner: {
+        es: 'Este diagnóstico es puramente de desarrollo. Tus resultados individuales sólo son accesibles para ti y el equipo People designado. No es una evaluación de desempeño.',
+        en: 'This diagnosis is purely developmental. Your individual results are only accessible to you and the designated People team. This is not a performance evaluation.'
+      },
+      disc_modal_eyebrow: { es: 'Antes de empezar', en: 'Before you start' },
+      disc_modal_body: {
+        es: 'Este viaje incluye un autodiagnóstico de liderazgo puramente de desarrollo. Tus resultados individuales sólo son accesibles para ti y el equipo People designado. Los datos agregados preservan la confidencialidad individual. Esto no es una evaluación de desempeño.',
+        en: 'This journey includes a purely developmental leadership self-diagnosis. Your individual results are only accessible to you and the designated People team. Aggregated data preserves individual confidentiality. This is not a performance evaluation.'
+      },
+      disc_modal_cta: { es: 'Entendido, continuar', en: 'Got it, continue' },
+
+      email_notice: {
+        es: 'Recibirás tu enlace personal al autodiagnóstico por email desde kfassessment@kornferry.com.',
+        en: 'You will receive your personal self-diagnosis link by email from kfassessment@kornferry.com.'
+      },
+
+      intro_p1: {
+        es: 'A través del autodiagnóstico de liderazgo, ganarás una visión clara sobre cómo lideras hoy, cuáles son tus fortalezas como líder, e identificarás elementos que pueden estar limitando tu impacto y donde pequeños cambios pueden provocar una gran diferencia para tu desarrollo.',
+        en: 'Through the leadership self-diagnosis, you will gain a clear understanding of how you lead today, what your strengths are as a leader, and identify elements that may be limiting your impact — and where small changes can make a big difference.'
+      },
+      intro_p2: {
+        es: 'Esta experiencia está alineada con el nuevo Modelo de Liderazgo de Indra, que traslada la ambición cultural en skills de liderazgo aplicadas al día a día.',
+        en: 'This experience is aligned with the new Indra Leadership Model, which translates cultural ambition into leadership skills applied to everyday work.'
+      },
+      intro_p3: {
+        es: 'Los aprendizajes que obtengas te ayudarán a tomar decisiones más intencionales y te servirán como base para tu desarrollo continuo.',
+        en: 'The learnings you gain will help you make more intentional decisions and will serve as the foundation for your continuous development.'
+      },
+      intro_p4: {
+        es: 'Este espacio es una invitación para pausar, reflexionar y reforzar tu contribución como líder.',
+        en: 'This space is an invitation to pause, reflect and strengthen your contribution as a leader.'
+      },
+
+      stair_eyebrow: { es: 'El modelo en profundidad', en: 'The model in depth' },
+      stair_title: { es: 'Lo que se ve. Y lo que no se ve.', en: 'What you see. And what lies beneath.' },
+      stair_title_top: { es: 'Lo que se ve.', en: 'What you see.' },
+      stair_title_bottom: { es: 'Y lo que no se ve.', en: 'And what lies beneath.' },
+      stair_sub: { es: 'Una mirada introspectiva de 45 min para conocer cómo nos comportamos y por qué.', en: 'A 45-min introspective view to understand how we behave and why.' },
+
+      ls_title: { es: 'Leadership Skills', en: 'Leadership Skills' },
+      ls_desc: { es: 'Habilidades específicas de liderazgo aplicadas al Modelo de Liderazgo de Indra.', en: 'Specific leadership skills applied to the Indra Leadership Model.' },
+
+      m1_label: { es: 'Lo que haces', en: 'What you do' },
+      m1_sub: { es: 'Competencias', en: 'Competencies' },
+      m1_desc: { es: 'Habilidades observables evaluadas contra el modelo de liderazgo Indra.', en: 'Observable skills evaluated against the Indra leadership model.' },
+      m1_time: { es: '~20 min', en: '~20 min' },
+
+      m2_label: { es: 'Lo que te mueve', en: 'What drives you' },
+      m2_sub: { es: 'Drivers', en: 'Drivers' },
+      m2_desc: { es: 'Motivaciones y valores que orientan tus decisiones como líder.', en: 'Motivations and values that orient your decisions as a leader.' },
+      m2_time: { es: '~10 min', en: '~10 min' },
+
+      m3_label: { es: 'Quién eres', en: 'Who you are' },
+      m3_sub: { es: 'Traits', en: 'Traits' },
+      m3_desc: { es: 'Rasgos de personalidad que definen tu estilo natural de liderazgo.', en: 'Personality traits that define your natural leadership style.' },
+      m3_time: { es: '~15 min', en: '~15 min' },
+
+      reps_label: { es: 'Dos informes', en: 'Two reports' },
+      reps_intro: {
+        es: 'Dos perspectivas complementarias: la vista panorámica y el análisis en profundidad.',
+        en: 'Two complementary perspectives: the panoramic view and the deep analysis.'
+      },
+      r1_label: { es: 'Informe · 01', en: 'Report · 01' },
+      r1_title: { es: 'Executive Report', en: 'Executive Report' },
+      r1_sub: { es: 'Leadership Snapshot', en: 'Leadership Snapshot' },
+      r1_desc: { es: 'Vista rápida del perfil contrastado con el modelo Indra. Ideal para identificar fortalezas en minutos.', en: 'Quick view of your profile contrasted with the Indra model. Ideal to identify strengths in minutes.' },
+      r1_b1: { es: 'Perfil visual de competencias', en: 'Visual competency profile' },
+      r1_b2: { es: 'Comparativa con el modelo de liderazgo', en: 'Comparison with the leadership model' },
+      r1_b3: { es: 'Resumen ejecutivo de fortalezas', en: 'Executive summary of strengths' },
+
+      r2_label: { es: 'Informe · 02', en: 'Report · 02' },
+      r2_title: { es: 'In-Depth Report', en: 'In-Depth Report' },
+      r2_sub: { es: 'Modelo Iceberg', en: 'Iceberg Model' },
+      r2_desc: { es: 'Análisis profundo integrando competencias, drivers y traits. Base para el coaching individual.', en: 'Deep analysis integrating competencies, drivers and traits. Foundation for individual coaching.' },
+      r2_b1: { es: 'Análisis profundo de las 3 dimensiones', en: 'Deep analysis of all 3 dimensions' },
+      r2_b2: { es: 'Áreas de desarrollo priorizadas', en: 'Prioritized development areas' },
+      r2_b3: { es: 'Base para el coaching individual', en: 'Foundation for individual coaching' },
+
+      proc_label: { es: 'El proceso', en: 'The process' },
+      proc_intro: { es: 'Tu diagnóstico en 5 pasos:', en: 'Your diagnosis in 5 steps:' },
+
+      s1_t: { es: 'Autodiagnóstico de liderazgo online', en: 'Online leadership self-diagnosis' },
+      s1_d: { es: 'Recibirás un email personal de kfassessment@kornferry.com con un link de acceso. ¡Asegúrate de comprobar en spam!', en: 'You will receive a personal email from kfassessment@kornferry.com with an access link. Make sure to check your spam folder!' },
+
+      s2_t: { es: 'Informe snapshot', en: 'Snapshot report' },
+      s2_d: { es: 'Recibirás un email con este informe donde ver de un vistazo cómo estás posicionado frente al Modelo de Liderazgo de Indra, usando una escala que te ayuda a identificar rápidamente:', en: 'You will receive an email with this report to see at a glance how you are positioned against the Indra Leadership Model, using a scale that quickly identifies:' },
+      s2_b1: { es: 'Tus fortalezas', en: 'Your strengths' },
+      s2_b2: { es: 'Tus oportunidades de desarrollo', en: 'Your development opportunities' },
+      s2_b3: { es: 'Donde concentrar tu energía para un mayor impacto', en: 'Where to focus your energy for greater impact' },
+
+      s3_t: { es: 'Informe detallado', en: 'Detailed report' },
+      s3_d: { es: 'Recibirás un email con este informe detallado en el que descubrir tus comportamientos de liderazgo, y los rasgos y motivadores que explican esos comportamientos.', en: 'You will receive an email with this detailed report to discover your leadership behaviours, and the traits and motivators that explain those behaviours.' },
+
+      s4_t: { es: 'Avatar feedback de Korn Ferry', en: 'Korn Ferry feedback avatar' },
+      s4_d: { es: 'Para apoyarte en la interpretación y ayudarte a sacar el máximo provecho de tus resultados, puedes interactuar con el avatar de Korn Ferry, una experiencia conversacional interactiva diseñada para complementar tus informes. Te ayudará a:', en: 'To support your interpretation and help you get the most from your results, you can interact with the Korn Ferry avatar — an interactive conversational experience designed to complement your reports. It will help you:' },
+      s4_b1: { es: 'Interpretar los resultados', en: 'Interpret your results' },
+      s4_b2: { es: 'Entender los comportamientos detrás de tus puntuaciones', en: 'Understand the behaviours behind your scores' },
+      s4_b3: { es: 'Priorizar las acciones de desarrollo concretas que se ajustan a tu contexto', en: 'Prioritise concrete development actions that fit your context' },
+
+      s5_t: { es: 'Plan de acción individual', en: 'Individual action plan' },
+      s5_d: { es: 'El valor de este proceso reside en convertir tus resultados en acciones significativas a lo largo del tiempo. Te invitamos a definir tres planes de acción personales basados en las áreas que más deseas fortalecer.', en: 'The value of this process lies in turning your results into meaningful actions over time. We invite you to define three personal action plans based on the areas you most want to strengthen.' },
+
+      res_intro: { es: 'Si quieres más información sobre el proceso y sus beneficios, descárgate estos documentos:', en: 'For more information about the process and its benefits, download these documents:' },
+      res_dl1: { es: 'Participant book', en: 'Participant book' },
+      res_dl2: { es: 'FAQ sobre el proceso', en: 'Process FAQ' },
+      res_contact: { es: 'Si tienes alguna incidencia técnica, puedes contactar a', en: 'For technical issues, please contact' },
+
+      back_cta:    { es: 'Volver al Hub', en: 'Back to Hub' },
+      sticky_intro: { es: 'Soy Nadia, estoy aquí.', en: "I'm Nadia, I'm here." },
+      sticky_q:     { es: '¿Hablamos de tus resultados?', en: 'Shall we talk about your results?' },
+      cta_nadia:    { es: 'Abrir conversación', en: 'Open conversation' },
+      meta_modules: { es: '3 módulos · 2 informes · 5 pasos', en: '3 modules · 2 reports · 5 steps' },
+      meta_science: { es: 'Science-based · Confidencial', en: 'Science-based · Confidential' },
+      label_year: { es: 'Autodiagnóstico · 2026', en: 'Self-Diagnosis · 2026' },
+      level_top: { es: 'Nivel superior', en: 'Top level' },
+      assessment_cta: { es: 'Acceder al assessment', en: 'Access the assessment' }
+    };
+  </script>
+</head>
+<body class="flex flex-col min-h-screen bg-paper text-ink font-sans antialiased">
+
+  <header id="site-navbar" class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b border-ink/10"></header>
+
+  <main class="flex-1">
+
+    <!-- HERO — dark gradient -->
+    <section class="text-paper grain relative overflow-hidden flex flex-col justify-end" data-nav-dark style="margin-top:-79px; min-height:100vh;">
+      <video id="autodiag-hero-video" muted playsinline autoplay class="absolute inset-0 w-full h-full object-cover object-center" aria-hidden="true" style="transform:scale(1.03);">
+        <source src="videos/1920x1080_Hero AUTODIAGNÓSTICO.mp4" type="video/mp4">
+      </video>
+      <div class="absolute inset-0" style="background: radial-gradient(ellipse at 70% 0%, #0A4A5A 0%, #002532 55%, #001318 100%); opacity: 0.82;"></div>
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 60vw 40vh at 70% 20%, rgba(0,102,255,0.18) 0%, transparent 60%);"></div>
+      <div class="relative w-full max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 pb-16 md:pb-24 pt-32 md:pt-40">
+          <h1 class="font-sans font-normal leading-[0.95] tracking-[-0.03em] mb-8 reveal reveal-2"
+              style="font-size: clamp(4rem, 10vw, 9rem)">
+            <span x-text="t('hero_title_1')"></span>
+            <em class="italic font-normal text-tef-blue" x-text="' ' + t('hero_title_2')"></em>
+          </h1>
+          <p class="text-paper/70 leading-relaxed reveal reveal-3 max-w-2xl"
+             style="font-size: clamp(1rem, 1.5vw, 1.25rem)"
+             x-text="t('hero_subtitle')"></p>
+          <!-- Disclaimer — subtle on dark bg -->
+          <div class="mt-8 flex items-start gap-2.5 max-w-2xl reveal reveal-3">
+            <svg class="w-4 h-4 text-paper/35 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="10" cy="10" r="8"/>
+              <path d="M10 6v5M10 13.5v.5" stroke-linecap="round"/>
+            </svg>
+            <p class="text-paper/35 leading-relaxed" style="font-size: 0.8rem" x-text="t('disc_banner')"></p>
+          </div>
+      </div>
+      <!-- Meta strip -->
+      <div class="border-t border-paper/10">
+        <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 py-4 flex flex-wrap items-center justify-between gap-4 font-mono text-[11px] tracking-[0.22em] uppercase text-paper/40">
+          <span x-text="t('meta_modules')"></span>
+          <span class="hidden md:inline" x-text="t('meta_science')"></span>
+          <span>~45 min</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- EMAIL NOTICE -->
+    <div class="border-b border-ink/10 bg-paper-warm">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 py-4 flex items-center gap-3">
+        <svg class="w-4 h-4 text-tef-blue flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        <p class="font-mono text-[11px] tracking-[0.18em] uppercase text-ink-soft" x-text="t('email_notice')"></p>
+      </div>
+    </div>
+
+    <!-- § 00 — INTRO EDITORIAL (manifesto style) -->
+    <section class="bg-paper py-20 md:py-28">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+
+        <div class="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 md:gap-20 items-start" data-reveal-stagger data-stagger-delay="0.12">
+
+          <!-- Label column -->
+          <div class="flex flex-col gap-3" data-stagger-item>
+            <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-tef-blue">Accelerate Impact</p>
+            <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-ink-mute" x-text="t('label_year')"></p>
+          </div>
+
+          <!-- Text column -->
+          <div class="space-y-8" data-stagger-item>
+            <p class="font-sans font-normal italic text-ink leading-[1.2]"
+               style="font-size: clamp(1.1rem, 1.8vw, 1.9rem)"
+               x-text="t('intro_p1')"></p>
+            <p class="font-sans font-normal text-ink leading-[1.2]"
+               style="font-size: clamp(1.1rem, 1.8vw, 1.9rem)"
+               x-text="t('intro_p2')"></p>
+            <p class="font-sans font-normal text-ink leading-[1.2]"
+               style="font-size: clamp(1.1rem, 1.8vw, 1.9rem)"
+               x-text="t('intro_p3')"></p>
+            <p class="font-sans font-normal italic text-tef-blue leading-[1.2]"
+               style="font-size: clamp(1.1rem, 1.8vw, 1.9rem)"
+               x-text="t('intro_p4')"></p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- § 01 — ICEBERG UNIFICADO -->
+    <section class="border-t border-ink/10">
+
+      <!-- DESKTOP: iceberg full-bleed bg + 2-col content overlay -->
+      <div class="hidden md:block relative"
+           x-data="{ open: null, isTouch: window.matchMedia('(hover: none)').matches }"
+           @click.outside="open = null"
+           style="min-height: 90vh;">
+
+        <!-- Full-width iceberg image (clipped) -->
+        <div class="absolute inset-0 overflow-hidden grain">
+          <img src="images/sections/iceberg.jpg" alt=""
+               class="absolute inset-0 w-full h-full object-cover object-center"
+               style="transform: scale(1.05);" aria-hidden="true">
+          <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(2,9,20,0.55) 0%, rgba(2,9,20,0.55) 45%, rgba(2,9,20,0.92) 100%);"></div>
+          <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 70vw 55vh at 50% 35%, rgba(0,102,255,0.15) 0%, transparent 65%);"></div>
+        </div>
+
+        <!-- 2-column content overlay -->
+        <div class="relative z-10 grid grid-cols-2 max-w-[1920px] mx-auto" style="min-height: 90vh;">
+
+          <!-- Left column: titles vertically centered -->
+          <div class="px-8 md:px-12 lg:px-16 pt-[5.75rem] pb-[9.11rem] flex flex-col justify-center gap-[5.76rem] lg:gap-[9.36rem]">
+            <div data-reveal="up">
+              <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-paper mb-5" x-text="t('stair_eyebrow')"></p>
+              <h2 class="font-sans font-normal tracking-tight text-paper leading-[0.95]"
+                  style="font-size: clamp(2rem, 4.2vw, 4.6rem)"
+                  x-text="t('stair_title_top')"></h2>
+            </div>
+            <div data-reveal="up">
+              <h2 class="font-sans font-normal tracking-tight text-paper leading-[0.95] mb-5"
+                  style="font-size: clamp(2rem, 4.2vw, 4.6rem)"
+                  x-text="t('stair_title_bottom')"></h2>
+              <p class="text-paper/70 leading-relaxed"
+                 style="font-size: clamp(0.95rem, 1.2vw, 1.1rem)"
+                 x-text="t('stair_sub')"></p>
+            </div>
+          </div>
+
+          <!-- Right column: markers absolutely positioned, tooltips can extend -->
+          <div class="relative pointer-events-none">
+
+            <!-- Marker 1 — Lo que haces (peak / above water) — RIGHT -->
+            <div class="absolute pointer-events-auto" style="top: 22%; left: 15%;">
+              <button type="button"
+                      @click="open = open === 'm1' ? null : 'm1'"
+                      :class="open === 'm1' && 'active'"
+                      class="iceberg-marker"
+                      :aria-label="t('m1_label')">
+                <span class="marker-ring"></span>
+                <span class="marker-ring marker-ring-2"></span>
+                <span class="marker-core"></span>
+              </button>
+              <span class="marker-label" x-show="open !== 'm1'" x-transition.opacity>
+                <span class="marker-line"></span>
+                <span class="marker-label-text" x-text="t('m1_label')"></span>
+              </span>
+              <div class="marker-card" x-show="open === 'm1'" x-transition>
+                <div class="marker-card-img"><img src="images/content/Autodiagnóstico Leadership Skills 01 - young-parkour-freerunning-women-doing-backflip-from-wall.jpg" alt=""></div>
+                <div class="marker-card-body">
+                  <p class="card-eyebrow" x-text="t('m1_sub')"></p>
+                  <h3 class="card-title" x-text="t('m1_label')"></h3>
+                  <p class="card-desc" x-text="t('m1_desc')"></p>
+                  <p class="card-time" x-text="t('m1_time')"></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Marker 2 — Lo que te mueve (waterline) — RIGHT -->
+            <div class="absolute pointer-events-auto" style="top: 50%; left: 15%;">
+              <button type="button"
+                      @click="open = open === 'm2' ? null : 'm2'"
+                      :class="open === 'm2' && 'active'"
+                      class="iceberg-marker"
+                      :aria-label="t('m2_label')">
+                <span class="marker-ring"></span>
+                <span class="marker-ring marker-ring-2"></span>
+                <span class="marker-core"></span>
+              </button>
+              <span class="marker-label" x-show="open !== 'm2'" x-transition.opacity>
+                <span class="marker-line"></span>
+                <span class="marker-label-text" x-text="t('m2_label')"></span>
+              </span>
+              <div class="marker-card" x-show="open === 'm2'" x-transition>
+                <div class="marker-card-img"><img src="images/content/Autodiagnóstico Leadership Skills 02- person-with-neutral-gendered-haircut-from-the-back__21562.png" alt=""></div>
+                <div class="marker-card-body">
+                  <p class="card-eyebrow" x-text="t('m2_sub')"></p>
+                  <h3 class="card-title" x-text="t('m2_label')"></h3>
+                  <p class="card-desc" x-text="t('m2_desc')"></p>
+                  <p class="card-time" x-text="t('m2_time')"></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Marker 3 — Quién eres (deep base) — RIGHT, opens UPWARD to avoid bottom cutoff -->
+            <div class="absolute pointer-events-auto" style="top: 78%; left: 15%;">
+              <button type="button"
+                      @click="open = open === 'm3' ? null : 'm3'"
+                      :class="open === 'm3' && 'active'"
+                      class="iceberg-marker"
+                      :aria-label="t('m3_label')">
+                <span class="marker-ring"></span>
+                <span class="marker-ring marker-ring-2"></span>
+                <span class="marker-core"></span>
+              </button>
+              <span class="marker-label" x-show="open !== 'm3'" x-transition.opacity>
+                <span class="marker-line"></span>
+                <span class="marker-label-text" x-text="t('m3_label')"></span>
+              </span>
+              <div class="marker-card marker-card-up" x-show="open === 'm3'" x-transition>
+                <div class="marker-card-img"><img src="images/content/Autodiagnóstico Leadership Skills 03 - close-up-boy-wearing-earphones.jpg" alt=""></div>
+                <div class="marker-card-body">
+                  <p class="card-eyebrow" x-text="t('m3_sub')"></p>
+                  <h3 class="card-title" x-text="t('m3_label')"></h3>
+                  <p class="card-desc" x-text="t('m3_desc')"></p>
+                  <p class="card-time" x-text="t('m3_time')"></p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE: iceberg with title + cards below -->
+      <div class="md:hidden">
+        <!-- Iceberg with title overlay -->
+        <div class="relative overflow-hidden grain" style="min-height: 60vh;">
+          <img src="images/sections/iceberg.jpg" alt=""
+               class="absolute inset-0 w-full h-full object-cover object-center" aria-hidden="true">
+          <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(2,9,20,0.45) 0%, rgba(2,9,20,0.55) 50%, rgba(2,9,20,0.92) 100%);"></div>
+          <div class="relative z-10 px-6 py-14 flex flex-col justify-center gap-8" style="min-height: 60vh;">
+            <div data-reveal="up">
+              <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-paper mb-3" x-text="t('stair_eyebrow')"></p>
+              <h2 class="font-sans font-normal tracking-tight text-paper leading-[0.95]"
+                  style="font-size: clamp(2rem, 8vw, 3rem)"
+                  x-text="t('stair_title_top')"></h2>
+            </div>
+            <div data-reveal="up">
+              <h2 class="font-sans font-normal tracking-tight text-paper leading-[0.95] mb-3"
+                  style="font-size: clamp(2rem, 8vw, 3rem)"
+                  x-text="t('stair_title_bottom')"></h2>
+              <p class="text-paper/70 leading-relaxed text-[0.95rem]" x-text="t('stair_sub')"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cards below (with image) -->
+        <div class="bg-paper-warm py-10 px-6 space-y-6" data-reveal-stagger data-stagger-delay="0.1">
+          <article class="bg-paper border border-ink/10 overflow-hidden" data-stagger-item>
+            <div class="relative w-full bg-[#D8D7CE]" style="aspect-ratio: 16/9;">
+              <img src="images/content/Autodiagnóstico Leadership Skills 01 - young-parkour-freerunning-women-doing-backflip-from-wall.jpg" alt="" class="absolute inset-0 w-full h-full object-cover">
+            </div>
+            <div class="p-5">
+              <p class="font-mono text-[10px] tracking-[0.22em] uppercase text-tef-blue mb-2" x-text="t('m1_sub')"></p>
+              <h3 class="font-sans font-normal text-2xl text-ink leading-tight mb-2" x-text="t('m1_label')"></h3>
+              <p class="text-ink-soft text-[15px] leading-relaxed mb-4" x-text="t('m1_desc')"></p>
+              <p class="font-mono text-[11px] tracking-[0.18em] text-tef-blue pt-3 border-t border-ink/8" x-text="t('m1_time')"></p>
+            </div>
+          </article>
+          <article class="bg-paper border border-ink/10 overflow-hidden" data-stagger-item>
+            <div class="relative w-full bg-[#D8D7CE]" style="aspect-ratio: 16/9;">
+              <img src="images/content/Autodiagnóstico Leadership Skills 02- person-with-neutral-gendered-haircut-from-the-back__21562.png" alt="" class="absolute inset-0 w-full h-full object-cover">
+            </div>
+            <div class="p-5">
+              <p class="font-mono text-[10px] tracking-[0.22em] uppercase text-tef-blue mb-2" x-text="t('m2_sub')"></p>
+              <h3 class="font-sans font-normal text-2xl text-ink leading-tight mb-2" x-text="t('m2_label')"></h3>
+              <p class="text-ink-soft text-[15px] leading-relaxed mb-4" x-text="t('m2_desc')"></p>
+              <p class="font-mono text-[11px] tracking-[0.18em] text-tef-blue pt-3 border-t border-ink/8" x-text="t('m2_time')"></p>
+            </div>
+          </article>
+          <article class="bg-paper border border-ink/10 overflow-hidden" data-stagger-item>
+            <div class="relative w-full bg-[#D8D7CE]" style="aspect-ratio: 16/9;">
+              <img src="images/content/Autodiagnóstico Leadership Skills 03 - close-up-boy-wearing-earphones.jpg" alt="" class="absolute inset-0 w-full h-full object-cover">
+            </div>
+            <div class="p-5">
+              <p class="font-mono text-[10px] tracking-[0.22em] uppercase text-tef-blue mb-2" x-text="t('m3_sub')"></p>
+              <h3 class="font-sans font-normal text-2xl text-ink leading-tight mb-2" x-text="t('m3_label')"></h3>
+              <p class="text-ink-soft text-[15px] leading-relaxed mb-4" x-text="t('m3_desc')"></p>
+              <p class="font-mono text-[11px] tracking-[0.18em] text-tef-blue pt-3 border-t border-ink/8" x-text="t('m3_time')"></p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 03 — PROCESS: 5 accordion steps -->
+    <section class="border-t border-ink/10 bg-paper">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-28">
+
+        <div class="mb-14" data-reveal="up">
+          <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-tef-blue mb-4" x-text="t('proc_label')"></p>
+          <h2 class="font-sans font-normal tracking-tight text-ink leading-[0.95]"
+              style="font-size: clamp(2rem, 4.5vw, 5.2rem)"
+              x-text="t('proc_intro')"></h2>
+        </div>
+
+        <div x-data="{ open: null, isTouch: window.matchMedia('(hover: none)').matches }" class="border-t border-ink/15">
+
+          <!-- Step 1 -->
+          <div class="border-b border-ink/15 group">
+            <button @click="open = open === 1 ? null : 1"
+                    class="w-full flex items-center gap-6 md:gap-10 py-4 md:py-5 text-left">
+              <span class="font-normal text-tef-blue leading-none flex-shrink-0"
+                    style="font-size: clamp(1.6rem, 2.8vw, 2.8rem); letter-spacing: -0.03em">01</span>
+              <span class="font-sans font-normal tracking-tight flex-1 transition-colors group-hover:text-tef-blue"
+                    style="font-size: clamp(1rem, 1.4vw, 1.25rem)"
+                    x-text="t('s1_t')"></span>
+              <svg class="w-5 h-5 text-ink-mute flex-shrink-0 transition-transform duration-300" :class="{ 'rotate-180 !text-tef-blue': open === 1 }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div x-show="open === 1"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 -translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-2"
+                 class="pb-8 step-body"
+                 style="display:none">
+              <p class="text-ink-soft leading-relaxed max-w-3xl"
+                 style="font-size: 17px"
+                 x-text="t('s1_d')"></p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="border-b border-ink/15 group">
+            <button @click="open = open === 2 ? null : 2"
+                    class="w-full flex items-center gap-6 md:gap-10 py-4 md:py-5 text-left">
+              <span class="font-normal text-tef-blue leading-none flex-shrink-0"
+                    style="font-size: clamp(1.6rem, 2.8vw, 2.8rem); letter-spacing: -0.03em">02</span>
+              <span class="font-sans font-normal tracking-tight flex-1 transition-colors group-hover:text-tef-blue"
+                    style="font-size: clamp(1rem, 1.4vw, 1.25rem)"
+                    x-text="t('s2_t')"></span>
+              <svg class="w-5 h-5 text-ink-mute flex-shrink-0 transition-transform duration-300" :class="{ 'rotate-180 !text-tef-blue': open === 2 }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div x-show="open === 2"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 -translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-2"
+                 class="pb-8 step-body"
+                 style="display:none">
+              <p class="text-ink-soft leading-relaxed max-w-3xl mb-4"
+                 style="font-size: 17px"
+                 x-text="t('s2_d')"></p>
+              <ul class="space-y-2 max-w-3xl">
+                <li class="flex gap-3 text-ink-soft" style="font-size: 17px"><span class="text-tef-blue flex-shrink-0">—</span><span x-text="t('s2_b1')"></span></li>
+                <li class="flex gap-3 text-ink-soft" style="font-size: 17px"><span class="text-tef-blue flex-shrink-0">—</span><span x-text="t('s2_b2')"></span></li>
+                <li class="flex gap-3 text-ink-soft" style="font-size: 17px"><span class="text-tef-blue flex-shrink-0">—</span><span x-text="t('s2_b3')"></span></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="border-b border-ink/15 group">
+            <button @click="open = open === 3 ? null : 3"
+                    class="w-full flex items-center gap-6 md:gap-10 py-4 md:py-5 text-left">
+              <span class="font-normal text-tef-blue leading-none flex-shrink-0"
+                    style="font-size: clamp(1.6rem, 2.8vw, 2.8rem); letter-spacing: -0.03em">03</span>
+              <span class="font-sans font-normal tracking-tight flex-1 transition-colors group-hover:text-tef-blue"
+                    style="font-size: clamp(1rem, 1.4vw, 1.25rem)"
+                    x-text="t('s3_t')"></span>
+              <svg class="w-5 h-5 text-ink-mute flex-shrink-0 transition-transform duration-300" :class="{ 'rotate-180 !text-tef-blue': open === 3 }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div x-show="open === 3"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 -translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-2"
+                 class="pb-8 step-body"
+                 style="display:none">
+              <p class="text-ink-soft leading-relaxed max-w-3xl"
+                 style="font-size: 17px"
+                 x-text="t('s3_d')"></p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="border-b border-ink/15 group">
+            <button @click="open = open === 4 ? null : 4"
+                    class="w-full flex items-center gap-6 md:gap-10 py-4 md:py-5 text-left">
+              <span class="font-normal text-tef-blue leading-none flex-shrink-0"
+                    style="font-size: clamp(1.6rem, 2.8vw, 2.8rem); letter-spacing: -0.03em">04</span>
+              <span class="font-sans font-normal tracking-tight flex-1 transition-colors group-hover:text-tef-blue"
+                    style="font-size: clamp(1rem, 1.4vw, 1.25rem)"
+                    x-text="t('s4_t')"></span>
+              <svg class="w-5 h-5 text-ink-mute flex-shrink-0 transition-transform duration-300" :class="{ 'rotate-180 !text-tef-blue': open === 4 }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div x-show="open === 4"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 -translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-2"
+                 class="pb-8 step-body"
+                 style="display:none">
+              <p class="text-ink-soft leading-relaxed max-w-3xl mb-4"
+                 style="font-size: 17px"
+                 x-text="t('s4_d')"></p>
+              <ul class="space-y-2 max-w-3xl">
+                <li class="flex gap-3 text-ink-soft" style="font-size: 17px"><span class="text-tef-blue flex-shrink-0">—</span><span x-text="t('s4_b1')"></span></li>
+                <li class="flex gap-3 text-ink-soft" style="font-size: 17px"><span class="text-tef-blue flex-shrink-0">—</span><span x-text="t('s4_b2')"></span></li>
+                <li class="flex gap-3 text-ink-soft" style="font-size: 17px"><span class="text-tef-blue flex-shrink-0">—</span><span x-text="t('s4_b3')"></span></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="border-b border-ink/15 group">
+            <button @click="open = open === 5 ? null : 5"
+                    class="w-full flex items-center gap-6 md:gap-10 py-4 md:py-5 text-left">
+              <span class="font-normal text-tef-blue leading-none flex-shrink-0"
+                    style="font-size: clamp(1.6rem, 2.8vw, 2.8rem); letter-spacing: -0.03em">05</span>
+              <span class="font-sans font-normal tracking-tight flex-1 transition-colors group-hover:text-tef-blue"
+                    style="font-size: clamp(1rem, 1.4vw, 1.25rem)"
+                    x-text="t('s5_t')"></span>
+              <svg class="w-5 h-5 text-ink-mute flex-shrink-0 transition-transform duration-300" :class="{ 'rotate-180 !text-tef-blue': open === 5 }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div x-show="open === 5"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 -translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-2"
+                 class="pb-8 step-body"
+                 style="display:none">
+              <p class="text-ink-soft leading-relaxed max-w-3xl"
+                 style="font-size: 17px"
+                 x-text="t('s5_d')"></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- § 04 — RESOURCES -->
+    <section class="border-t border-ink/10 bg-paper">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 py-14 md:py-20">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-10 md:gap-20">
+
+          <!-- Texto: intro + contacto -->
+          <div class="flex-1 space-y-4" data-reveal="up">
+            <p class="text-ink-soft leading-relaxed"
+               style="font-size: 17px"
+               x-text="t('res_intro')"></p>
+            <p class="text-ink-soft leading-relaxed" style="font-size: clamp(0.875rem, 1.1vw, 1rem)">
+              <span x-text="t('res_contact')"></span>
+              <a href="mailto:cts-support@kornferry.com" class="text-tef-blue hover:underline ml-1">cts-support@kornferry.com</a>.
+            </p>
+          </div>
+
+          <!-- Botones -->
+          <div class="flex flex-col sm:flex-row gap-3 shrink-0" data-reveal="up" data-reveal-delay="0.1">
+            <a href="playbook" class="group inline-flex items-center gap-2 bg-tef-blue text-white px-4 py-2 text-[11px] font-mono tracking-[0.18em] uppercase hover:bg-blue-700 transition-colors">
+              <span x-text="t('res_dl1')"></span>
+              <span class="text-base leading-none group-hover:translate-x-0.5 transition-transform">→</span>
+            </a>
+            <a href="faq" class="group inline-flex items-center gap-2 bg-tef-blue text-white px-4 py-2 text-[11px] font-mono tracking-[0.18em] uppercase hover:bg-blue-700 transition-colors">
+              <span x-text="t('res_dl2')"></span>
+              <span class="text-base leading-none group-hover:translate-x-0.5 transition-transform">→</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Page navigation -->
+    <section class="bg-paper-warm border-t border-ink/10 py-8">
+      <div class="max-w-[1920px] mx-auto px-8 md:px-12 lg:px-16 flex items-center justify-between">
+        <a href="journey"
+           class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <svg class="w-4 h-4 shrink-0 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="t('nav_back_journey')"></span>
+        </a>
+        <a href="agenda"
+           class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="t('nav_agenda')"></span>
+          <svg class="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="site-footer" class="bg-tef-dark text-paper mt-auto"></footer>
+
+  <script src="components.js"></script>
+  <script src="scroll.js"></script>
+  <script>
+    (function () {
+      var v = document.getElementById('autodiag-hero-video');
+      if (!v) return;
+      v.muted = true;
+      v.play().catch(function () {});
+      var lastTs = null;
+      function reverse(ts) {
+        if (lastTs === null) lastTs = ts;
+        var dt = (ts - lastTs) / 1000;
+        lastTs = ts;
+        v.currentTime = Math.max(0, v.currentTime - dt);
+        if (v.currentTime <= 0.05) {
+          lastTs = null;
+          v.currentTime = 0;
+          v.play().catch(function () {});
+        } else {
+          requestAnimationFrame(reverse);
+        }
+      }
+      v.addEventListener('ended', function () {
+        lastTs = null;
+        requestAnimationFrame(reverse);
+      });
+    })();
+  </script>
+</body>
+</html>

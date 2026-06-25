@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es" x-data="{
+  lang: localStorage.getItem('lang') || 'es',
+  page: 'nadia',
+  init() {
+    this.$watch('lang', v => localStorage.setItem('lang', v));
+  },
+  t(key) {
+    return i18n[key] ? (i18n[key][this.lang] || i18n[key]['es']) : key;
+  }
+}">
+<head>
+  <style id="page-cloak">html{background:#E3E2DA}html:not(.loaded) body{opacity:0!important}html:not(.loaded) #site-navbar,html:not(.loaded) #site-footer{opacity:0!important}html:not(.loaded) .reveal{animation:none!important;opacity:0!important;transform:none!important}body{transition:opacity .25s ease}</style>
+  <meta name="view-transition" content="same-origin" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nadia — Accelerate Impact</title>
+  <meta name="description" content="Tu AI Leadership Coach. Disponible cuando la necesites." />
+  <link rel="icon" type="image/svg+xml" href="images/brand/favicon_indra.svg" />
+  <link rel="apple-touch-icon" href="images/brand/favicon_indra.svg" />
+  <link rel="canonical" href="https://accelerateimpact.es/nadia" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Accelerate Impact" />
+  <meta property="og:url" content="https://accelerateimpact.es/nadia" />
+  <meta property="og:title" content="Nadia — Accelerate Impact" />
+  <meta property="og:description" content="Tu AI Leadership Coach. Disponible cuando la necesites." />
+  <meta property="og:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <meta property="og:image:width" content="8000" />
+  <meta property="og:image:height" content="4500" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Nadia — Accelerate Impact" />
+  <meta name="twitter:description" content="Tu AI Leadership Coach. Disponible cuando la necesites." />
+  <meta name="twitter:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            tef: { blue: '#00B0BD', dark: '#002532', light: '#C2D2D6' },
+            ink: { DEFAULT: '#002532', soft: '#2B3447', mute: '#58617A' },
+            paper: { DEFAULT: '#E3E2DA', warm: '#D8D7CE', deep: '#002532' }
+          },
+          fontFamily: {
+            sans: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            display: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            mono: ['"Indra Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+    * { font-family: "Indra Sans", sans-serif !important; }
+    html, body, * { font-feature-settings: normal !important; }
+
+    .bg-tef-gradient-dark { background: radial-gradient(ellipse at 70% 0%, #0A4A5A 0%, #002532 55%, #001318 100%); }
+
+    .grain { position: relative; }
+    .grain::after { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.5'/></svg>"); opacity: 0.06; mix-blend-mode: overlay; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { animation: fadeUp 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .reveal-1 { animation-delay: 0.1s; }
+    .reveal-2 { animation-delay: 0.25s; }
+    .reveal-3 { animation-delay: 0.4s; }
+    .reveal-4 { animation-delay: 0.55s; }
+
+    @keyframes breathe { 0%,100% { transform: scale(1); opacity: 0.35; } 50% { transform: scale(1.2); opacity: 0.6; } }
+    .breathe { animation: breathe 7s ease-in-out infinite; }
+
+    /* Slide-in for when-to-use cards */
+    .slide-wrap { opacity: 0; transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    [data-slide="left"]  { transform: translateX(-56px); }
+    [data-slide="right"] { transform: translateX(56px); }
+    .slide-wrap.visible  { opacity: 1 !important; transform: translateX(0) !important; }
+    @media (prefers-reduced-motion: reduce) { .reveal { animation: none; } .breathe { animation: none; } .slide-wrap { opacity: 1; transform: none; transition: none; } }
+    @media (max-width: 767px) { #nadia-sticky { display: none !important; } }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script>
+    const i18n = {
+      nav_journey: { es: 'Journey', en: 'Journey' },
+      nav_back_journey: { es: 'Volver a Journey', en: 'Back to Journey' },
+      nav_info: { es: 'Contacto', en: 'Contact' },
+
+      hero_eyebrow: { es: 'AI Leadership Coach', en: 'AI Leadership Coach' },
+      hero_title:   { es: 'Nadia.', en: 'Nadia.' },
+      hero_tagline: { es: 'Tu AI Leadership Coach.', en: 'Your AI Leadership Coach.' },
+      hero_intro: {
+        es: 'Tu coach personal, disponible en cualquier momento.',
+        en: 'Your personal coach, available anytime.'
+      },
+      purpose_label: { es: 'Propósito', en: 'Purpose' },
+      purpose_text: {
+        es: 'Nadia está diseñada para acompañarte en las decisiones que importan: las que requieren claridad, valentía y contexto. No es una herramienta de respuestas — es un espacio para pensar mejor antes de actuar.',
+        en: 'Nadia is designed to accompany you in the decisions that matter: those that require clarity, courage and context. It is not an answer-tool — it is a space to think better before acting.'
+      },
+
+      when_eyebrow: { es: '¿Cuándo hablar con Nadia?', en: 'When to talk to Nadia?' },
+      uses_claim:   { es: 'Sácale todo el jugo.', en: 'Get every last drop.' },
+
+      use1_t: { es: 'Prepara tu Action Plan', en: 'Prepare your Action Plan' },
+      use1_d: { es: 'Define tus compromisos de liderazgo con claridad.', en: 'Define your leadership commitments with clarity.' },
+
+      use2_t: { es: 'Reflexiona sobre tus resultados', en: 'Reflect on your results' },
+      use2_d: { es: 'Consigue acciones concretas. Traduce <em>insights</em> en pequeños pasos que puedas medir en tu día a día.', en: 'Get concrete actions. Turn <em>insights</em> into small steps you can measure in your day-to-day.' },
+
+      use3_t: { es: 'Practica conversaciones difíciles', en: 'Rehearse difficult conversations' },
+      use3_d: { es: 'Simula diálogos antes de que ocurran: feedback, decisiones duras, gestión de conflicto. Ensaya, anticipa reacciones, afina tu mensaje.', en: 'Rehearse dialogues before they happen: feedback, hard decisions, conflict management. Practice, anticipate reactions, refine your message.' },
+
+      use4_t: { es: 'Sostén el momentum', en: 'Sustain the momentum' },
+      use4_d: { es: 'Disfruta del acompañamiento post-programa para consolidar hábitos y contribuir a que las decisiones de liderazgo sobrevivan al día 1, al mes 3 y al trimestre siguiente.', en: 'Enjoy post-program support to consolidate habits and ensure leadership decisions survive day 1, month 3, and the next quarter.' },
+
+      how_eyebrow:  { es: '¿Cómo hablar con Nadia?', en: 'How to talk to Nadia?' },
+      tips_claim_line1: { es: 'Habla claro.', en: 'Speak clear.' },
+      tips_claim_line2: { es: 'Responde claro.', en: 'Get clear.' },
+
+      tip1: { es: 'Sé específico. Cuanto más contexto aportas, más útil es la respuesta. La vaguedad produce vaguedad.', en: 'Be specific. The more context you share, the more useful the response. Vagueness produces vagueness.' },
+      tip2: { es: 'Comparte con Nadia los resultados que has obtenido en el autodiagnóstico para que pueda personalizar las respuestas a tu perfil real de liderazgo.', en: 'Share with Nadia the results you obtained in the self-diagnosis so she can personalise responses to your real leadership profile.' },
+      tip3: { es: 'Úsala antes de las conversaciones importantes. Preparar el mensaje por adelantado te ayuda cuando llega el momento.', en: 'Use it before important conversations. Preparing your message in advance helps when the moment arrives.' },
+
+      sticky_intro: { es: 'Soy Nadia, estoy aquí.', en: "I'm Nadia, I'm here." },
+      sticky_q:     { es: '¿Empezamos?', en: 'Shall we start?' },
+      cta_button:   { es: 'Acceder a Nadia', en: 'Access Nadia' },
+      back_cta:     { es: 'Volver al Journey', en: 'Back to Journey' },
+      meta_avail:   { es: '24/7 · Confidencial · Contextual', en: '24/7 · Confidential · Contextual' },
+
+      disc_modal_eyebrow: { es: 'Antes de empezar', en: 'Before you start' },
+      disc_modal_body: {
+        es: 'Este viaje incluye un autodiagnóstico de liderazgo puramente de desarrollo. Tus resultados individuales sólo son accesibles para ti y el equipo People designado. Los datos agregados preservan la confidencialidad individual. Esto no es una evaluación de desempeño.',
+        en: 'This journey includes a purely developmental leadership self-diagnosis. Your individual results are only accessible to you and the designated People team. Aggregated data preserves individual confidentiality. This is not a performance evaluation.'
+      },
+      disc_modal_cta: { es: 'Entendido, continuar', en: 'Got it, continue' }
+    };
+  </script>
+</head>
+<body class="flex flex-col min-h-screen bg-paper text-ink font-sans antialiased">
+
+  <header id="site-navbar" class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b border-ink/10"></header>
+
+  <main class="flex-1">
+
+    <!-- § HERO — full viewport, dark, editorial split -->
+    <section class="bg-tef-gradient-dark grain text-paper relative overflow-hidden flex flex-col justify-end" data-nadia-hero data-nav-dark style="margin-top:-79px; min-height:100vh;">
+
+      <!-- Hero background video -->
+      <video id="nadia-hero-video" muted playsinline autoplay aria-hidden="true"
+             class="absolute inset-0 w-full h-full object-cover object-center"
+             style="opacity:0.35; z-index:0; mix-blend-mode:luminosity;">
+        <source src="videos/1920x1080_Hero NADIA.mp4" type="video/mp4">
+      </video>
+      <script>
+        (function() {
+          var v = document.getElementById('nadia-hero-video');
+          if (!v) return;
+          v.muted = true;
+          v.play().catch(function(){});
+          var lastTs = null;
+          function reverse(ts) {
+            if (lastTs === null) lastTs = ts;
+            var dt = (ts - lastTs) / 1000;
+            lastTs = ts;
+            v.currentTime = Math.max(0, v.currentTime - dt);
+            if (v.currentTime <= 0.05) {
+              lastTs = null;
+              v.currentTime = 0;
+              v.play().catch(function(){});
+            } else {
+              requestAnimationFrame(reverse);
+            }
+          }
+          v.addEventListener('ended', function() {
+            lastTs = null;
+            requestAnimationFrame(reverse);
+          });
+        })();
+      </script>
+
+      <!-- Atmospheric glow -->
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 70vw 60vh at 30% 40%, rgba(0,102,255,0.14) 0%, transparent 55%);"></div>
+
+      <!-- Content — anchored bottom -->
+      <div class="relative max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 pb-16 md:pb-24 pt-32 md:pt-48 lg:pt-56 w-full">
+
+        <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-20 items-end">
+
+          <!-- Left: title block -->
+          <div>
+            <h1 class="font-sans font-normal leading-[0.92] tracking-[-0.03em] reveal reveal-2"
+                style="font-size: clamp(4.5rem, 12vw, 11rem)">
+              <em class="italic font-normal text-white" x-text="t('hero_title')"></em>
+            </h1>
+            <p class="font-sans font-normal text-paper/60 mt-4 reveal reveal-3"
+               style="font-size: clamp(1.1rem, 2vw, 1.75rem)"
+               x-text="t('hero_tagline')"></p>
+          </div>
+
+          <!-- Right: subtitle + propósito -->
+          <div class="space-y-6 reveal reveal-3">
+            <p class="font-sans font-normal italic text-paper leading-[1.25]"
+               style="font-size: clamp(1.1rem, 1.8vw, 1.6rem)"
+               x-text="t('hero_intro')"></p>
+            <div class="border-t border-paper/15 pt-6">
+              <p class="text-paper/65 leading-relaxed"
+                 style="font-size: clamp(0.9rem, 1.2vw, 1.05rem)"
+                 x-text="t('purpose_text')"></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Meta strip -->
+      <div class="relative border-t border-paper/10">
+        <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 py-4 font-mono text-[11px] tracking-[0.22em] uppercase text-paper/50">
+          <span x-text="t('meta_avail')"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- § ¿CUÁNDO HABLAR CON NADIA? -->
+    <section class="border-t border-ink/10 bg-paper-warm pt-20 md:pt-28 pb-0 overflow-x-hidden">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+
+        <div class="mb-16 md:mb-20 text-center" data-reveal="up">
+          <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-tef-blue mb-4" x-text="t('when_eyebrow')"></p>
+          <h2 class="font-sans font-normal leading-[0.95] tracking-[-0.03em] text-ink"
+              style="font-size: clamp(2rem, 4.5vw, 5.2rem)"
+              x-text="t('uses_claim')"></h2>
+        </div>
+
+        <!-- 4 utilidades — grid 2×2 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" data-reveal-stagger data-stagger-delay="0.15">
+
+          <article class="relative bg-paper border border-ink/10 px-8 md:px-10 py-8 md:py-10" style="box-shadow:0 2px 20px rgba(3,26,52,0.06);" data-stagger-item>
+            <span class="absolute top-3 left-3 w-4 h-4 border-t border-l border-ink/25"></span>
+            <span class="absolute top-3 right-3 w-4 h-4 border-t border-r border-ink/25"></span>
+            <span class="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-ink/25"></span>
+            <span class="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-ink/25"></span>
+            <div class="flex items-start gap-6">
+              <span class="font-normal text-tef-blue leading-none shrink-0" style="font-size: 67px; letter-spacing:-0.03em">01</span>
+              <div>
+                <h3 class="font-sans font-normal tracking-tight leading-tight mb-2 text-ink" style="font-size: clamp(1.15rem, 1.8vw, 1.5rem)" x-text="t('use1_t')"></h3>
+                <p class="text-ink-soft leading-relaxed text-[15px]" x-text="t('use1_d')"></p>
+              </div>
+            </div>
+          </article>
+
+          <article class="relative bg-paper border border-ink/10 px-8 md:px-10 py-8 md:py-10" style="box-shadow:0 2px 20px rgba(3,26,52,0.06);" data-stagger-item>
+            <span class="absolute top-3 left-3 w-4 h-4 border-t border-l border-ink/25"></span>
+            <span class="absolute top-3 right-3 w-4 h-4 border-t border-r border-ink/25"></span>
+            <span class="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-ink/25"></span>
+            <span class="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-ink/25"></span>
+            <div class="flex items-start gap-6">
+              <span class="font-normal text-tef-blue leading-none shrink-0" style="font-size: 67px; letter-spacing:-0.03em">02</span>
+              <div>
+                <h3 class="font-sans font-normal tracking-tight leading-tight mb-2 text-ink" style="font-size: clamp(1.15rem, 1.8vw, 1.5rem)" x-text="t('use2_t')"></h3>
+                <p class="text-ink-soft leading-relaxed text-[15px]" x-html="t('use2_d')"></p>
+              </div>
+            </div>
+          </article>
+
+          <article class="relative bg-paper border border-ink/10 px-8 md:px-10 py-8 md:py-10" style="box-shadow:0 2px 20px rgba(3,26,52,0.06);" data-stagger-item>
+            <span class="absolute top-3 left-3 w-4 h-4 border-t border-l border-ink/25"></span>
+            <span class="absolute top-3 right-3 w-4 h-4 border-t border-r border-ink/25"></span>
+            <span class="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-ink/25"></span>
+            <span class="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-ink/25"></span>
+            <div class="flex items-start gap-6">
+              <span class="font-normal text-tef-blue leading-none shrink-0" style="font-size: 67px; letter-spacing:-0.03em">03</span>
+              <div>
+                <h3 class="font-sans font-normal tracking-tight leading-tight mb-2 text-ink" style="font-size: clamp(1.15rem, 1.8vw, 1.5rem)" x-text="t('use3_t')"></h3>
+                <p class="text-ink-soft leading-relaxed text-[15px]" x-text="t('use3_d')"></p>
+              </div>
+            </div>
+          </article>
+
+          <article class="relative bg-paper border border-ink/10 px-8 md:px-10 py-8 md:py-10" style="box-shadow:0 2px 20px rgba(3,26,52,0.06);" data-stagger-item>
+            <span class="absolute top-3 left-3 w-4 h-4 border-t border-l border-ink/25"></span>
+            <span class="absolute top-3 right-3 w-4 h-4 border-t border-r border-ink/25"></span>
+            <span class="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-ink/25"></span>
+            <span class="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-ink/25"></span>
+            <div class="flex items-start gap-6">
+              <span class="font-normal text-tef-blue leading-none shrink-0" style="font-size: 67px; letter-spacing:-0.03em">04</span>
+              <div>
+                <h3 class="font-sans font-normal tracking-tight leading-tight mb-2 text-ink" style="font-size: clamp(1.15rem, 1.8vw, 1.5rem)" x-text="t('use4_t')"></h3>
+                <p class="text-ink-soft leading-relaxed text-[15px]" x-text="t('use4_d')"></p>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+
+      <!-- Full-bleed editorial image — section transition moment -->
+      <div class="mt-20 md:mt-24 -mx-6 md:-mx-12 lg:-mx-16 overflow-hidden" data-reveal="up">
+        <img src="images/sections/nadia-cuando.png" alt="" aria-hidden="true"
+             class="w-full object-cover"
+             style="max-height:480px; aspect-ratio:21/9; object-position:center 30%;">
+      </div>
+
+    </section>
+
+    <!-- § ¿CÓMO HABLAR CON NADIA? -->
+    <section class="bg-tef-gradient-dark grain text-paper border-t border-paper/10 py-14 md:py-20" data-nav-dark>
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+
+        <div class="mb-10 md:mb-12" data-reveal="up">
+          <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-paper/50 mb-4" x-text="t('how_eyebrow')"></p>
+          <h2 class="font-sans font-normal leading-[0.95] tracking-[-0.03em] text-white"
+              style="font-size: clamp(2rem, 4.5vw, 5.2rem)">
+            <span x-text="t('tips_claim_line1')"></span><br>
+            <em class="italic font-normal text-tef-blue" x-text="t('tips_claim_line2')"></em>
+          </h2>
+        </div>
+
+        <div class="border-t border-paper/10">
+
+          <div class="py-5 md:py-6 border-b border-paper/10 grid grid-cols-1 md:grid-cols-[auto_1fr] gap-4 md:gap-12 items-center" data-reveal="up">
+            <span class="font-normal text-tef-blue leading-none" style="font-size: clamp(1.8rem, 3vw, 2.8rem); letter-spacing:-0.03em">01</span>
+            <p class="font-sans font-normal text-paper/80 leading-relaxed"
+               style="font-size: clamp(0.95rem, 1.4vw, 1.15rem)"
+               x-text="t('tip1')"></p>
+          </div>
+
+          <div class="py-5 md:py-6 border-b border-paper/10 grid grid-cols-1 md:grid-cols-[auto_1fr] gap-4 md:gap-12 items-center" data-reveal="up">
+            <span class="font-normal text-tef-blue leading-none" style="font-size: clamp(1.8rem, 3vw, 2.8rem); letter-spacing:-0.03em">02</span>
+            <p class="font-sans font-normal text-paper/80 leading-relaxed"
+               style="font-size: clamp(0.95rem, 1.4vw, 1.15rem)"
+               x-text="t('tip2')"></p>
+          </div>
+
+          <div class="py-5 md:py-6 grid grid-cols-1 md:grid-cols-[auto_1fr] gap-4 md:gap-12 items-center" data-reveal="up">
+            <span class="font-normal text-tef-blue leading-none" style="font-size: clamp(1.8rem, 3vw, 2.8rem); letter-spacing:-0.03em">03</span>
+            <p class="font-sans font-normal text-paper/80 leading-relaxed"
+               style="font-size: clamp(0.95rem, 1.4vw, 1.15rem)"
+               x-text="t('tip3')"></p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Page navigation -->
+    <section class="border-t border-paper/10 border-b border-paper/20 py-8" style="background:#02172e;">
+      <div class="max-w-[1920px] mx-auto px-8 md:px-12 lg:px-16 flex items-center">
+        <a href="journey"
+           class="group inline-flex items-center gap-3 text-paper/50 hover:text-tef-blue transition-colors">
+          <svg class="w-4 h-4 shrink-0 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="t('nav_back_journey')"></span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- STICKY NADIA PANEL -->
+  <aside id="nadia-sticky"
+         class="fixed bottom-6 right-6 z-40 w-72 overflow-hidden pointer-events-none rounded-br-2xl"
+         style="opacity:0; transform:translateX(2rem); transition: opacity 0.5s cubic-bezier(0.2,0.8,0.2,1), transform 0.5s cubic-bezier(0.2,0.8,0.2,1); box-shadow: 0 8px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.07);">
+    <div class="bg-paper rounded-br-2xl overflow-hidden relative">
+      <div class="h-[3px] bg-tef-blue w-full"></div>
+      <button id="nadia-close" class="absolute top-3 right-3 w-7 h-7 flex items-center justify-center text-ink/30 hover:text-ink transition-colors" :aria-label="lang==='es' ? 'Cerrar' : 'Close'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="w-4 h-4"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="p-6 pb-20">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="relative shrink-0">
+            <div class="absolute inset-0 rounded-full bg-tef-blue/20 blur-xl" style="width:44px;height:44px;animation:breathe 7s ease-in-out infinite;"></div>
+            <div class="relative w-11 h-11 rounded-full border border-tef-blue/20 bg-tef-blue/5 flex items-center justify-center">
+              <span class="font-normal italic text-tef-blue" style="font-size:1.15rem;">N</span>
+            </div>
+          </div>
+          <div>
+            <p class="font-sans font-normal text-ink leading-none mb-0.5" style="font-size:0.95rem;">Nadia</p>
+            <p class="font-mono text-[9px] tracking-[0.22em] uppercase text-ink-mute">AI Coach · 24/7</p>
+          </div>
+        </div>
+        <div class="bg-paper-warm border border-ink/10 rounded-xl rounded-tl-none px-4 py-3">
+          <p class="font-sans font-normal text-ink leading-snug mb-1" style="font-size:0.95rem;" x-text="t('sticky_intro')"></p>
+          <p class="font-sans font-normal italic text-tef-blue" style="font-size:0.95rem;" x-text="t('sticky_q')"></p>
+        </div>
+      </div>
+      <a href="https://coach-eu.valence.co/accounts/login/telefonica"
+         target="_blank" rel="noopener"
+         class="absolute bottom-0 left-0 right-0 inline-flex items-center justify-between gap-3 bg-tef-blue text-white px-7 py-4 hover:bg-blue-700 transition-colors group">
+        <span class="font-mono text-xs tracking-[0.18em] uppercase" x-text="t('cta_button')"></span>
+        <svg class="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </aside>
+
+  <footer id="site-footer" class="bg-tef-dark text-paper mt-auto"></footer>
+
+  <script src="components.js"></script>
+  <script src="scroll.js"></script>
+  <script>
+    (function () {
+      var hero = document.querySelector('[data-nadia-hero]');
+      var panel = document.getElementById('nadia-sticky');
+      var closeBtn = document.getElementById('nadia-close');
+      var closed = false;
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function () {
+          closed = true;
+          panel.style.opacity = '0';
+          panel.style.transform = 'translateX(2rem)';
+          panel.style.pointerEvents = 'none';
+        });
+      }
+      if (hero && panel) {
+        new IntersectionObserver(function (entries) {
+          if (closed) return;
+          var out = !entries[0].isIntersecting;
+          panel.style.opacity = out ? '1' : '0';
+          panel.style.transform = out ? 'translateX(0)' : 'translateX(2rem)';
+          panel.style.pointerEvents = out ? 'auto' : 'none';
+        }, { threshold: 0.5 }).observe(hero);
+      }
+    })();
+  </script>
+  <script>
+    (function () {
+      var v = document.getElementById('nadia-hero-video');
+      if (!v) return;
+      v.muted = true;
+      v.play().catch(function () {});
+      var lastTs = null;
+      function reverse(ts) {
+        if (lastTs === null) lastTs = ts;
+        var dt = (ts - lastTs) / 1000;
+        lastTs = ts;
+        v.currentTime = Math.max(0, v.currentTime - dt);
+        if (v.currentTime <= 0.05) {
+          lastTs = null;
+          v.currentTime = 0;
+          v.play().catch(function () {});
+        } else {
+          requestAnimationFrame(reverse);
+        }
+      }
+      v.addEventListener('ended', function () {
+        lastTs = null;
+        requestAnimationFrame(reverse);
+      });
+    })();
+  </script>
+  <script>
+    (function () {
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.slide-wrap').forEach(function (el) { obs.observe(el); });
+    })();
+  </script>
+</body>
+</html>

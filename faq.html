@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es" x-data="{
+  lang: localStorage.getItem('lang') || 'es',
+  page: 'faq',
+  openFaq: null,
+  init() { this.$watch('lang', v => localStorage.setItem('lang', v)); },
+  t(key) { return i18n[key] ? (i18n[key][this.lang] || i18n[key]['es']) : key; }
+}">
+<head>
+  <style id="page-cloak">html{background:#E3E2DA}html:not(.loaded) body{opacity:0!important}html:not(.loaded) #site-navbar,html:not(.loaded) #site-footer{opacity:0!important}html:not(.loaded) .reveal{animation:none!important;opacity:0!important;transform:none!important}body{transition:opacity .25s ease}</style>
+  <meta name="view-transition" content="same-origin" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — Autodiagnóstico de Liderazgo — Accelerate Impact</title>
+  <meta name="description" content="Preguntas frecuentes sobre el autodiagnóstico de liderazgo." />
+  <link rel="icon" type="image/svg+xml" href="images/brand/favicon_indra.svg" />
+  <link rel="apple-touch-icon" href="images/brand/favicon_indra.svg" />
+  <link rel="canonical" href="https://accelerateimpact.es/faq" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Accelerate Impact" />
+  <meta property="og:url" content="https://accelerateimpact.es/faq" />
+  <meta property="og:title" content="FAQ — Accelerate Impact" />
+  <meta property="og:description" content="Preguntas frecuentes sobre el autodiagnóstico de liderazgo." />
+  <meta property="og:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <meta property="og:image:width" content="8000" />
+  <meta property="og:image:height" content="4500" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FAQ — Accelerate Impact" />
+  <meta name="twitter:description" content="Preguntas frecuentes sobre el autodiagnóstico de liderazgo." />
+  <meta name="twitter:image" content="https://accelerateimpact.es/images/sections/its-on-all-of-us.jpg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            tef: { blue: '#00B0BD', dark: '#002532', light: '#C2D2D6' },
+            ink: { DEFAULT: '#002532', soft: '#2B3447', mute: '#58617A' },
+            paper: { DEFAULT: '#E3E2DA', warm: '#D8D7CE', deep: '#002532' }
+          },
+          fontFamily: {
+            sans: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            display: ['"Indra Sans"', 'Inter', 'sans-serif'],
+            mono: ['"Indra Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Indra Sans'; src: url('fonts/Sora.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+    *, *::before, *::after { font-family: "Indra Sans", sans-serif !important; }
+    html, body, * { font-feature-settings: normal !important; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { animation: fadeUp 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .reveal-1 { animation-delay: 0.1s; }
+    .reveal-2 { animation-delay: 0.25s; }
+    .reveal-3 { animation-delay: 0.4s; }
+    @media (prefers-reduced-motion: reduce) { .reveal { animation: none; } }
+
+    .bg-tef-gradient-dark { background: radial-gradient(ellipse at 70% 0%, #0A4A5A 0%, #002532 55%, #001318 100%); }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script>
+    const i18n = {
+      nav_journey: { es: 'Journey', en: 'Journey' },
+      nav_info: { es: 'Contacto', en: 'Contact' },
+      back_auto: { es: 'Volver al Autodiagnóstico', en: 'Back to Self-Diagnosis' },
+      go_playbook: { es: 'Ir a Participant Playbook', en: 'Go to Participant Playbook' },
+
+      hero_eyebrow: { es: 'Indra\'s Leadership Self-Diagnosis', en: 'Indra\'s Leadership Self-Diagnosis' },
+      hero_title: {
+        es: 'Preguntas frecuentes (FAQs)',
+        en: 'FAQs'
+      },
+      hero_subtitle: {
+        es: 'Todo lo que necesitas saber sobre el Leadership Self-diagnosis de Indra.',
+        en: 'Everything you need to know about Indra\'s Leadership Self-diagnosis.'
+      },
+      hero_date: { es: '20 de marzo de 2026', en: 'March 20, 2026' },
+
+      intro_label: { es: 'Introducción', en: 'Introduction' },
+      intro_p1: {
+        es: 'Te damos la bienvenida a la guía de preguntas frecuentes (FAQ) sobre el Leadership Self-diagnosis. Este documento ha sido diseñado para responder a preguntas frecuentes y ofrecer claridad a todos los participantes del Leadership Self-diagnosis en Indra.',
+        en: 'Welcome to your Leadership Self-diagnosis Frequently Asked Questions (FAQ) Guide. This document is designed to answer common questions and provide clarity for all participants taking part in the leadership self-diagnosis across Indra.'
+      },
+      intro_p2: {
+        es: 'Queremos que te sientas bien informado y acompañado durante todo el proceso, con una comprensión clara de en qué consiste, por qué importa y qué puedes esperar. A continuación encontrarás respuestas directas a las preguntas más habituales, para ayudarte a navegar el Leadership Self-diagnosis con confianza y facilidad. Si tienes alguna pregunta que no esté recogida aquí, no dudes en contactar con el equipo de Universitas o con tu contacto de People.',
+        en: 'We want you to feel well-informed and supported throughout the process, with a clear understanding of what involves, why it matters, and what you can expect. Below you\'ll find straightforward answers to the most frequently asked questions, to help you navigate the self-diagnosis with confidence and ease. If you have any additional questions that aren\'t covered here, please reach out to Universitas team or your People contact for support.'
+      },
+
+      q1_title: { es: '¿En qué consiste este leadership self-diagnosis?', en: 'What is this leadership self-diagnosis?' },
+      q1_body: {
+        es: 'El <em>leadership self-diagnosis</em> de Indra es una experiencia diseñada para reforzar las capacidades de liderazgo y apoyar la evolución del liderazgo de Indra hacia un modelo más digital, más sencillo y más centrado en el cliente, alineado con el nuevo plan estratégico "Transform & Grow". Esta experiencia permite a los líderes conocer su posición respecto al nuevo Modelo de Liderazgo (6 skills) y les guía en la preparación de un plan de desarrollo personalizado para sacarle el máximo partido a la trayectoria dentro del programa "Accelerate Impact".',
+        en: 'Indra\'s <em>leadership self-diagnosis</em> is an experience designed to strengthen leadership capabilities and support Indra\'s leadership evolution toward being more digital, simpler, and more customer-driven, aligned with the new strategic plan Transform & Grow. This experience enables leaders to get a diagnosis of where they stand with regards to the newly defined Leadership Model (6 core leadership skills) and guides them in preparing a customized development plan to get the most out of the Accelerate Impact journey.'
+      },
+
+      q2_title: { es: '¿Cuál es el objetivo de este Leadership Self-diagnosis y cómo te beneficiará?', en: 'What is the purpose of this self-diagnosis, and how will you benefit from it?' },
+      q2_body: {
+        es: 'El Leadership Self-diagnosis está diseñado para desarrollar tu autoconocimiento y ofrecerte una visión más clara y objetiva de cómo lideras hoy —tus skills de liderazgo— para que identifiques fortalezas, oportunidades de desarrollo y dónde enfocarte para lograr el máximo impacto.',
+        en: 'The talent self-diagnosis is designed to build self-awareness and give you a clearer, more objective view of how you lead today—your leadership skills—so you can identify strengths, development opportunities, and where to focus for maximum impact.'
+      },
+
+      q3_title: { es: '¿Quién realiza este Leadership Self-diagnosis?', en: 'Who is conducting this self-diagnosis?' },
+      q3_body: {
+        es: 'Indra se ha asociado con Korn Ferry, una consultora líder en desarrollo de ejecutivos cuyo objetivo es ayudar a las personas y a las organizaciones a superar su potencial. Juntos, nos embarcamos en esta iniciativa para alcanzar de forma conjunta nuestros ambiciosos objetivos para la nueva organización de INDRA.',
+        en: 'Indra has partnered with Korn Ferry, a leading executive development consulting firm whose purpose is to enable people and organizations to exceed their potential. Together, we are embarking on this initiative to collectively achieve our ambitious goals for the new future organization of INDRA.'
+      },
+
+      q4_title: { es: '¿Recibiré un informe tras el Leadership Self-diagnosis?', en: 'Will I get a report after self-diagnosis?' },
+      q4_body: {
+        es: 'Una vez completado el Leadership Self-diagnosis, recibirás dos informes:',
+        en: 'Upon completion of the online self-diagnosis, you will receive two reports:'
+      },
+      q4_b1_t: { es: 'Indra\'s Leadership Snapshot', en: 'Indra\'s Leadership Snapshot' },
+      q4_b1_b: {
+        es: 'Este informe te ofrecerá una visión clara y visual de tu posición dentro del Modelo de Liderazgo de Indra.',
+        en: 'This report gives you a clear, visual snapshot of your position within Indra\'s Leadership Model.'
+      },
+      q4_b2_t: { es: 'In-depth Report', en: 'In-depth Report' },
+      q4_b2_b: {
+        es: 'Este informe va más allá de lo visible en la superficie. Mientras que las skills y las competencias reflejan lo que haces, hay mucho más debajo: tus rasgos y motivadores, que influyen en por qué actúas como lo haces. Al analizar los elementos adicionales de este informe, podrás comprender en profundidad las palancas fundamentales que impulsan el desarrollo de las 6 skills de liderazgo de Indra.',
+        en: 'This report goes beyond what is visible on the surface. While skills and competencies reflect what you do, there is much more beneath, your traits and drivers, which influence why you act the way you do. By looking at the additional elements from this report, you will be able to get a deeper understanding the root levers that can power the development of the 6 Indra core leadership skills.'
+      },
+
+      q5_title: { es: '¿Cómo debo interpretar los resultados de mi Leadership self-diagnosis?', en: 'How will I interpret my self-diagnosis results?' },
+      q5_body: {
+        es: 'Para ayudarte a interpretar tus resultados y sacarle el máximo partido, tendrás acceso a una experiencia de feedback interactivo impulsado por IA que facilita tu reflexión.<br><br>Una vez completes el Leadership Self-diagnosis, el avatar te guiará en la interpretación de tus resultados, ayudándote a conectar <em>insights</em> entre secciones e identificando sugerencias y recomendaciones prácticas de desarrollo.<br><br>En la página 5 del Playbook encontrarás un conjunto de <em>prompts</em> diseñados para sacarle el máximo partido a tu conversación con el avatar.<br><br>Ten en cuenta que el benchmark utilizado para la parametrización de los resultados es global y multisectorial, por lo que tu interpretación será clave para diseñar un plan de desarrollo de alto impacto adaptado a tu rol específico.',
+        en: 'To help you interpret your results and get the most value from them, you will have access to a dynamic, AI-powered feedback experience that brings your insights to life and supports your reflection.<br><br>Once you have completed the self-diagnosis, the avatar will guide you through the interpretation of your results, helping you connect insights across sections and identify practical development suggestions and recommendations.<br><br>In page 5 of Playbook, you will find a set of prompts designed to help you get the most from your conversation with the avatar and maximise its value.<br><br>Remember the benchmark used for result parametrization is global and multi-sector, and therefore the interpretation you will make will be essential for a high-impact specific role-based development plan.'
+      },
+
+      q6_title: { es: '¿En qué consisten los componentes del Leadership Self-diagnosis y cuánto tiempo se tarda en completarlos?', en: 'What are the components of the self-diagnosis and how much time will they take to complete?' },
+      q6_body: {
+        es: 'Completarás un autodiagnóstico online sobre tu perfil como líder, compuesto por tres módulos: <strong>Competencias</strong> (incluyendo skills de Liderazgo), <strong>Rasgos</strong> y <strong>Motivadores</strong>.<br><br>Dura aproximadamente 60 minutos. Es solo una orientación: tómate el tiempo que necesites, ya que el tiempo no afecta los resultados. Te recomendamos buscar un lugar tranquilo y responder con naturalidad, sin prisas ni pensarlo demasiado.',
+        en: 'You will complete an online self-diagnosis that looks at who you are as a leader, consisting of three modules: <strong>Competencies</strong> (including Leadership skills), <strong>Traits</strong> and <strong>Drivers</strong>.<br><br>It takes approximately 60 minutes. This is a guideline only. You can take the time you need, as the time spent does not affect the results. We recommend finding a quiet space and answering naturally, without rushing or overthinking.'
+      },
+      q6_mod1_t: { es: 'Behavioral competencies', en: 'Behavioral competencies' },
+      q6_mod1_d: {
+        es: 'Evalúa tus skills y comportamientos observables necesarios para tener éxito en un rol. Se te pedirá clasificar afirmaciones según lo bien que reflejan tus comportamientos.',
+        en: 'Assess your observable skills and behaviors needed to succeed in a role. You will be asked to rank statements according to how accurately they reflect your behaviors.'
+      },
+      q6_mod1_time: { es: '20 min', en: '20 mins' },
+      q6_mod2_t: { es: 'Drivers', en: 'Drivers' },
+      q6_mod2_d: {
+        es: 'Evalúa tus motivaciones profundas: valores personales, aspiraciones y otros deseos. Se te pedirá clasificar afirmaciones según lo que te impulsa.',
+        en: 'Assess your deep motivations: personal values, aspirations, and other desires. You will be asked to rank statements based upon what drives you.'
+      },
+      q6_mod2_time: { es: '10 min', en: '10 mins' },
+      q6_mod3_t: { es: 'Traits', en: 'Traits' },
+      q6_mod3_d: {
+        es: 'Evalúa tus tendencias y características. Se te pedirá clasificar afirmaciones que más se parezcan a ti.',
+        en: 'Assess your tendencies and characteristics. You will be asked to rank statements that are most like you.'
+      },
+      q6_mod3_time: { es: '15 min', en: '15 mins' },
+
+      q7_title: { es: '¿Quién tiene acceso a los resultados del Leadership Self-diagnosis?', en: 'Who has access to the self-diagnosis results?' },
+      q7_body: {
+        es: 'Tu privacidad es nuestra máxima prioridad. Los resultados individuales solo serán accesibles para el participante y los miembros designados del equipo de Personas involucrados en la iniciativa.<br><br>Los datos podrán utilizarse también para orientar acciones de desarrollo e identificar tendencias globales.<br><br>Si tienes alguna preocupación sobre el acceso a tus resultados de autodiagnóstico, no dudes en contactar con el equipo de People para aclaraciones y tranquilidad.',
+        en: 'Your privacy is of utmost importance to us. Individual results will only be accessible to the participant and the designated members of the People team involved in the initiative.<br><br>Data may also be used to inform development actions and broader insights, always preserving individual confidentiality.<br><br>If you have any concerns about access to your self-diagnosis results, please do not hesitate to contact the People team for clarification and reassurance.'
+      },
+
+      q8_title: { es: '¿Mi participación en el self-diagnosis es obligatoria?', en: 'Is my participation in self-diagnosis compulsory?' },
+      q8_body: {
+        es: 'Aunque la participación es voluntaria, te animamos encarecidamente a aprovechar este autodiagnóstico, diseñado para proporcionarte reflexiones valiosas que apoyen tu crecimiento como líder. Completarlo te ofrecerá una visión profunda y personalizada de tu perfil de liderazgo y te ayudará a sacarle el máximo partido a tu recorrido de desarrollo dentro del Programa "Accelerate Impact".',
+        en: 'While participation is voluntary, we highly encourage you to take advantage of this self-diagnosis, designed to provide meaningful insights that will support your growth as a leader. Completing the self-diagnosis will offer you a powerful, personal view of your leadership profile and help you make the most of your Accelerate Impact development journey.'
+      },
+
+      contact_label: { es: '¿Más preguntas?', en: 'More questions?' },
+      contact_body: {
+        es: 'Si tu pregunta no está cubierta aquí, contacta con el equipo de Universitas o con tu contacto de People.',
+        en: 'If your question isn\'t covered here, please reach out to Universitas team or your People contact for support.'
+      },
+      contact_cta: { es: 'Ir a Contacto', en: 'Go to Contact' }
+    };
+  </script>
+</head>
+<body class="flex flex-col min-h-screen bg-paper text-ink font-sans antialiased">
+
+  <header id="site-navbar" class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b border-ink/10"></header>
+
+  <main class="flex-1">
+
+    <!-- HERO -->
+    <section class="bg-tef-gradient-dark text-paper relative overflow-hidden" data-nav-dark style="margin-top:-79px;">
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 60vw 40vh at 30% 20%, rgba(0,102,255,0.20) 0%, transparent 60%);"></div>
+      <div class="relative max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 pt-36 pb-20 md:pt-44 md:pb-28">
+        <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-tef-blue mb-6 reveal reveal-1" x-text="t('hero_eyebrow')"></p>
+        <h1 class="font-sans font-normal leading-[0.95] tracking-tight mb-6 reveal reveal-2"
+            style="font-size: clamp(2.8rem, 6vw, 6rem)"
+            x-text="t('hero_title')"></h1>
+        <p class="text-xl md:text-2xl lg:text-3xl text-paper/70 leading-relaxed max-w-3xl reveal reveal-3" x-text="t('hero_subtitle')"></p>
+      </div>
+    </section>
+
+    <!-- INTRODUCTION -->
+    <section class="bg-paper border-t border-ink/10 py-20 md:py-24">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+        <div class="grid grid-cols-12 gap-6 md:gap-10">
+          <div class="col-span-12 md:col-span-4">
+            <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-tef-blue mb-4">01</p>
+            <h2 class="font-sans font-normal tracking-tight text-ink leading-[0.95]"
+                style="font-size: clamp(2rem, 4vw, 4rem)"
+                x-text="t('intro_label')"></h2>
+          </div>
+          <div class="col-span-12 md:col-span-8 max-w-3xl space-y-5 text-[17px] md:text-[18px] text-ink-soft leading-relaxed">
+            <p x-text="t('intro_p1')"></p>
+            <p x-text="t('intro_p2')"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQs ACCORDION -->
+    <section class="bg-paper-warm border-t border-ink/10 py-20 md:py-28">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16">
+        <div class="mb-12 md:mb-14">
+          <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-tef-blue mb-4">02</p>
+          <h2 class="font-sans font-normal tracking-tight text-ink leading-[0.95]"
+              style="font-size: clamp(2rem, 4vw, 4rem)">FAQs</h2>
+        </div>
+
+        <div class="border-t border-ink/15">
+          <!-- Q1 -->
+          <article class="border-b border-ink/15">
+            <button @click="openFaq = openFaq === 1 ? null : 1"
+                    class="w-full text-left py-6 md:py-7 flex items-start gap-6 group">
+              <span class="font-mono text-[12px] tracking-[0.18em] text-tef-blue shrink-0 mt-1.5">Q1</span>
+              <h3 class="flex-1 font-sans font-normal text-xl md:text-2xl text-ink leading-tight group-hover:text-tef-blue transition-colors"
+                  x-text="t('q1_title')"></h3>
+              <svg class="w-5 h-5 shrink-0 mt-2 transition-transform" :class="openFaq === 1 ? 'rotate-45 text-tef-blue' : 'text-ink-mute'" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12"/></svg>
+            </button>
+            <div x-show="openFaq === 1" x-collapse x-transition class="pb-7 pl-0 md:pl-16">
+              <p class="text-[16px] md:text-[17px] text-ink-soft leading-relaxed max-w-3xl" x-html="t('q1_body')"></p>
+            </div>
+          </article>
+
+          <!-- Q2 -->
+          <article class="border-b border-ink/15">
+            <button @click="openFaq = openFaq === 2 ? null : 2"
+                    class="w-full text-left py-6 md:py-7 flex items-start gap-6 group">
+              <span class="font-mono text-[12px] tracking-[0.18em] text-tef-blue shrink-0 mt-1.5">Q2</span>
+              <h3 class="flex-1 font-sans font-normal text-xl md:text-2xl text-ink leading-tight group-hover:text-tef-blue transition-colors"
+                  x-text="t('q2_title')"></h3>
+              <svg class="w-5 h-5 shrink-0 mt-2 transition-transform" :class="openFaq === 2 ? 'rotate-45 text-tef-blue' : 'text-ink-mute'" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12"/></svg>
+            </button>
+            <div x-show="openFaq === 2" x-collapse x-transition class="pb-7 pl-0 md:pl-16">
+              <p class="text-[16px] md:text-[17px] text-ink-soft leading-relaxed max-w-3xl" x-text="t('q2_body')"></p>
+            </div>
+          </article>
+
+          <!-- Q3 -->
+          <article class="border-b border-ink/15">
+            <button @click="openFaq = openFaq === 3 ? null : 3"
+                    class="w-full text-left py-6 md:py-7 flex items-start gap-6 group">
+              <span class="font-mono text-[12px] tracking-[0.18em] text-tef-blue shrink-0 mt-1.5">Q3</span>
+              <h3 class="flex-1 font-sans font-normal text-xl md:text-2xl text-ink leading-tight group-hover:text-tef-blue transition-colors"
+                  x-text="t('q3_title')"></h3>
+              <svg class="w-5 h-5 shrink-0 mt-2 transition-transform" :class="openFaq === 3 ? 'rotate-45 text-tef-blue' : 'text-ink-mute'" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12"/></svg>
+            </button>
+            <div x-show="openFaq === 3" x-collapse x-transition class="pb-7 pl-0 md:pl-16">
+              <p class="text-[16px] md:text-[17px] text-ink-soft leading-relaxed max-w-3xl" x-text="t('q3_body')"></p>
+            </div>
+          </article>
+
+          <!-- Q4 -->
+          <article class="border-b border-ink/15">
+            <button @click="openFaq = openFaq === 4 ? null : 4"
+                    class="w-full text-left py-6 md:py-7 flex items-start gap-6 group">
+              <span class="font-mono text-[12px] tracking-[0.18em] text-tef-blue shrink-0 mt-1.5">Q4</span>
+              <h3 class="flex-1 font-sans font-normal text-xl md:text-2xl text-ink leading-tight group-hover:text-tef-blue transition-colors"
+                  x-text="t('q4_title')"></h3>
+              <svg class="w-5 h-5 shrink-0 mt-2 transition-transform" :class="openFaq === 4 ? 'rotate-45 text-tef-blue' : 'text-ink-mute'" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12"/></svg>
+            </button>
+            <div x-show="openFaq === 4" x-collapse x-transition class="pb-7 pl-0 md:pl-16">
+              <p class="text-[16px] md:text-[17px] text-ink-soft leading-relaxed max-w-3xl mb-5" x-text="t('q4_body')"></p>
+              <div class="space-y-4 max-w-3xl">
+                <div class="bg-paper border border-ink/10 p-5">
+                  <p class="font-medium text-ink text-[15.5px] mb-1.5" x-text="t('q4_b1_t')"></p>
+                  <p class="text-[15px] text-ink-soft leading-relaxed" x-text="t('q4_b1_b')"></p>
+                </div>
+                <div class="bg-paper border border-ink/10 p-5">
+                  <p class="font-medium text-ink text-[15.5px] mb-1.5" x-text="t('q4_b2_t')"></p>
+                  <p class="text-[15px] text-ink-soft leading-relaxed" x-text="t('q4_b2_b')"></p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Q5 -->
+          <article class="border-b border-ink/15">
+            <button @click="openFaq = openFaq === 5 ? null : 5"
+                    class="w-full text-left py-6 md:py-7 flex items-start gap-6 group">
+              <span class="font-mono text-[12px] tracking-[0.18em] text-tef-blue shrink-0 mt-1.5">Q5</span>
+              <h3 class="flex-1 font-sans font-normal text-xl md:text-2xl text-ink leading-tight group-hover:text-tef-blue transition-colors"
+                  x-text="t('q5_title')"></h3>
+              <svg class="w-5 h-5 shrink-0 mt-2 transition-transform" :class="openFaq === 5 ? 'rotate-45 text-tef-blue' : 'text-ink-mute'" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12"/></svg>
+            </button>
+            <div x-show="openFaq === 5" x-collapse x-transition class="pb-7 pl-0 md:pl-16">
+              <p class="text-[16px] md:text-[17px] text-ink-soft leading-relaxed max-w-3xl" x-html="t('q5_body')"></p>
+            </div>
+          </article>
+
+          <!-- Q6 -->
+          <article class="border-b border-ink/15">
+            <button @click="openFaq = openFaq === 6 ? null : 6"
+                    class="w-full text-left py-6 md:py-7 flex items-start gap-6 group">
+              <span class="font-mono text-[12px] tracking-[0.18em] text-tef-blue shrink-0 mt-1.5">Q6</span>
+              <h3 class="flex-1 font-sans font-normal text-xl md:text-2xl text-ink leading-tight group-hover:text-tef-blue transition-colors"
+                  x-text="t('q6_title')"></h3>
+              <svg class="w-5 h-5 shrink-0 mt-2 transition-transform" :class="openFaq === 6 ? 'rotate-45 text-tef-blue' : 'text-ink-mute'" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12"/></svg>
+            </button>
+            <div x-show="openFaq === 6" x-collapse x-transition class="pb-7 pl-0 md:pl-16">
+              <p class="text-[16px] md:text-[17px] text-ink-soft leading-relaxed max-w-3xl mb-5" x-html="t('q6_body')"></p>
+              <div class="border border-ink/10 overflow-hidden max-w-4xl">
+                <div class="grid grid-cols-12 bg-paper-warm border-b border-ink/10">
+                  <div class="col-span-5 md:col-span-4 px-5 py-3 font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute" x-text="lang==='es' ? 'Módulo' : 'Module'"></div>
+                  <div class="col-span-5 md:col-span-6 px-5 py-3 font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute border-l border-ink/10" x-text="lang==='es' ? 'Descripción' : 'Description'"></div>
+                  <div class="col-span-2 px-5 py-3 font-mono text-[10px] tracking-[0.2em] uppercase text-ink-mute border-l border-ink/10" x-text="lang==='es' ? 'Tiempo' : 'Time'"></div>
+                </div>
+                <div class="grid grid-cols-12 border-b border-ink/10 bg-paper text-[14.5px]">
+                  <div class="col-span-5 md:col-span-4 px-5 py-4 font-medium text-ink" x-text="t('q6_mod1_t')"></div>
+                  <div class="col-span-5 md:col-span-6 px-5 py-4 text-ink-soft border-l border-ink/10" x-text="t('q6_mod1_d')"></div>
+                  <div class="col-span-2 px-5 py-4 text-tef-blue font-mono text-[12px] tracking-[0.18em] border-l border-ink/10" x-text="t('q6_mod1_time')"></div>
+                </div>
+                <div class="grid grid-cols-12 border-b border-ink/10 bg-paper text-[14.5px]">
+                  <div class="col-span-5 md:col-span-4 px-5 py-4 font-medium text-ink" x-text="t('q6_mod2_t')"></div>
+                  <div class="col-span-5 md:col-span-6 px-5 py-4 text-ink-soft border-l border-ink/10" x-text="t('q6_mod2_d')"></div>
+                  <div class="col-span-2 px-5 py-4 text-tef-blue font-mono text-[12px] tracking-[0.18em] border-l border-ink/10" x-text="t('q6_mod2_time')"></div>
+                </div>
+                <div class="grid grid-cols-12 bg-paper text-[14.5px]">
+                  <div class="col-span-5 md:col-span-4 px-5 py-4 font-medium text-ink" x-text="t('q6_mod3_t')"></div>
+                  <div class="col-span-5 md:col-span-6 px-5 py-4 text-ink-soft border-l border-ink/10" x-text="t('q6_mod3_d')"></div>
+                  <div class="col-span-2 px-5 py-4 text-tef-blue font-mono text-[12px] tracking-[0.18em] border-l border-ink/10" x-text="t('q6_mod3_time')"></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Q7 -->
+          <article class="border-b border-ink/15">
+            <button @click="openFaq = openFaq === 7 ? null : 7"
+                    class="w-full text-left py-6 md:py-7 flex items-start gap-6 group">
+              <span class="font-mono text-[12px] tracking-[0.18em] text-tef-blue shrink-0 mt-1.5">Q7</span>
+              <h3 class="flex-1 font-sans font-normal text-xl md:text-2xl text-ink leading-tight group-hover:text-tef-blue transition-colors"
+                  x-text="t('q7_title')"></h3>
+              <svg class="w-5 h-5 shrink-0 mt-2 transition-transform" :class="openFaq === 7 ? 'rotate-45 text-tef-blue' : 'text-ink-mute'" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12"/></svg>
+            </button>
+            <div x-show="openFaq === 7" x-collapse x-transition class="pb-7 pl-0 md:pl-16">
+              <p class="text-[16px] md:text-[17px] text-ink-soft leading-relaxed max-w-3xl" x-html="t('q7_body')"></p>
+            </div>
+          </article>
+
+          <!-- Q8 -->
+          <article class="border-b border-ink/15">
+            <button @click="openFaq = openFaq === 8 ? null : 8"
+                    class="w-full text-left py-6 md:py-7 flex items-start gap-6 group">
+              <span class="font-mono text-[12px] tracking-[0.18em] text-tef-blue shrink-0 mt-1.5">Q8</span>
+              <h3 class="flex-1 font-sans font-normal text-xl md:text-2xl text-ink leading-tight group-hover:text-tef-blue transition-colors"
+                  x-text="t('q8_title')"></h3>
+              <svg class="w-5 h-5 shrink-0 mt-2 transition-transform" :class="openFaq === 8 ? 'rotate-45 text-tef-blue' : 'text-ink-mute'" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12"/></svg>
+            </button>
+            <div x-show="openFaq === 8" x-collapse x-transition class="pb-7 pl-0 md:pl-16">
+              <p class="text-[16px] md:text-[17px] text-ink-soft leading-relaxed max-w-3xl" x-text="t('q8_body')"></p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- More questions CTA -->
+    <section class="bg-paper border-t border-ink/10 py-16 md:py-20">
+      <div class="max-w-[1920px] mx-auto px-6 md:px-12 lg:px-16 text-center">
+        <p class="font-mono text-[11px] tracking-[0.3em] uppercase text-tef-blue mb-4" x-text="t('contact_label')"></p>
+        <p class="text-[17px] md:text-[18px] text-ink-soft leading-relaxed max-w-xl mx-auto mb-7" x-text="t('contact_body')"></p>
+        <a href="info" class="inline-flex items-center gap-2 bg-tef-blue text-white px-6 py-3 text-[11px] font-mono tracking-[0.2em] uppercase hover:bg-blue-700 transition-colors">
+          <span x-text="t('contact_cta')"></span>
+          <span class="text-lg leading-none">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Page navigation -->
+    <section class="bg-paper-warm border-t border-ink/10 py-8">
+      <div class="max-w-[1920px] mx-auto px-8 md:px-12 lg:px-16 flex items-center justify-between gap-4">
+        <a href="autodiagnostico"
+           class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <svg class="w-4 h-4 shrink-0 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="t('back_auto')"></span>
+        </a>
+        <a href="playbook"
+           class="group inline-flex items-center gap-3 text-ink-mute hover:text-tef-blue transition-colors">
+          <span class="font-mono text-[12px] tracking-[0.2em] uppercase" x-text="t('go_playbook')"></span>
+          <svg class="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="site-footer" class="bg-tef-dark text-paper mt-auto"></footer>
+
+  <script src="components.js"></script>
+  <script src="scroll.js"></script>
+</body>
+</html>
