@@ -382,40 +382,6 @@
           <img src="images/brand/indra-logo.svg" class="h-10 md:h-12 w-auto brightness-0 invert" alt="Accelerate Impact">
         </div>
 
-        <!-- Middle: columns -->
-        <div class="grid grid-cols-12 gap-6 py-10 border-b border-paper/10">
-          <div class="col-span-12 md:col-span-4">
-            <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-paper/50 mb-4"
-               x-text="lang==='es' ? 'Partners del programa' : 'Program partners'"></p>
-            <ul class="space-y-2 text-sm">
-              <li><a href="https://www.egonzehnder.com" target="_blank" rel="noopener" class="text-paper/80 hover:text-tef-blue transition-colors">Egon Zehnder</a></li>
-              <li><a href="https://www.kornferry.com" target="_blank" rel="noopener" class="text-paper/80 hover:text-tef-blue transition-colors">Korn Ferry</a></li>
-              <li><a href="https://peopleexcellence.com" target="_blank" rel="noopener" class="text-paper/80 hover:text-tef-blue transition-colors">People Excellence</a></li>
-              <li><a href="https://walkconsulting.net" target="_blank" rel="noopener" class="text-paper/80 hover:text-tef-blue transition-colors">WALK</a></li>
-            </ul>
-          </div>
-          <div class="col-span-6 md:col-span-4">
-            <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-paper/50 mb-4"
-               x-text="lang==='es' ? 'Explorar' : 'Explore'"></p>
-            <ul class="space-y-2 text-sm">
-              <li><a href="lider-indra" class="text-paper/80 hover:text-tef-blue transition-colors" x-text="lang==='es' ? 'Líder Indra' : 'Indra Leader'">Líder Indra</a></li>
-              <li><a href="journey" class="text-paper/80 hover:text-tef-blue transition-colors" x-text="t('nav_journey')"></a></li>
-              <li><a href="autodiagnostico" class="text-paper/80 hover:text-tef-blue transition-colors" x-text="lang==='es' ? 'Autodiagnóstico' : 'Self-Assessment'">Autodiagnóstico</a></li>
-              <li><a href="nadia" class="text-paper/80 hover:text-tef-blue transition-colors">Nadia</a></li>
-              <li><a href="agenda" class="text-paper/80 hover:text-tef-blue transition-colors">Agenda</a></li>
-              <li><a href="info" class="text-paper/80 hover:text-tef-blue transition-colors" x-text="t('nav_info')"></a></li>
-            </ul>
-          </div>
-          <div class="col-span-6 md:col-span-4">
-            <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-paper/50 mb-4"
-               x-text="lang==='es' ? 'El programa' : 'The program'"></p>
-            <ul class="space-y-2 text-sm text-paper/80">
-              <li x-text="lang==='es' ? '10 meses · 3 fases' : '10 months · 3 phases'"></li>
-              <li x-text="lang==='es' ? 'Comunidad de Líderes' : 'Leadership Community'"></li>
-            </ul>
-          </div>
-        </div>
-
         <!-- Disclaimer — always shown -->
         <p class="py-5 text-[12px] text-paper/50 leading-relaxed max-w-3xl"
            x-text="lang==='en' ? '* The self-diagnosis is confidential and non-evaluative. Only you and the designated People team have access.' : '* El autodiagnóstico es confidencial y no evaluativo. Sólo accederás tú y el equipo People designado.'"></p>
